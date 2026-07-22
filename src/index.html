@@ -1,199 +1,180 @@
 <!doctype html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link href="./output.css" rel="stylesheet" />
     <script src="https://unpkg.com/lucide@latest"></script>
     <title>Lyan Portfolio</title>
-</head>
+  </head>
 
-<body class="bg-red-100 text-black flex flex-col min-h-screen">
+  <body class="bg-red-100 text-black flex flex-col min-h-screen">
     <header class="w-full text-black bg-yellow-300 rounded shadow-md">
-        <div class="pl-20 px-10 pr-20 py-8 flex justify-between items-center mx-auto">
-   
-                <img src="./assets/Chrislogo 2.png" class="w-16 h-16 rounded-full" alt="Logo" />
- 
-            
-            <nav class="text-zinc font-semibold px-10 pr-20 text-base">
-                <ul class="flex gap-8">
-                    <li><a href="#" class="hover:text-zinc transition">project</a></li>
-                    <li><a href="#" class="hover:text-zinc transition">about</a></li>
-                </ul>
-            </nav>
-        </div>
+      <div
+        class="pl-20 px-10 pr-20 py-8 flex justify-between items-center mx-auto"
+      >
+        <img
+          src="./assets/Chrislogo 2.png"
+          class="w-16 h-16 rounded-xl"
+          alt="Logo"
+        />
+
+        <nav class="text-base font-semibold px-10 pr-20">
+          <ul class="flex gap-8">
+            <li>
+              <a href="index.html" id="nav-projects" class="nav-link">
+                Projects
+              </a>
+            </li>
+
+            <li>
+              <a href="about.html" id="nav-about" class="nav-link"> About </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <!-- <section id="hero" class="h-screen bg-no-repeat bg-center bg-cover"
-        style="background-image: url(&quot;assets/fafaf.png&quot;)"> -->
-  <section id="hero" class="h-screen bg-black">
-         <!-- Content Frame -->
-    <div class="absolute inset-0 flex items-center justify-center px-20">
+    <section class="relative w-full overflow-hidden">
+      <img
+        src="./assets/introduction (1).png"
+        alt="About Me Banner"
+        class="w-full h-auto object-cover"
+      />
+      <img
+        src="./assets/LyanEmote.gif"
+        class="absolute -bottom-80 -right-65 w-[800px] pointer-events-none"
+      />
 
-        <div class="w-full max-w-xl">
-
-            <!-- Profile Frame -->
-            <div class="w-full flex flex-col  items-center justify-center">
-
-                <p class="text-xl text-white font-mono tracking-tight font-medium">
-                    Christopher Aurellyan Alotano Luna
-            </p>
-
-                <h1 class="text-8xl text-yellow-300 font-extrabold tracking-wide pb-4">
-                    PORTFOLIO
-                </h1>
-
-                <p class="text-lg text-white text-justify font-medium leading-relaxed">
-                    I am a passionate and creative graphic designer with a keen eye for
-                    detail and a love for visual storytelling. I specialize in creating
-                    compelling designs that effectively communicate messages and
-                    captivate audiences.
-                </p>
-
-            </div>
-
-
-            <!-- Social Frame -->
-            <div class="w-full flex items-center justify-between pt-6">
-
-                <!-- CV Button -->
-                <a 
-                    href="#"
-                    class="font-semibold bg-yellow-300 px-5 mx-4 py-3 rounded-full"
-                >
-                    Download CV
-                </a>
-
-
-                <!-- Social Icons -->
-                <ul class="flex gap-6 outline-2 outline-white  px-10 py-3 rounded-full" >
-
-                    <li>
-                        <a href="#">
-                            <img 
-                                src="./assets/icon/instagram.png"
-                                class="w-8 h-8"
-                                alt="Instagram"
-                            >
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img 
-                                src="./assets/icon/instagram.png"
-                                class="w-8 h-8"
-                                alt="LinkedIn"
-                            >
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img 
-                                src="./assets/icon/instagram.png"
-                                class="w-8 h-8"
-                                alt="Email"
-                            >
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="#">
-                            <img 
-                                src="./assets/icon/instagram.png"
-                                class="w-8 h-8"
-                                alt="Github"
-                            >
-                        </a>
-                    </li>
-
-                </ul>
-
-            </div>
-
-        </div>
-
-    </div>
+      <div class="absolute inset-0 ="></div>
     </section>
     <main class="bg-white">
-        <div class="max-w-7xl mx-auto px-8 py-24">
-            <section id="projects" class="max-w-7xl mx-auto px-8 py-24">
-                <!-- Section Title -->
-                <div class="mb-16">
-                    <h2 class="text-5xl font-bold text-zinc-900">Selected Projects</h2>
+      <!-- ========================= -->
+      <!-- PROJECT CATALOGUE -->
+      <!-- ========================= -->
+      <section id="catalogue" class="max-w-7xl mx-auto px-8 py-24">
+        <!-- Title -->
+        <div
+          class="relative mb-16 overflow-hidden rounded-3xl bg-cover bg-[50%_25%] bg-no-repeat"
+          style="background-image: url(&quot;./assets/Lyan1.gif&quot;)"
+        >
+          <!-- Glass Overlay -->
+          <div class="absolute inset-0 backdrop-blur-xs"></div>
 
-                    <p class="mt-4 max-w-2xl text-lg text-zinc-600">
-                        A selection of branding, social media, and web design projects
-                        that showcase my creative process and visual approach.
-                    </p>
-                </div>
+          <!-- Content -->
+          <div
+            class="relative flex flex-col items-center justify-center py-24 text-center px-8"
+          >
+            <h2 class="text-5xl font-bold text-white">Selected Projects</h2>
 
-                <!-- Project Grid -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <!-- Card -->
-                    <a href="project-1.html" class="group">
-                        <div class="overflow-hidden rounded-2xl bg-zinc-100">
-                            <img src="assets/project1.jpg" alt="Brand One"
-                                class="w-full h-[420px] object-cover transition duration-500 group-hover:scale-105" />
-                        </div>
-
-                        <h3 class="mt-6 text-2xl font-semibold text-zinc-900">
-                            Brand One
-                        </h3>
-
-                        <p class="mt-2 text-zinc-500">Branding • Social Media</p>
-                    </a>
-
-                    <!-- Card -->
-                    <a href="project-2.html" class="group">
-                        <div class="overflow-hidden rounded-2xl bg-zinc-100">
-                            <img src="assets/project2.jpg" alt="Brand Two"
-                                class="w-full h-[420px] object-cover transition duration-500 group-hover:scale-105" />
-                        </div>
-
-                        <h3 class="mt-6 text-2xl font-semibold text-zinc-900">
-                            Brand Two
-                        </h3>
-
-                        <p class="mt-2 text-zinc-500">Packaging Design</p>
-                    </a>
-
-                    <!-- Card -->
-                    <a href="project-3.html" class="group">
-                        <div class="overflow-hidden rounded-2xl bg-zinc-100">
-                            <img src="assets/project3.jpg" alt="Brand Three"
-                                class="w-full h-[420px] object-cover transition duration-500 group-hover:scale-105" />
-                        </div>
-
-                        <h3 class="mt-6 text-2xl font-semibold text-zinc-900">
-                            Brand Three
-                        </h3>
-
-                        <p class="mt-2 text-zinc-500">UI / UX Design</p>
-                    </a>
-
-                    <!-- Card -->
-                    <a href="project-4.html" class="group">
-                        <div class="overflow-hidden rounded-2xl bg-zinc-100">
-                            <img src="assets/project4.jpg" alt="Brand Four"
-                                class="w-full h-[420px] object-cover transition duration-500 group-hover:scale-105" />
-                        </div>
-
-                        <h3 class="mt-6 text-2xl font-semibold text-zinc-900">
-                            Brand Four
-                        </h3>
-
-                        <p class="mt-2 text-zinc-500">Website Design</p>
-                    </a>
-                </div>
-            </section>
+            <p class="mt-4 max-w-4xl text-lg leading-8 text-white">
+              A selection of branding, social media, and personal design
+              projects that I have worked on. Click any project to view the
+              complete case study and all of the designs created for that brand.
+            </p>
+          </div>
         </div>
+        <!-- Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <!-- PROJECT 1 -->
+          <button onclick="openProject('pcba')" class="group text-left">
+            <div class="overflow-hidden rounded-2xl bg-zinc-100 aspect-video">
+              <img
+                src="./assets/project1/PSI.png"
+                class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+              />
+            </div>
+
+            <h3 class="mt-6 text-xl font-semibold">
+              PT. PCBA Semiconductor International
+            </h3>
+
+            <p class="mt-2 text-zinc-500">Social Media Design</p>
+          </button>
+
+          <!-- PROJECT 2 -->
+          <button onclick="openProject('brand2')" class="group text-left">
+            <div class="overflow-hidden rounded-2xl bg-zinc-100 aspect-video">
+              <img
+                src="./assets/project2/LittleLady.png"
+                class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+              />
+            </div>
+
+            <h3 class="mt-6 text-xl font-semibold">Little Lady</h3>
+
+            <p class="mt-2 text-zinc-500">Social Media Design</p>
+          </button>
+
+          <!-- PROJECT 3 -->
+          <button onclick="openProject('brand3')" class="group text-left">
+            <div class="overflow-hidden rounded-2xl bg-zinc-100 aspect-video">
+              <img
+                src="./assets/project3/Pacohome.png"
+                class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+              />
+            </div>
+
+            <h3 class="mt-6 text-xl font-semibold">Pacohome</h3>
+
+            <p class="mt-2 text-zinc-500">Social Media Design</p>
+          </button>
+
+          <!-- PROJECT 4 -->
+          <button onclick="openProject('brand4')" class="group text-left">
+            <div class="overflow-hidden rounded-2xl bg-zinc-100 aspect-video">
+              <img
+                src="./assets/project4/Adiograf Indonesia.png"
+                class="w-full h-full object-cover transition duration-500 group-hover:scale-105"
+              />
+            </div>
+
+            <h3 class="mt-6 text-xl font-semibold">Adiograf Indonesia</h3>
+
+            <p class="mt-2 text-zinc-500">Social Media Design</p>
+          </button>
+        </div>
+      </section>
+
+      <!-- ========================= -->
+      <!-- PROJECT DETAIL -->
+      <!-- ========================= -->
+
+      <section id="project-detail" class="hidden max-w-6xl mx-auto px-8 py-24">
+        <!-- Back -->
+        <button
+          onclick="closeProject()"
+          class="mb-12 text-yellow-500 font-semibold hover:underline"
+        >
+          ← Back to Projects
+        </button>
+
+        <!-- Title -->
+        <h2 id="project-title" class="text-5xl font-bold">Project Title</h2>
+
+        <p id="project-category" class="mt-4 text-xl text-zinc-500">Category</p>
+
+        <!-- Cover -->
+        <img id="project-cover" src="" class="w-full rounded-3xl mt-12" />
+
+        <!-- Description -->
+        <p
+          id="project-description"
+          class="mt-12 text-lg leading-8 text-justify"
+        >
+          Description...
+        </p>
+
+        <!-- Gallery -->
+        <div
+          id="project-gallery"
+          class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16"
+        >
+          <!-- Images inserted with JS -->
+        </div>
+      </section>
     </main>
-
     <script src="./js/script.js"></script>
-</body>
-
+  </body>
 </html>
