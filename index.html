@@ -1,163 +1,855 @@
-<!DOCTYPE html>
-<!--
-  Kinetic Template
-  https://templatemo.com/tm-631-kinetic
--->
+<!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>The Kinetic // Experimental Interactive Studio</title>
-        <meta name="description"
-              content="The Kinetic - an experimental, mechanically advanced creative agency interface built with pure vanilla HTML, CSS and JS.">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@700;800&display=swap"
-              rel="stylesheet">
-        <link rel="stylesheet" href="templatemo-631-kinetic-style.css">
-    </head>
-    <body>
-        <!-- ====================== TOP BAR ====================== -->
-        <nav class="topbar">
-            <a class="brand" href="#hero">KIN<span>E</span>TIC</a>
-            <div class="nav-index">
-                <a href="#hero">01 / String</a>
-                <a href="#projects">02 / Matrix</a>
-                <a href="#reveal">03 / Lenticular</a>
-                <a href="#initiate">04 / Initiate</a>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lyanlu Portfolio</title>
+
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/nav.css">
+    <link rel="stylesheet" href="/css/hero.css">
+ <link rel="stylesheet" href="/css/intro.css">
+ <link rel="stylesheet" href="/css/about.css">
+ <script src="/js/hero.js"></script>
+  <script src="/js/nav.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet">
+</head>
+<script>
+    window.addEventListener("load", () => {
+
+        const intro = document.getElementById("intro");
+
+        if (!intro) return;
+
+
+        /*
+         * Keep the intro visible long enough for:
+         *
+         * 0.00s  → logo enters
+         * 1.20s  → GIF appears
+         * 1.80s  → intro begins leaving
+         */
+
+        const INTRO_DURATION = 1000;
+
+
+        setTimeout(() => {
+
+            intro.classList.add("intro-hidden");
+
+        }, INTRO_DURATION);
+
+    });
+</script>
+
+<body>
+  
+    <!-- ====================== INTRO ====================== -->
+    <div class="intro" id="intro">
+        <div class="intro-logo"> <img src="/asset/logo/logo.png" alt="Lyanlu" class="intro-logo-img" /> </div>
+    </div>
+
+      <!-- ====================== TOP BAR ====================== -->
+
+    <nav class="topbar">
+        <a href="#hero" class="main-logo">
+            <img src="/asset/logo/logo.png" alt="Logo" class="main-logo-static" />
+
+            <img src="/asset/logo/mainlogo.gif" alt="" class="main-logo-gif" aria-hidden="true" />
+        </a>
+
+        <div class="nav-index">
+           <ul class="nav-links">
+    <li>
+        <a href="#hero" data-text="Home">
+            <span>Home</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="#about" data-text="About">
+            <span>About</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="#work" data-text="Work">
+            <span>Work</span>
+        </a>
+    </li>
+</ul>
+
+           <a href="#contact" class="contact-button" data-text="Contact Me">
+    <span>Contact Me</span>
+</a>
+        </div>
+
+           <!-- ====================== MOBILE MENU BUTTON ====================== -->
+
+    <button
+        class="nav-toggle"
+        type="button"
+        aria-label="Open navigation"
+        aria-expanded="false"
+    >
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    </nav>
+
+
+
+
+    <main>
+
+    <!-- ====================== Hero ====================== -->
+
+<section class="hero" id="hero">
+
+    <div class="hero-cursor"></div>
+    <!-- <div class="hero-grid" aria-hidden="true">
+        <div class="grid-line grid-v grid-v-1"></div>
+        <div class="grid-line grid-v grid-v-2"></div>
+        <div class="grid-line grid-v grid-v-3"></div>
+        <div class="grid-line grid-v grid-v-4"></div>
+
+        <div class="grid-line grid-h grid-h-1"></div>
+        <div class="grid-line grid-h grid-h-2"></div>
+        <div class="grid-line grid-h grid-h-3"></div>
+        <div class="grid-line grid-h grid-h-4"></div>
+
+        <span class="grid-dot grid-dot-1"></span>
+        <span class="grid-dot grid-dot-2"></span>
+        <span class="grid-dot grid-dot-3"></span>
+
+        <span class="grid-dot grid-dot-4"></span>
+        <span class="grid-dot grid-dot-5"></span>
+        <span class="grid-dot grid-dot-6"></span>
+
+        <span class="grid-dot grid-dot-7"></span>
+        <span class="grid-dot grid-dot-8"></span>
+        <span class="grid-dot grid-dot-9"></span>
+    </div> -->
+
+    <div class="container">
+
+        <header class="hero-header">
+
+           <div class="data-card">
+    <div class="data-card-header">
+        Name
+    </div>
+
+    <div class="data-card-content">
+        <span
+            class="glitch-line"
+            data-text="Christopher Luna"
+        >
+            Christopher Luna
+        </span>
+    </div>
+</div>
+
+          <div class="hero-title">
+    <span
+        class="glitch-line"
+        data-text="Creative"
+    >
+        CREATIVE
+    </span>
+
+    <span
+        class="glitch-line"
+        data-text="Portfolio"
+    >
+        PORTFOLIO
+    </span>
+</div>
+
+        </header>
+
+
+        <div class="hero-img">
+
+            <img
+                src="/asset/hero/Regular.png"
+                alt="Christopher Luna"
+                class="heroregular"
+            >
+
+            <div class="cyber-layer">
+
+                <img
+                    src="/asset/hero/Cyber.png"
+                    alt=""
+                    class="herocyber"
+                    aria-hidden="true"
+                >
+
             </div>
-        </nav>
-        <!-- ====================== 01 HERO ====================== -->
-        <section class="hero" id="hero">
-            <h1 class="hero-title">KIN<b>E</b>TIC</h1>
-            <svg class="string-svg"
-                 id="stringSvg"
-                 preserveAspectRatio="none"
-                 aria-hidden="true">
-                <path class="string-path" id="stringPath"></path>
-                <circle class="string-anchor" id="anchorL" r="5"></circle>
-                <circle class="string-anchor" id="anchorR" r="5"></circle>
-                <circle class="string-grip"   id="grip"    r="7"></circle>
-            </svg>
-            <div class="hero-foot">
-                <span class="mono-label">Vanguard Interactive Studio</span>
-                <p>Pull the string. Drag the matrix. Sweep the print. Every surface on this page is a machine you operate with motion.</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+      <section class="about" id="about">
+
+    <div class="about-interface">
+
+        <!-- =====================================================
+             DATABASE HEADER
+        ====================================================== -->
+
+        <header class="database-header">
+
+            <div class="database-header-title">
+
+                <span class="database-status"></span>
+
+                <span class="database-header-label">
+                    Designer Database
+                </span>
+
             </div>
-            <div class="hero-hint">[ move cursor to bend ]</div>
-        </section>
-        <!-- ====================== 02 MATRIX ====================== -->
-        <section class="matrix-wrap" id="projects">
-            <div class="section-head">
-                <h2>THE <i>MATRIX</i> ACCORDION</h2>
-                <p>Nine works on a flat grid. Select any cell to force it open. The other eight collapse into strips.</p>
+
+
+            <div class="database-header-meta">
+
+                <span>
+                    DB / 001
+                </span>
+
+                <span>
+                    ACCESS / PUBLIC
+                </span>
+
+                <span>
+                    STATUS / ACTIVE
+                </span>
+
             </div>
-            <div class="matrix" id="matrix">
-                <!-- swap images/project-01.jpg ... project-09.jpg with your own -->
-                <div class="cell" tabindex="0" role="button" aria-label="Project Helix">
-                    <div class="cell-media" style="background-image:url('images/project-01.jpg')"></div>
-                    <div class="cell-num">01</div>
-                    <div class="cell-name">Helix</div>
-                    <div class="cell-detail">A generative identity system that rewrites its own logotype on every page load.</div>
-                    <div class="cell-cat">Brand / Code</div>
-                </div>
-                <div class="cell" tabindex="0" role="button" aria-label="Project Drift">
-                    <div class="cell-media" style="background-image:url('images/project-02.jpg')"></div>
-                    <div class="cell-num">02</div>
-                    <div class="cell-name">Drift</div>
-                    <div class="cell-detail">Scroll-driven editorial for a kinetic typeface foundry, set entirely in motion type.</div>
-                    <div class="cell-cat">Web / Type</div>
-                </div>
-                <div class="cell" tabindex="0" role="button" aria-label="Project Onyx">
-                    <div class="cell-media" style="background-image:url('images/project-03.jpg')"></div>
-                    <div class="cell-num">03</div>
-                    <div class="cell-name">Onyx</div>
-                    <div class="cell-detail">Dark-mode commerce flow with physics-based add-to-cart and elastic transitions.</div>
-                    <div class="cell-cat">Product / UX</div>
-                </div>
-                <div class="cell" tabindex="0" role="button" aria-label="Project Pulse">
-                    <div class="cell-media" style="background-image:url('images/project-04.jpg')"></div>
-                    <div class="cell-num">04</div>
-                    <div class="cell-name">Pulse</div>
-                    <div class="cell-detail">A real-time audio-reactive visual built on the Web Audio API and raw canvas.</div>
-                    <div class="cell-cat">Sound / Visual</div>
-                </div>
-                <div class="cell" tabindex="0" role="button" aria-label="Project Vellum">
-                    <div class="cell-media" style="background-image:url('images/project-05.jpg')"></div>
-                    <div class="cell-num">05</div>
-                    <div class="cell-name">Vellum</div>
-                    <div class="cell-detail">Tactile portfolio with page-turn mechanics and a paper-grain shader fallback.</div>
-                    <div class="cell-cat">Editorial</div>
-                </div>
-                <div class="cell" tabindex="0" role="button" aria-label="Project Signal">
-                    <div class="cell-media" style="background-image:url('images/project-06.jpg')"></div>
-                    <div class="cell-num">06</div>
-                    <div class="cell-name">Signal</div>
-                    <div class="cell-detail">Broadcast microsite where every UI control doubles as a working oscilloscope.</div>
-                    <div class="cell-cat">Campaign</div>
-                </div>
-                <div class="cell" tabindex="0" role="button" aria-label="Project Forge">
-                    <div class="cell-media" style="background-image:url('images/project-07.jpg')"></div>
-                    <div class="cell-num">07</div>
-                    <div class="cell-name">Forge</div>
-                    <div class="cell-detail">Configurator for a hardware studio with a live exploded-view 3D assembly.</div>
-                    <div class="cell-cat">Industrial</div>
-                </div>
-                <div class="cell" tabindex="0" role="button" aria-label="Project Lumen">
-                    <div class="cell-media" style="background-image:url('images/project-08.jpg')"></div>
-                    <div class="cell-num">08</div>
-                    <div class="cell-name">Lumen</div>
-                    <div class="cell-detail">Light-installation control panel mapped to a single sweeping gesture surface.</div>
-                    <div class="cell-cat">Spatial</div>
-                </div>
-                <div class="cell" tabindex="0" role="button" aria-label="Project Apex">
-                    <div class="cell-media" style="background-image:url('images/project-09.jpg')"></div>
-                    <div class="cell-num">09</div>
-                    <div class="cell-name">Apex</div>
-                    <div class="cell-detail">Awards-shortlisted launch site for an EV brand, driven entirely by scroll velocity.</div>
-                    <div class="cell-cat">Launch</div>
-                </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             DATABASE BODY
+        ====================================================== -->
+
+        <div class="database-body">
+
+
+            <!-- =================================================
+                 LEFT COLUMN
+            ================================================== -->
+
+            <div class="database-left">
+
+
+                <!-- =============================================
+                     CYBER ID
+                ============================================== -->
+
+                <article class="database-card database-card--identity">
+
+                    <div class="database-card-header">
+
+                        <span>
+                            Identity Record
+                        </span>
+
+                        <span>
+                            ID / 001
+                        </span>
+
+                    </div>
+
+
+                    <div class="database-card-content">
+
+                        <div class="identity-record">
+
+
+                            <!-- PROFILE IMAGE -->
+
+                            <div class="identity-photo">
+
+                                <img
+                                    src="/asset/hero/Regular.png"
+                                    alt="Christopher Aurellyan Alotano Luna"
+                                >
+
+                                <span class="identity-photo-code">
+                                    IMG / 001
+                                </span>
+
+                            </div>
+
+
+                            <!-- PROFILE INFORMATION -->
+
+                            <div class="identity-information">
+
+
+                                <!-- FULL NAME -->
+
+                                <div class="identity-field">
+
+                                    <span class="identity-label">
+                                        Full Name
+                                    </span>
+
+                                    <span class="identity-value identity-value--name">
+                                        Christopher Aurellyan Alotano Luna
+                                    </span>
+
+                                </div>
+
+
+                                <!-- ALIAS -->
+
+                                <div class="identity-field">
+
+                                    <span class="identity-label">
+                                        Alias
+                                    </span>
+
+                                    <span class="identity-value">
+                                        Lyan
+                                    </span>
+
+                                </div>
+
+
+                                <!-- OCCUPATION -->
+
+                                <div class="identity-field">
+
+                                    <span class="identity-label">
+                                        Occupation
+                                    </span>
+
+                                    <span class="identity-value">
+                                        Graphic Designer / Web Developer
+                                    </span>
+
+                                </div>
+
+
+                                <!-- DOMICILE -->
+
+                                <div class="identity-field">
+
+                                    <span class="identity-label">
+                                        Domicile
+                                    </span>
+
+                                    <span class="identity-value">
+                                        Pontianak, Indonesia
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ID STATUS -->
+
+                        <div class="identity-status">
+
+                            <div class="identity-status-item">
+
+                                <span class="identity-status-label">
+                                    Record Status
+                                </span>
+
+                                <span class="identity-status-value">
+
+                                    <span class="status-dot"></span>
+
+                                    Active
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="identity-status-item">
+
+                                <span class="identity-status-label">
+                                    Classification
+                                </span>
+
+                                <span class="identity-status-value">
+                                    Designer
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- =============================================
+                     SKILLS DATABASE
+                ============================================== -->
+
+                <article class="database-card database-card--skills">
+
+                    <div class="database-card-header">
+
+                        <span>
+                            Skills / Software
+                        </span>
+
+                        <span>
+                            RECORDS / 005
+                        </span>
+
+                    </div>
+
+
+                    <div class="database-card-content database-card-content--skills">
+
+                        <div class="skills-list">
+
+
+                            <!-- PHOTOSHOP -->
+
+                            <div class="skill-item">
+
+                                <div class="skill-icon">
+
+                                    <img
+                                        src="/asset/software/photoshop.webp"
+                                        alt="Adobe Photoshop"
+                                    >
+
+                                </div>
+
+
+                                <div class="skill-information">
+
+                                    <span class="skill-name">
+                                        Photoshop
+                                    </span>
+
+                                    <span class="skill-type">
+                                        Raster Design
+                                    </span>
+
+                                    <p class="skill-description">
+                                        Photo manipulation, compositing,
+                                        visual design, image editing,
+                                        and promotional graphics.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- ILLUSTRATOR -->
+
+                            <div class="skill-item">
+
+                                <div class="skill-icon">
+
+                                    <img
+                                        src="/asset/software/illustrator.webp"
+                                        alt="Adobe Illustrator"
+                                    >
+
+                                </div>
+
+
+                                <div class="skill-information">
+
+                                    <span class="skill-name">
+                                        Illustrator
+                                    </span>
+
+                                    <span class="skill-type">
+                                        Vector Design
+                                    </span>
+
+                                    <p class="skill-description">
+                                        Logo design, vector graphics,
+                                        typography, branding assets,
+                                        and scalable illustrations.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- FIGMA -->
+
+                            <div class="skill-item">
+
+                                <div class="skill-icon">
+
+                                    <img
+                                        src="/asset/software/figma.webp"
+                                        alt="Figma"
+                                    >
+
+                                </div>
+
+
+                                <div class="skill-information">
+
+                                    <span class="skill-name">
+                                        Figma
+                                    </span>
+
+                                    <span class="skill-type">
+                                        UI / UX Design
+                                    </span>
+
+                                    <p class="skill-description">
+                                        Interface design, wireframing,
+                                        prototyping, layouts,
+                                        and design systems.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- KRITA -->
+
+                            <div class="skill-item">
+
+                                <div class="skill-icon">
+
+                                    <img
+                                        src="/asset/software/krita.webp"
+                                        alt="Krita"
+                                    >
+
+                                </div>
+
+
+                                <div class="skill-information">
+
+                                    <span class="skill-name">
+                                        Krita
+                                    </span>
+
+                                    <span class="skill-type">
+                                        Digital Illustration
+                                    </span>
+
+                                    <p class="skill-description">
+                                        Digital painting, illustration,
+                                        concept development,
+                                        and hand-drawn artwork.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- CANVA -->
+
+                            <div class="skill-item">
+
+                                <div class="skill-icon">
+
+                                    <img
+                                        src="/asset/software/canva.webp"
+                                        alt="Canva"
+                                    >
+
+                                </div>
+
+
+                                <div class="skill-information">
+
+                                    <span class="skill-name">
+                                        Canva
+                                    </span>
+
+                                    <span class="skill-type">
+                                        Visual Content
+                                    </span>
+
+                                    <p class="skill-description">
+                                        Social media graphics,
+                                        presentation layouts,
+                                        marketing materials,
+                                        and rapid visual production.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- BLENDER -->
+
+                            <div class="skill-item">
+
+                                <div class="skill-icon">
+
+                                    <img
+                                        src="/asset/software/blender.webp"
+                                        alt="Blender"
+                                    >
+
+                                </div>
+
+
+                                <div class="skill-information">
+
+                                    <span class="skill-name">
+                                        Blender
+                                    </span>
+
+                                    <span class="skill-type">
+                                        3D Design
+                                    </span>
+
+                                    <p class="skill-description">
+                                        3D modeling, scene composition,
+                                        materials, rendering,
+                                        and visual experimentation.
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </article>
+
             </div>
-        </section>
-        <!-- ====================== 03 LENTICULAR ====================== -->
-        <section class="reveal" id="reveal">
-            <div class="reveal-cap">
-                <span class="mono-label">Lenticular Print // Live</span>
-                <h2>SWEEP TO <i>FLIP</i> THE FRAME</h2>
-                <p style="font-size:.64rem;
-                          letter-spacing:.22em;
-                          text-transform:uppercase;
-                          color:var(--accent-1);
-                          margin-top:10px">[ run the cursor past both edges for a full flip ]</p>
+
+
+
+            <!-- =================================================
+                 RIGHT COLUMN
+            ================================================== -->
+
+            <div class="database-right">
+
+
+                <!-- =============================================
+                     DESCRIPTION
+                ============================================== -->
+
+                <article class="database-card database-card--description">
+
+                    <div class="database-card-header">
+
+                        <span>
+                            Description
+                        </span>
+
+                        <span>
+                            FILE / ABOUT.TXT
+                        </span>
+
+                    </div>
+
+
+                    <div class="database-card-content database-card-content--description">
+
+
+                        <!-- DESCRIPTION INTRO -->
+
+                        <div class="description-heading">
+
+                            <span class="description-label">
+                                Personal Record
+                            </span>
+
+                            <h2>
+                                Designer &amp; Developer
+                            </h2>
+
+                        </div>
+
+
+                        <!-- DESCRIPTION TEXT -->
+
+                        <div class="description-text">
+
+                            <p>
+                                I'm Christopher Aurellyan Alotano Luna,
+                                a creative designer and aspiring web
+                                developer who enjoys turning ideas into
+                                visual and interactive experiences.
+                            </p>
+
+                            <p>
+                                My work sits somewhere between graphic
+                                design, digital art, and web development.
+                                I enjoy experimenting with visual
+                                composition, typography, layouts,
+                                illustration, and code to create work
+                                that feels simple while still having
+                                its own character.
+                            </p>
+
+                            <p>
+                                Graphic design is where I spend most of
+                                my creative energy. I work with raster
+                                and vector graphics, digital illustration,
+                                interface design, branding, and visual
+                                content. I also explore 3D design and
+                                interactive experiences as another way
+                                to expand the way I approach visual
+                                problems.
+                            </p>
+
+                            <p>
+                                On the development side, I enjoy building
+                                websites and experimenting with the
+                                relationship between design and technology.
+                                I like taking an idea from a visual
+                                concept and gradually turning it into
+                                something functional through HTML, CSS,
+                                JavaScript, and other web technologies.
+                            </p>
+
+                            <p>
+                                I'm still learning, experimenting, and
+                                refining my approach. The goal is not
+                                simply to make things look good, but to
+                                understand why they work and how design,
+                                interaction, and technology can support
+                                one another.
+                            </p>
+
+                        </div>
+
+
+                        <!-- DESCRIPTION FOOTER DATA -->
+
+                        <div class="description-data">
+
+                            <div class="description-data-item">
+
+                                <span class="description-data-label">
+                                    Primary Field
+                                </span>
+
+                                <span class="description-data-value">
+                                    Graphic Design
+                                </span>
+
+                            </div>
+
+
+                            <div class="description-data-item">
+
+                                <span class="description-data-label">
+                                    Secondary Field
+                                </span>
+
+                                <span class="description-data-value">
+                                    Web Development
+                                </span>
+
+                            </div>
+
+
+                            <div class="description-data-item">
+
+                                <span class="description-data-label">
+                                    Current Status
+                                </span>
+
+                                <span class="description-data-value">
+                                    Learning / Creating
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <!-- DESCRIPTION META -->
+
+                    <div class="database-card-meta">
+
+                        <span class="database-meta-indicator"></span>
+
+                        <span>
+                            END OF RECORD
+                        </span>
+
+                        <span class="database-meta-line"></span>
+
+                        <span>
+                            LYAN / DESIGNER DATABASE
+                        </span>
+
+                    </div>
+
+                </article>
+
             </div>
-            <div class="lenti-stage" id="lentiStage">
-                <div class="lenti" id="lenti" aria-hidden="true"
-                     data-front="images/kinetic-10.jpg"
-                     data-back="images/kinetic-11.jpg"></div>
-            </div>
-        </section>
-        <!-- ====================== 04 INITIATE ====================== -->
-        <footer class="initiate" id="initiate">
-            <div class="initiate-inner">
-                <h2 class="scatter" id="scatter">TEMPLATE.MO // INITIATE</h2>
-                <div class="sub-wrap" id="subWrap">
-                    <form class="subscribe" id="subscribe" novalidate>
-                        <input type="email"
-                               class="sub-input"
-                               id="subEmail"
-                               placeholder="you@studio.com"
-                               aria-label="Email address"
-                               required>
-                        <button type="submit" class="sub-btn">Initiate</button>
-                    </form>
-                    <div class="sub-note" id="subNote">Join the drop list. No noise.</div>
-                </div>
-            </div>
-            <div class="sig-foot">
-                <span>The Kinetic // Experimental Build 1.0</span>
-                <span>Click the type to scatter or reassemble</span>
-                <span>Free HTML Template by <a href="https://templatemo.com" rel="nofollow" target="_blank">TemplateMo</a></span>
-            </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             DATABASE FOOTER
+        ====================================================== -->
+
+        <footer class="database-footer">
+
+            <span>
+                SYSTEM / DESIGNER_DATABASE
+            </span>
+
+            <span>
+                RECORD 001
+            </span>
+
+            <span>
+                CONNECTION / STABLE
+            </span>
+
         </footer>
-        <script src="templatemo-631-kinetic-script.js"></script>
-    </body>
+
+    </div>
+
+</section>
+
+    </main>
+
+</body>
+
 </html>
