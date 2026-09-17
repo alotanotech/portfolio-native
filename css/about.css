@@ -1,0 +1,2139 @@
+
+/* =========================================================
+   ABOUT
+   ---------------------------------------------------------
+   RESPONSIVE CYBER DATABASE INTERFACE
+========================================================= */
+
+.about {
+    position: relative;
+
+    width: 100%;
+    min-height: 100dvh;
+
+    background: var(--bg-main);
+    color: var(--text-main);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /*
+     * The navigation is fixed and therefore removed from
+     * normal document flow.
+     */
+    padding-top: var(--topbar-height);
+    padding-bottom: 1.5rem;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   DATABASE INTERFACE
+========================================================= */
+
+.about-interface {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    width: min(80dvw, 1200px);
+
+    /*
+     * Leaves room for the fixed navigation and breathing
+     * space around the database.
+     */
+    height: min(
+        calc(100dvh - var(--topbar-height) - 3rem),
+        850px
+    );
+
+    min-height: 0;
+
+    margin: 0;
+
+    background: var(--bg-main);
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   DATABASE HEADER
+========================================================= */
+
+.database-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+
+    min-height: 2.5rem;
+
+    padding: 0 0.9rem;
+
+    background: var(--accent);
+    color: var(--bg-main);
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   DATABASE HEADER TITLE
+========================================================= */
+
+.database-header-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.55rem;
+
+    min-width: 0;
+}
+
+
+.database-status {
+    width: 6px;
+    height: 6px;
+
+    flex: 0 0 auto;
+
+    border-radius: 50%;
+
+    background: var(--bg-main);
+}
+
+
+.database-header-label {
+    font-size: clamp(
+        0.75rem,
+        0.68rem + 0.12vw,
+        0.85rem
+    );
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.12em;
+}
+
+
+/* =========================================================
+   DATABASE HEADER META
+========================================================= */
+
+.database-header-meta {
+    display: flex;
+
+    align-items: center;
+
+    gap: clamp(
+        0.75rem,
+        1vw,
+        1.25rem
+    );
+
+    font-size: clamp(
+        0.55rem,
+        0.5rem + 0.08vw,
+        0.65rem
+    );
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   DATABASE BODY
+========================================================= */
+
+.database-body {
+    display: grid;
+
+    /*
+     * Left = identity + skills
+     * Right = description
+     */
+    grid-template-columns:
+        minmax(0, 0.9fr)
+        minmax(0, 1.1fr);
+
+    flex: 1;
+
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   DATABASE LEFT
+========================================================= */
+
+.database-left {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.85rem;
+
+    min-width: 0;
+    min-height: 0;
+
+    padding: 0.85rem;
+
+    border-right:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   DATABASE RIGHT
+========================================================= */
+
+.database-right {
+    display: flex;
+
+    min-width: 0;
+    min-height: 0;
+
+    padding: 0.85rem;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   DATABASE CARD
+========================================================= */
+
+.database-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+    min-height: 0;
+
+    background: var(--bg-main);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.16);
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   DATABASE CARD HEADER
+========================================================= */
+
+.database-card-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    width: 100%;
+
+    min-height: 2rem;
+
+    padding: 0 0.7rem;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    color: var(--accent);
+
+    box-sizing: border-box;
+}
+
+
+.database-card-header span:first-child {
+    font-size: clamp(
+        0.65rem,
+        0.58rem + 0.12vw,
+        0.75rem
+    );
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.1em;
+}
+
+
+.database-card-header span:last-child {
+    color: rgba(255, 255, 255, 0.35);
+
+    font-size: clamp(
+        0.5rem,
+        0.44rem + 0.08vw,
+        0.58rem
+    );
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   DATABASE CARD CONTENT
+========================================================= */
+
+.database-card-content {
+    min-width: 0;
+
+    padding: 0.85rem;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   IDENTITY CARD
+========================================================= */
+
+.database-card--identity {
+    flex: 0 0 auto;
+}
+
+
+/* =========================================================
+   IDENTITY RECORD
+========================================================= */
+
+.identity-record {
+    display: grid;
+
+    grid-template-columns:
+        clamp(7rem, 9vw, 9rem)
+        minmax(0, 1fr);
+
+    align-items: stretch;
+
+    gap: 0.85rem;
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   IDENTITY PHOTO
+========================================================= */
+
+.identity-photo {
+    position: relative;
+
+    width: 100%;
+
+    aspect-ratio: 1 / 1.15;
+
+    overflow: hidden;
+
+    background: #111111;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.2);
+
+    box-sizing: border-box;
+}
+
+
+.identity-photo::before {
+    position: absolute;
+
+    content: "";
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.08);
+
+    box-sizing: border-box;
+}
+
+
+.identity-photo img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   IDENTITY PHOTO CODE
+========================================================= */
+
+.identity-photo-code {
+    position: absolute;
+
+    right: 0.35rem;
+    bottom: 0.35rem;
+
+    z-index: 2;
+
+    padding: 0.25rem 0.35rem;
+
+    background: rgba(8, 8, 10, 0.8);
+
+    color: rgba(255, 255, 255, 0.55);
+
+    font-size: 0.46rem;
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   IDENTITY INFORMATION
+========================================================= */
+
+.identity-information {
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    min-width: 0;
+
+    gap: 0.65rem;
+}
+
+
+/* =========================================================
+   IDENTITY FIELD
+========================================================= */
+
+.identity-field {
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    gap: 0.2rem;
+
+    padding-bottom: 0.5rem;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.07);
+}
+
+
+.identity-field:last-child {
+    padding-bottom: 0;
+
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   IDENTITY LABEL
+========================================================= */
+
+.identity-label {
+    color: rgba(255, 255, 255, 0.35);
+
+    font-size: clamp(
+        0.5rem,
+        0.46rem + 0.08vw,
+        0.58rem
+    );
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.09em;
+}
+
+
+/* =========================================================
+   IDENTITY VALUE
+========================================================= */
+
+.identity-value {
+    min-width: 0;
+
+    color: var(--text-main);
+
+    font-size: clamp(
+        0.75rem,
+        0.68rem + 0.12vw,
+        0.88rem
+    );
+
+    font-weight: 400;
+
+    line-height: 1.35;
+
+    overflow-wrap: anywhere;
+}
+
+
+.identity-value--name {
+    font-size: clamp(
+        0.82rem,
+        0.74rem + 0.14vw,
+        0.98rem
+    );
+
+    font-weight: 500;
+
+    line-height: 1.25;
+}
+
+
+/* =========================================================
+   IDENTITY STATUS
+========================================================= */
+
+.identity-status {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 0.85rem;
+
+    margin-top: 0.85rem;
+
+    padding-top: 0.7rem;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.identity-status-item {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.25rem;
+
+    min-width: 0;
+}
+
+
+.identity-status-label {
+    color: rgba(255, 255, 255, 0.3);
+
+    font-size: 0.48rem;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+}
+
+
+.identity-status-value {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.4rem;
+
+    color: var(--text-main);
+
+    font-size: 0.63rem;
+
+    font-weight: 600;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+
+/* =========================================================
+   STATUS DOT
+========================================================= */
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+
+    flex: 0 0 auto;
+
+    border-radius: 50%;
+
+    background: var(--accent);
+
+    box-shadow:
+        0 0 7px rgba(255, 230, 1, 0.6);
+}
+
+
+/* =========================================================
+   SKILLS CARD
+========================================================= */
+
+.database-card--skills {
+    flex: 1;
+
+    min-height: 0;
+}
+
+
+/* =========================================================
+   SKILLS CONTENT
+========================================================= */
+
+.database-card-content--skills {
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   SKILLS LIST
+========================================================= */
+
+.skills-list {
+    display: flex;
+
+    flex-direction: column;
+
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        var(--accent)
+        rgba(255, 255, 255, 0.05);
+}
+
+
+/* =========================================================
+   CYBER SCROLLBAR
+========================================================= */
+
+.skills-list::-webkit-scrollbar,
+.database-card-content--description::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+.skills-list::-webkit-scrollbar-track,
+.database-card-content--description::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+
+.skills-list::-webkit-scrollbar-thumb,
+.database-card-content--description::-webkit-scrollbar-thumb {
+    background: var(--accent);
+
+    border: 1px solid var(--bg-main);
+}
+
+
+.skills-list::-webkit-scrollbar-thumb:hover,
+.database-card-content--description::-webkit-scrollbar-thumb:hover {
+    background: var(--text-main);
+}
+
+
+/* =========================================================
+   SKILL ITEM
+========================================================= */
+
+.skill-item {
+    display: grid;
+
+    grid-template-columns:
+        2.75rem
+        minmax(0, 1fr);
+
+    align-items: center;
+
+    gap: 0.75rem;
+
+    width: 100%;
+
+    padding: 0.7rem 0.4rem;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.07);
+
+    box-sizing: border-box;
+
+    transition:
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.skill-item:last-child {
+    border-bottom: none;
+}
+
+
+.skill-item:hover {
+    background: rgba(255, 230, 1, 0.035);
+
+    transform: translateX(0.15rem);
+}
+
+
+/* =========================================================
+   SKILL ICON
+========================================================= */
+
+.skill-icon {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 2.75rem;
+    height: 2.75rem;
+
+    flex: 0 0 auto;
+
+    border:
+        1px solid rgba(255, 255, 255, 0.13);
+
+    background:
+        rgba(255, 255, 255, 0.025);
+
+    box-sizing: border-box;
+}
+
+
+.skill-icon img {
+    display: block;
+
+    width: 1.55rem;
+    height: 1.55rem;
+
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   SKILL INFORMATION
+========================================================= */
+
+.skill-information {
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+
+    gap: 0.2rem;
+}
+
+
+/* =========================================================
+   SKILL NAME
+========================================================= */
+
+.skill-name {
+    color: var(--text-main);
+
+    font-size: clamp(
+        0.75rem,
+        0.68rem + 0.12vw,
+        0.88rem
+    );
+
+    font-weight: 600;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   SKILL TYPE
+========================================================= */
+
+.skill-type {
+    color: var(--accent);
+
+    font-size: clamp(
+        0.48rem,
+        0.44rem + 0.06vw,
+        0.56rem
+    );
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   SKILL DESCRIPTION
+========================================================= */
+
+.skill-description {
+    margin: 0.15rem 0 0;
+
+    color: rgba(255, 255, 255, 0.4);
+
+    font-size: clamp(
+        0.58rem,
+        0.53rem + 0.08vw,
+        0.68rem
+    );
+
+    font-weight: 400;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   DESCRIPTION CARD
+========================================================= */
+
+.database-card--description {
+    width: 100%;
+    height: 100%;
+
+    min-height: 0;
+}
+
+
+/* =========================================================
+   DESCRIPTION CONTENT
+========================================================= */
+
+.database-card-content--description {
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+
+    min-height: 0;
+
+    overflow-y: auto;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        var(--accent)
+        rgba(255, 255, 255, 0.05);
+}
+
+
+/* =========================================================
+   DESCRIPTION HEADING
+========================================================= */
+
+.description-heading {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.4rem;
+
+    margin-bottom: 1.1rem;
+
+    padding-bottom: 0.8rem;
+
+    border-bottom:
+        1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.description-label {
+    color: var(--accent);
+
+    font-size: clamp(
+        0.5rem,
+        0.46rem + 0.08vw,
+        0.6rem
+    );
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.1em;
+}
+
+
+.description-heading h2 {
+    margin: 0;
+
+    color: var(--text-main);
+
+    font-size: clamp(
+        1.15rem,
+        1rem + 0.35vw,
+        1.5rem
+    );
+
+    font-weight: 500;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   DESCRIPTION TEXT
+========================================================= */
+
+.description-text {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.95rem;
+
+    max-width: 60rem;
+}
+
+
+.description-text p {
+    margin: 0;
+
+    color: rgba(239, 239, 239, 0.8);
+
+    font-size: clamp(
+        0.75rem,
+        0.68rem + 0.12vw,
+        0.88rem
+    );
+
+    font-weight: 400;
+
+    line-height: 1.7;
+
+    text-align: justify;
+
+    text-justify: inter-word;
+}
+
+
+/* =========================================================
+   DESCRIPTION DATA
+========================================================= */
+
+.description-data {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 0.85rem;
+
+    margin-top: auto;
+
+    padding-top: 1.1rem;
+}
+
+
+.description-data-item {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0.25rem;
+
+    min-width: 0;
+
+    padding-top: 0.65rem;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.description-data-label {
+    color: rgba(255, 255, 255, 0.3);
+
+    font-size: 0.48rem;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+}
+
+
+.description-data-value {
+    color: var(--text-main);
+
+    font-size: 0.63rem;
+
+    font-weight: 500;
+
+    line-height: 1.35;
+}
+
+
+/* =========================================================
+   DESCRIPTION CARD META
+========================================================= */
+
+.database-card-meta {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.45rem;
+
+    min-height: 1.9rem;
+
+    padding: 0 0.7rem;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.1);
+
+    color: rgba(255, 255, 255, 0.3);
+
+    font-size: 0.48rem;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.07em;
+
+    box-sizing: border-box;
+}
+
+
+.database-meta-indicator {
+    width: 5px;
+    height: 5px;
+
+    flex: 0 0 auto;
+
+    border-radius: 50%;
+
+    background: var(--accent);
+}
+
+
+.database-meta-line {
+    width: 2.5rem;
+    height: 1px;
+
+    background: rgba(255, 255, 255, 0.15);
+}
+
+
+/* =========================================================
+   DATABASE FOOTER
+========================================================= */
+
+.database-footer {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    min-height: 1.9rem;
+
+    padding: 0 0.9rem;
+
+    border-top:
+        1px solid rgba(255, 255, 255, 0.12);
+
+    color: rgba(255, 255, 255, 0.3);
+
+    font-size: 0.48rem;
+
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   1440px+
+   ---------------------------------------------------------
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1440px) {
+
+    .about-interface {
+        width: min(78dvw, 1280px);
+
+        height: min(
+            calc(100dvh - var(--topbar-height) - 3rem),
+            900px
+        );
+    }
+
+
+    .database-left,
+    .database-right {
+        padding: 1rem;
+    }
+
+
+    .database-left {
+        gap: 1rem;
+    }
+
+
+    .database-card-content {
+        padding: 1rem;
+    }
+
+
+    .identity-record {
+        grid-template-columns:
+            9rem
+            minmax(0, 1fr);
+
+        gap: 1rem;
+    }
+
+
+    .skill-item {
+        padding: 0.75rem 0.45rem;
+    }
+
+
+    .description-text {
+        gap: 1rem;
+    }
+
+}
+
+
+/* =========================================================
+   1024px
+   ---------------------------------------------------------
+   SMALL DESKTOP / LARGE TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .about-interface {
+        width: 90dvw;
+
+        height: min(
+            calc(100dvh - var(--topbar-height) - 2.5rem),
+            800px
+        );
+    }
+
+
+    .database-body {
+        grid-template-columns:
+            minmax(0, 0.88fr)
+            minmax(0, 1.12fr);
+    }
+
+
+    .database-left,
+    .database-right {
+        padding: 0.75rem;
+    }
+
+
+    .database-card-content {
+        padding: 0.75rem;
+    }
+
+
+    .identity-record {
+        grid-template-columns:
+            7rem
+            minmax(0, 1fr);
+
+        gap: 0.75rem;
+    }
+
+
+    .identity-value {
+        font-size: 0.75rem;
+    }
+
+
+    .identity-value--name {
+        font-size: 0.82rem;
+    }
+
+
+    .description-text p {
+        font-size: 0.75rem;
+    }
+
+}
+
+
+/* =========================================================
+   768px
+   ---------------------------------------------------------
+   TABLET
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .about {
+        min-height: 100dvh;
+
+        padding-top: var(--topbar-height);
+        padding-bottom: 1rem;
+
+        overflow: visible;
+    }
+
+
+    .about-interface {
+        width: 92dvw;
+
+        /*
+         * Database becomes a vertical application layout.
+         */
+        height: auto;
+
+        min-height:
+            calc(100dvh - var(--topbar-height) - 2rem);
+
+        max-height: none;
+
+        overflow: visible;
+    }
+
+
+    /* -----------------------------------------------------
+       HEADER
+    ----------------------------------------------------- */
+
+    .database-header {
+        min-height: 2.6rem;
+
+        padding: 0 0.8rem;
+    }
+
+
+    .database-header-label {
+        font-size: 0.75rem;
+    }
+
+
+    .database-header-meta {
+        font-size: 0.52rem;
+
+        gap: 0.7rem;
+    }
+
+
+    /* -----------------------------------------------------
+       BODY
+    ----------------------------------------------------- */
+
+    .database-body {
+        grid-template-columns: 1fr;
+
+        overflow: visible;
+    }
+
+
+    .database-left {
+        padding: 0.75rem;
+
+        border-right: none;
+
+        border-bottom:
+            1px solid rgba(255, 255, 255, 0.12);
+
+        overflow: visible;
+    }
+
+
+    .database-right {
+        padding: 0.75rem;
+
+        overflow: visible;
+    }
+
+
+    /* -----------------------------------------------------
+       IDENTITY
+    ----------------------------------------------------- */
+
+    .identity-record {
+        grid-template-columns:
+            7rem
+            minmax(0, 1fr);
+
+        gap: 0.85rem;
+    }
+
+
+    .identity-value {
+        font-size: 0.78rem;
+    }
+
+
+    .identity-value--name {
+        font-size: 0.85rem;
+    }
+
+
+    /* -----------------------------------------------------
+       SKILLS
+    ----------------------------------------------------- */
+
+    .database-card--skills {
+        /*
+         * Prevent the skill database from taking over the
+         * entire tablet page.
+         */
+        height: 20rem;
+
+        flex: 0 0 20rem;
+    }
+
+
+    /* -----------------------------------------------------
+       DESCRIPTION
+    ----------------------------------------------------- */
+
+    .database-card--description {
+        height: auto;
+
+        min-height: 25rem;
+    }
+
+
+    .database-card-content--description {
+        overflow: visible;
+    }
+
+
+    .description-text p {
+        font-size: 0.78rem;
+
+        line-height: 1.7;
+    }
+
+
+    .description-data {
+        margin-top: 1.5rem;
+    }
+
+}
+
+
+/* =========================================================
+   600px
+   ---------------------------------------------------------
+   LARGE MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .about {
+        padding-top: calc(var(--topbar-height) + 0.5rem);
+
+        padding-bottom: 0.75rem;
+    }
+
+
+    .about-interface {
+        width: calc(100% - 1rem);
+
+        min-height: 0;
+
+        height: auto;
+    }
+
+
+    /* -----------------------------------------------------
+       HEADER
+    ----------------------------------------------------- */
+
+    .database-header {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 0.55rem;
+
+        min-height: auto;
+
+        padding: 0.7rem;
+    }
+
+
+    .database-header-title {
+        width: 100%;
+    }
+
+
+    .database-header-meta {
+        width: 100%;
+
+        justify-content: space-between;
+
+        gap: 0.4rem;
+
+        font-size: 0.46rem;
+    }
+
+
+    /* -----------------------------------------------------
+       BODY
+    ----------------------------------------------------- */
+
+    .database-left,
+    .database-right {
+        padding: 0.5rem;
+    }
+
+
+    .database-left {
+        gap: 0.6rem;
+    }
+
+
+    /* -----------------------------------------------------
+       CARD HEADER
+    ----------------------------------------------------- */
+
+    .database-card-header {
+        min-height: 2rem;
+
+        padding: 0 0.6rem;
+    }
+
+
+    .database-card-header span:first-child {
+        font-size: 0.62rem;
+    }
+
+
+    .database-card-header span:last-child {
+        font-size: 0.46rem;
+    }
+
+
+    /* -----------------------------------------------------
+       CARD CONTENT
+    ----------------------------------------------------- */
+
+    .database-card-content {
+        padding: 0.65rem;
+    }
+
+
+    /* -----------------------------------------------------
+       IDENTITY
+    ----------------------------------------------------- */
+
+    .identity-record {
+        grid-template-columns:
+            6rem
+            minmax(0, 1fr);
+
+        gap: 0.65rem;
+    }
+
+
+    .identity-information {
+        gap: 0.5rem;
+    }
+
+
+    .identity-label {
+        font-size: 0.46rem;
+    }
+
+
+    .identity-value {
+        font-size: 0.7rem;
+    }
+
+
+    .identity-value--name {
+        font-size: 0.76rem;
+    }
+
+
+    .identity-field {
+        gap: 0.16rem;
+
+        padding-bottom: 0.4rem;
+    }
+
+
+    .identity-status {
+        gap: 0.6rem;
+
+        margin-top: 0.65rem;
+
+        padding-top: 0.6rem;
+    }
+
+
+    .identity-status-label {
+        font-size: 0.44rem;
+    }
+
+
+    .identity-status-value {
+        font-size: 0.58rem;
+    }
+
+
+    /* -----------------------------------------------------
+       SKILLS
+    ----------------------------------------------------- */
+
+    .database-card--skills {
+        height: 18rem;
+
+        flex-basis: 18rem;
+    }
+
+
+    .skill-item {
+        grid-template-columns:
+            2.5rem
+            minmax(0, 1fr);
+
+        gap: 0.65rem;
+
+        padding: 0.6rem 0.3rem;
+    }
+
+
+    .skill-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+
+    .skill-icon img {
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+
+
+    .skill-name {
+        font-size: 0.7rem;
+    }
+
+
+    .skill-type {
+        font-size: 0.46rem;
+    }
+
+
+    .skill-description {
+        font-size: 0.56rem;
+
+        line-height: 1.4;
+    }
+
+
+    /* -----------------------------------------------------
+       DESCRIPTION
+    ----------------------------------------------------- */
+
+    .database-card--description {
+        min-height: 0;
+    }
+
+
+    .description-heading {
+        margin-bottom: 0.9rem;
+
+        padding-bottom: 0.7rem;
+    }
+
+
+    .description-heading h2 {
+        font-size: 1.05rem;
+    }
+
+
+    .description-text {
+        gap: 0.8rem;
+    }
+
+
+    .description-text p {
+        font-size: 0.7rem;
+
+        line-height: 1.65;
+    }
+
+
+    .description-data {
+        grid-template-columns: 1fr;
+
+        gap: 0.65rem;
+
+        margin-top: 1rem;
+
+        padding-top: 0.5rem;
+    }
+
+
+    .description-data-item {
+        padding-top: 0.55rem;
+    }
+
+
+    /* -----------------------------------------------------
+       META
+    ----------------------------------------------------- */
+
+    .database-card-meta {
+        min-height: 1.8rem;
+
+        padding: 0 0.6rem;
+
+        font-size: 0.44rem;
+    }
+
+
+    /* -----------------------------------------------------
+       FOOTER
+    ----------------------------------------------------- */
+
+    .database-footer {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 0.35rem;
+
+        min-height: auto;
+
+        padding: 0.65rem 0.7rem;
+
+        line-height: 1.2;
+    }
+
+}
+
+
+/* =========================================================
+   480px
+   ---------------------------------------------------------
+   MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .about-interface {
+        width: calc(100% - 0.75rem);
+    }
+
+
+    .database-header-meta {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 0.4rem;
+
+        line-height: 1.3;
+    }
+
+
+    .database-header-meta span:last-child {
+        grid-column: 1 / -1;
+    }
+
+
+    /* -----------------------------------------------------
+       IDENTITY
+    ----------------------------------------------------- */
+
+    .identity-record {
+        grid-template-columns: 5.25rem minmax(0, 1fr);
+
+        gap: 0.6rem;
+    }
+
+
+    .identity-value {
+        font-size: 0.66rem;
+    }
+
+
+    .identity-value--name {
+        font-size: 0.72rem;
+    }
+
+
+    .identity-label {
+        font-size: 0.43rem;
+    }
+
+
+    .identity-status {
+        grid-template-columns: 1fr 1fr;
+    }
+
+
+    /* -----------------------------------------------------
+       SKILLS
+    ----------------------------------------------------- */
+
+    .database-card--skills {
+        height: 17rem;
+
+        flex-basis: 17rem;
+    }
+
+
+    .skill-item {
+        grid-template-columns:
+            2.3rem
+            minmax(0, 1fr);
+
+        gap: 0.55rem;
+    }
+
+
+    .skill-icon {
+        width: 2.3rem;
+        height: 2.3rem;
+    }
+
+
+    .skill-icon img {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+
+    .skill-name {
+        font-size: 0.67rem;
+    }
+
+
+    .skill-description {
+        font-size: 0.54rem;
+    }
+
+
+    /* -----------------------------------------------------
+       DESCRIPTION
+    ----------------------------------------------------- */
+
+    .description-heading h2 {
+        font-size: 1rem;
+    }
+
+
+    .description-text p {
+        font-size: 0.67rem;
+
+        line-height: 1.65;
+    }
+
+}
+
+
+/* =========================================================
+   360px
+   ---------------------------------------------------------
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 360px) {
+
+    .about-interface {
+        width: calc(100% - 0.5rem);
+    }
+
+
+    .database-left,
+    .database-right {
+        padding: 0.35rem;
+    }
+
+
+    .database-card-content {
+        padding: 0.55rem;
+    }
+
+
+    /* -----------------------------------------------------
+       IDENTITY
+    ----------------------------------------------------- */
+
+    .identity-record {
+        grid-template-columns: 1fr;
+
+        gap: 0.75rem;
+    }
+
+
+    .identity-photo {
+        width: 6rem;
+
+        aspect-ratio: 1 / 1.15;
+    }
+
+
+    .identity-information {
+        gap: 0.5rem;
+    }
+
+
+    .identity-value {
+        font-size: 0.68rem;
+    }
+
+
+    .identity-value--name {
+        font-size: 0.75rem;
+    }
+
+
+    .identity-status {
+        margin-top: 0.55rem;
+
+        padding-top: 0.55rem;
+    }
+
+
+    /* -----------------------------------------------------
+       SKILLS
+    ----------------------------------------------------- */
+
+    .database-card--skills {
+        height: 16rem;
+
+        flex-basis: 16rem;
+    }
+
+
+    /* -----------------------------------------------------
+       DESCRIPTION
+    ----------------------------------------------------- */
+
+    .description-text p {
+        font-size: 0.66rem;
+
+        line-height: 1.6;
+
+        text-align: left;
+    }
+
+
+    .description-data {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* -----------------------------------------------------
+       HEADER
+    ----------------------------------------------------- */
+
+    .database-card-header span:last-child {
+        display: none;
+    }
+
+}
+
+
+/* =========================================================
+   320px
+   ---------------------------------------------------------
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 320px) {
+
+    .about {
+        padding-top: calc(var(--topbar-height) + 0.25rem);
+
+        padding-bottom: 0.5rem;
+    }
+
+
+    .about-interface {
+        width: calc(100% - 0.35rem);
+    }
+
+
+    .database-header {
+        padding: 0.6rem;
+    }
+
+
+    .database-header-label {
+        font-size: 0.68rem;
+    }
+
+
+    .database-header-meta {
+        font-size: 0.4rem;
+    }
+
+
+    .database-card-header {
+        min-height: 1.85rem;
+
+        padding: 0 0.5rem;
+    }
+
+
+    .database-card-header span:first-child {
+        font-size: 0.58rem;
+    }
+
+
+    .database-card-content {
+        padding: 0.5rem;
+    }
+
+
+    /* -----------------------------------------------------
+       IDENTITY
+    ----------------------------------------------------- */
+
+    .identity-photo {
+        width: 5.5rem;
+    }
+
+
+    .identity-label {
+        font-size: 0.4rem;
+    }
+
+
+    .identity-value {
+        font-size: 0.64rem;
+    }
+
+
+    .identity-value--name {
+        font-size: 0.7rem;
+    }
+
+
+    .identity-status-value {
+        font-size: 0.52rem;
+    }
+
+
+    /* -----------------------------------------------------
+       SKILLS
+    ----------------------------------------------------- */
+
+    .database-card--skills {
+        height: 15rem;
+
+        flex-basis: 15rem;
+    }
+
+
+    .skill-item {
+        grid-template-columns:
+            2.15rem
+            minmax(0, 1fr);
+
+        gap: 0.5rem;
+
+        padding: 0.55rem 0.2rem;
+    }
+
+
+    .skill-icon {
+        width: 2.15rem;
+        height: 2.15rem;
+    }
+
+
+    .skill-icon img {
+        width: 1.15rem;
+        height: 1.15rem;
+    }
+
+
+    .skill-name {
+        font-size: 0.63rem;
+    }
+
+
+    .skill-type {
+        font-size: 0.42rem;
+    }
+
+
+    .skill-description {
+        font-size: 0.51rem;
+
+        line-height: 1.4;
+    }
+
+
+    /* -----------------------------------------------------
+       DESCRIPTION
+    ----------------------------------------------------- */
+
+    .description-heading {
+        gap: 0.3rem;
+
+        margin-bottom: 0.75rem;
+
+        padding-bottom: 0.6rem;
+    }
+
+
+    .description-label {
+        font-size: 0.43rem;
+    }
+
+
+    .description-heading h2 {
+        font-size: 0.95rem;
+    }
+
+
+    .description-text {
+        gap: 0.7rem;
+    }
+
+
+    .description-text p {
+        font-size: 0.63rem;
+
+        line-height: 1.6;
+    }
+
+
+    /* -----------------------------------------------------
+       META
+    ----------------------------------------------------- */
+
+    .database-card-meta {
+        min-height: 1.65rem;
+
+        padding: 0 0.5rem;
+
+        font-size: 0.4rem;
+    }
+
+
+    /* -----------------------------------------------------
+       FOOTER
+    ----------------------------------------------------- */
+
+    .database-footer {
+        padding: 0.55rem 0.6rem;
+
+        font-size: 0.4rem;
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .skill-item {
+        transition: none;
+    }
+
+}

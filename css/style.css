@@ -1,0 +1,206 @@
+:root {
+    /* ---------- Colors ---------- */
+
+    --bg-main: #000000;
+    /* 60% — Black */
+
+    --text-main: #FFFFFF;
+    /* 30% — White */
+
+    --accent: #ffe601;
+    /* 10% — Cyber Yellow */
+
+
+    /* ---------- Borders ---------- */
+
+    --edge: rgba(255, 255, 255, 0.25);
+
+
+    /* ---------- Animation ---------- */
+
+    --ease-out: cubic-bezier(.16, 1, .3, 1);
+    --ease-io: cubic-bezier(.86, 0, .07, 1);
+
+
+    /* ---------- Layout ---------- */
+
+    --container-width: 80dvw;
+    --section-space: clamp(6rem, 12vw, 12rem);
+
+
+    /* ---------- Typography ---------- */
+
+    --font-body: 'JetBrains Mono', monospace;
+    --font-display: 'Syne', sans-serif;
+}
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   DOCUMENT
+   ========================================================= */
+
+html {
+    scroll-behavior: smooth;
+    background: var(--bg-main);
+}
+
+body {
+    min-height: 100vh;
+
+    background: var(--bg-main);
+    color: var(--text-main);
+
+    font-family: var(--font-body);
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.syne {
+    font-family: var(--font-body);
+    font-weight: 800;
+    line-height: .92;
+    letter-spacing: -.02em;
+}
+
+p {
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+
+/* =========================================================
+   IMAGES
+   ========================================================= */
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+
+/* =========================================================
+   CONTAINER
+   ========================================================= */
+
+.container {
+    width: var(--container-width);
+    max-width: 100%;
+    margin-inline: auto;
+}
+
+
+/* =========================================================
+   SECTIONS
+   ========================================================= */
+
+section {
+    position: relative;
+}
+
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+    background: var(--accent-1);
+    color: var(--bg-main);
+}
+
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+:focus-visible {
+    outline: 2px solid var(--accent-1);
+    outline-offset: 4px;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--surf-2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-1);
+}
+
+
+/* =========================================================
+   UTILITY
+   ========================================================= */
+
+.no-scroll {
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}

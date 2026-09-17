@@ -1,0 +1,329 @@
+/* =========================================================
+   UI CARD
+   ---------------------------------------------------------
+   Reusable information / content card.
+
+   BASE:
+       .ui-card
+
+   VARIANTS:
+       .ui-card--compact
+       .ui-card--large
+       .ui-card--accent
+       .ui-card--minimal
+       .ui-card--outline
+
+   STRUCTURE:
+
+       <article class="ui-card">
+
+           <div class="ui-card-header">
+               HEADER
+           </div>
+
+           <div class="ui-card-body">
+
+               <div class="ui-card-subheader">
+                   SUBHEADER
+               </div>
+
+               <p class="ui-card-text">
+                   Description...
+               </p>
+
+           </div>
+
+       </article>
+========================================================= */
+
+
+/* =========================================================
+   BASE
+========================================================= */
+
+.ui-card {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    width: fit-content;
+    max-width: 100%;
+
+    background: var(--bg-main);
+
+    border: 1px solid var(--accent);
+
+    color: var(--text-main);
+
+    overflow: hidden;
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.ui-card-header {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 0.3rem 0.5rem;
+
+    background: var(--accent);
+
+    color: var(--bg-main);
+
+    font-size: 0.65rem;
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.ui-card-body {
+    display: flex;
+    flex-direction: column;
+
+    padding: 0.65rem;
+}
+
+
+/* =========================================================
+   SUBHEADER
+========================================================= */
+
+.ui-card-subheader {
+    margin: 0;
+
+    color: var(--text-main);
+
+    font-size: 0.95rem;
+    font-weight: 700;
+
+    line-height: 1.2;
+
+    letter-spacing: 0.01em;
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.ui-card-text {
+    margin: 0.4rem 0 0;
+
+    max-width: 32rem;
+
+    color: rgba(255, 255, 255, 0.7);
+
+    font-size: 0.8rem;
+
+    font-weight: 400;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   OPTIONAL META
+   ---------------------------------------------------------
+   Useful for things like:
+
+       2026
+       UI / UX
+       AVAILABLE
+       03 / 08
+========================================================= */
+
+.ui-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    margin-top: 0.65rem;
+
+    color: rgba(255, 255, 255, 0.5);
+
+    font-size: 0.6rem;
+    font-weight: 700;
+
+    line-height: 1;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.08em;
+}
+
+
+/* =========================================================
+   META DOT
+========================================================= */
+
+.ui-card-meta-dot {
+    width: 4px;
+    height: 4px;
+
+    flex: 0 0 auto;
+
+    border-radius: 50%;
+
+    background: var(--accent);
+}
+
+
+/* =========================================================
+   COMPACT VARIANT
+========================================================= */
+
+.ui-card--compact .ui-card-header {
+    padding: 0.2rem 0.4rem;
+
+    font-size: 0.55rem;
+}
+
+.ui-card--compact .ui-card-body {
+    padding: 0.45rem;
+}
+
+.ui-card--compact .ui-card-subheader {
+    font-size: 0.8rem;
+}
+
+.ui-card--compact .ui-card-text {
+    margin-top: 0.25rem;
+
+    font-size: 0.7rem;
+}
+
+
+/* =========================================================
+   LARGE VARIANT
+========================================================= */
+
+.ui-card--large .ui-card-header {
+    padding: 0.4rem 0.65rem;
+
+    font-size: 0.7rem;
+}
+
+.ui-card--large .ui-card-body {
+    padding: 1rem;
+}
+
+.ui-card--large .ui-card-subheader {
+    font-size: 1.2rem;
+}
+
+.ui-card--large .ui-card-text {
+    margin-top: 0.5rem;
+
+    font-size: 0.9rem;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ACCENT VARIANT
+   ---------------------------------------------------------
+   Accent border + dark header.
+========================================================= */
+
+.ui-card--accent {
+    border-color: var(--accent);
+}
+
+.ui-card--accent .ui-card-header {
+    background: var(--bg-main);
+
+    color: var(--accent);
+
+    border-bottom: 1px solid var(--accent);
+}
+
+
+/* =========================================================
+   MINIMAL VARIANT
+   ---------------------------------------------------------
+   Removes the outer border while keeping
+   the header treatment.
+========================================================= */
+
+.ui-card--minimal {
+    border-color: transparent;
+}
+
+.ui-card--minimal .ui-card-header {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.ui-card--minimal .ui-card-body {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+/* =========================================================
+   OUTLINE VARIANT
+   ---------------------------------------------------------
+   Transparent background with accent border.
+========================================================= */
+
+.ui-card--outline {
+    background: transparent;
+
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.ui-card--outline .ui-card-header {
+    background: transparent;
+
+    color: var(--accent);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+/* =========================================================
+   NO TEXT VARIANT
+   ---------------------------------------------------------
+   Useful when the card only contains a title/header.
+========================================================= */
+
+.ui-card--header-only .ui-card-body {
+    padding: 0;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .ui-card {
+        width: 100%;
+    }
+
+    .ui-card-text {
+        max-width: none;
+    }
+
+}
