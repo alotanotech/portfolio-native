@@ -1,13 +1,25 @@
 /* =========================================================
    HERO
    ---------------------------------------------------------
-   PDA / DATABASE GAME UI HERO
+   MINIMAL CYBERPUNK TITLE SCREEN
 
-   40% CHARACTER IMAGE
-   60% PDA DATABASE INTERFACE
+   LAYER 0 = HERO BACKGROUND
+   LAYER 2 = TITLE + NAME
+   LAYER 3 = CHARACTER IMAGE
 
-   LEFT SIDE = ONE UNIFIED PDA
-   RIGHT SIDE = CHARACTER
+   TITLE + NAME
+   = TRUE CENTER OF WHOLE HERO
+
+   CHARACTER IMAGE
+   = RIGHT SIDE
+
+   IMPORTANT:
+   .hero-img + ALL IMAGE / GLITCH SYSTEMS PRESERVED
+========================================================= */
+
+
+/* =========================================================
+   HERO ROOT
 ========================================================= */
 
 .hero {
@@ -22,55 +34,442 @@
     cursor: none;
 
     background:
-        linear-gradient(
-            180deg,
+        radial-gradient(
+            circle at 18% 25%,
             color-mix(
                 in srgb,
-                var(--accent) 90%,
-                var(--bg-main)
+                var(--accent) 7%,
+                transparent
             ) 0%,
-            var(--bg-main) 100%
-        );
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            color-mix(
+                in srgb,
+                var(--accent) 3%,
+                transparent
+            ) 0%,
+            transparent 28%
+        ),
+        #050505;
 
-    color: var(--text-main);
+    color: #FFFFFF;
 
     box-sizing: border-box;
+
+    isolation: isolate;
 }
 
 
 /* =========================================================
-   HERO CONTAINER
-   ---------------------------------------------------------
-   DESKTOP
-   40% IMAGE / 60% PDA
+   HERO BACKGROUND GRID
 ========================================================= */
 
-.hero .container {
-    position: relative;
+.hero::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.032) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.032) 1px,
+            transparent 1px
+        );
+
+    background-size: 36px 36px;
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   HERO VIGNETTE
+========================================================= */
+
+.hero::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            transparent 30%,
+            rgba(0, 0, 0, 0.42) 100%
+        );
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   TITLE LAYER
+   ---------------------------------------------------------
+   FULL HERO SIZE
+
+   THIS IS THE ENTIRE HERO AS THE REFERENCE FRAME.
+
+   Nothing inside here is tied to a 40% column.
+========================================================= */
+
+.hero-title-layer {
+    position: absolute;
+
+    inset: 0;
 
     width: 100%;
     height: 100%;
-    min-height: 100dvh;
 
     margin: 0;
     padding: 0;
 
-    display: grid;
+    box-sizing: border-box;
 
-    grid-template-columns:
-        40% 60%;
+    z-index: 2;
 
-    grid-template-rows:
-        1fr;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   TITLE HEADER
+========================================================= */
+
+.hero-header {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
 
     box-sizing: border-box;
+
+    overflow: visible;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   TITLE LAYER GRID
+========================================================= */
+
+.hero-header::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(255, 255, 255, 0.028) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.028) 1px,
+            transparent 1px
+        );
+
+    background-size: 28px 28px;
+
+    pointer-events: none;
+
+    z-index: -2;
+}
+
+
+/* =========================================================
+   SUBTLE YELLOW LIGHT
+========================================================= */
+
+.hero-header::after {
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 55vw;
+
+    max-width: 900px;
+
+    aspect-ratio: 1 / 1;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    background:
+        radial-gradient(
+            circle,
+            color-mix(
+                in srgb,
+                var(--accent) 6%,
+                transparent
+            ) 0%,
+            transparent 68%
+        );
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+
+/* =========================================================
+   TITLE GROUP
+   ---------------------------------------------------------
+   TRUE CENTER OF HERO
+========================================================= */
+
+.hero-panel {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    width: max-content;
+
+    max-width:
+        calc(
+            100vw - 2rem
+        );
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    box-sizing: border-box;
+
+    background: transparent;
+
+    border: 0;
+
+    box-shadow: none;
+
+    overflow: visible;
+
+    z-index: 1;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.hero-title {
+    position: relative;
+
+    width: max-content;
+
+    max-width:
+        calc(
+            100vw - 2rem
+        );
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    box-sizing: border-box;
+
+    color: #FFFFFF;
+
+    font-size:
+        clamp(
+            3.25rem,
+            6.3vw,
+            7rem
+        );
+
+    line-height: 0.84;
+
+    font-weight: 800;
+
+    letter-spacing: -0.055em;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    overflow: visible;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   REMOVE OLD TITLE DECORATION
+========================================================= */
+
+.hero-title::before,
+.hero-title::after {
+    content: none;
+}
+
+
+/* =========================================================
+   CREATIVE
+========================================================= */
+
+.hero-title .glitch-line:first-child {
+    display: block;
+
+    margin: 0;
+    padding: 0;
+
+    color: #FFFFFF;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   PORTFOLIO
+========================================================= */
+
+.hero-title .glitch-line:last-child {
+    display: block;
+
+    margin: 0;
+    padding: 0;
+
+    color: var(--accent);
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   NAME
+========================================================= */
+
+.hero-name {
+    display: block;
+
+    width: max-content;
+
+    max-width:
+        calc(
+            100vw - 2rem
+        );
+
+    margin:
+        clamp(
+            0.7rem,
+            1.2vw,
+            1rem
+        )
+        0
+        0;
+
+    padding: 0;
+
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.62
+        );
+
+    font-size:
+        clamp(
+            0.72rem,
+            0.88vw,
+            0.95rem
+        );
+
+    font-weight: 400;
+
+    line-height: 1.3;
+
+    letter-spacing: 0.015em;
+
+    text-align: left;
+
+    white-space: nowrap;
+
+    box-sizing: border-box;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   IMAGE LAYER
+   ---------------------------------------------------------
+   FULL HEIGHT
+   RIGHT SIDE DESKTOP
+========================================================= */
+
+.hero-image-layer {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+
+    width: 60%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    z-index: 3;
+
+    pointer-events: none;
 }
 
 
 /* =========================================================
    CHARACTER IMAGE PANEL
    ---------------------------------------------------------
-   LEFT 40%
+   IMAGE SYSTEM PRESERVED
 ========================================================= */
 
 .hero-img {
@@ -118,6 +517,7 @@
     position: absolute;
 
     left: 50%;
+
     bottom: 0;
 
     width: 100%;
@@ -128,8 +528,7 @@
 
     object-fit: contain;
 
-    object-position:
-        bottom center;
+    object-position: bottom center;
 
     z-index: 1;
 
@@ -213,6 +612,7 @@
     position: absolute;
 
     left: 50%;
+
     bottom: 0;
 
     width: 100%;
@@ -223,8 +623,7 @@
 
     object-fit: contain;
 
-    object-position:
-        bottom center;
+    object-position: bottom center;
 
     z-index: 1;
 
@@ -253,14 +652,11 @@
     background-image:
         url("/asset/hero/Cyber.png");
 
-    background-repeat:
-        no-repeat;
+    background-repeat: no-repeat;
 
-    background-position:
-        bottom center;
+    background-position: bottom center;
 
-    background-size:
-        contain;
+    background-size: contain;
 
     opacity: 0;
 
@@ -310,936 +706,29 @@
 
 
 /* =========================================================
-   LEFT PDA AREA
+   OLD PDA ELEMENTS
 ========================================================= */
 
-.hero-header {
-    position: relative;
-
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-    padding:
-        clamp(2rem, 5vw, 6rem)
-        0
-        clamp(2rem, 5vw, 6rem)
-        clamp(2rem, 5vw, 6rem);
-
-    overflow: hidden;
-
-    z-index: 4;
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   PDA AMBIENT GRID
-========================================================= */
-
-.hero-header::after {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    background-image:
-        linear-gradient(
-            rgba(255, 255, 255, 0.035) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.035) 1px,
-            transparent 1px
-        );
-
-    background-size:
-        32px 32px;
-
-    mask-image:
-        linear-gradient(
-            90deg,
-            transparent 0%,
-            #000 18%,
-            #000 82%,
-            transparent 100%
-        );
-
-    z-index: -2;
-}
-
-
-/* =========================================================
-   ONE UNIFIED PDA PANEL
-   ---------------------------------------------------------
-   THIS IS THE ONLY OUTER PDA BOX
-========================================================= */
-
-.hero-panel {
-    position: relative;
-
-    width:
-        min(
-            100%,
-            34rem
-        );
-
-    max-width: 100%;
-
-    display: flex;
-
-    flex-direction: column;
-
-    margin: 0;
-    padding: 0;
-
-    box-sizing: border-box;
-
-    overflow: hidden;
-
-    background:
-        linear-gradient(
-            135deg,
-            color-mix(
-                in srgb,
-                var(--bg-main) 96%,
-                transparent
-            ),
-            color-mix(
-                in srgb,
-                var(--bg-main) 88%,
-                transparent
-            )
-        );
-
-    border:
-        1px solid
-        color-mix(
-            in srgb,
-            var(--accent) 55%,
-            transparent
-        );
-
-    box-shadow:
-        inset 0 0 0 1px
-        rgba(255, 255, 255, 0.02),
-
-        0 0 0 1px
-        color-mix(
-            in srgb,
-            var(--accent) 8%,
-            transparent
-        ),
-
-        0 0 30px
-        rgba(0, 0, 0, 0.25);
-
-    z-index: 3;
-
-    pointer-events: auto;
-
-    background-image:
-        linear-gradient(
-            rgba(255, 255, 255, 0.025) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.025) 1px,
-            transparent 1px
-        );
-
-    background-size:
-        20px 20px;
-}
-
-
-/* =========================================================
-   PDA CORNER DETAILS
-========================================================= */
-
-.hero-panel::before,
-.hero-panel::after {
-    content: "";
-
-    position: absolute;
-
-    width: 12px;
-    height: 12px;
-
-    border-color:
-        var(--accent);
-
-    border-style:
-        solid;
-
-    pointer-events:
-        none;
-
-    z-index:
-        20;
-}
-
-
-.hero-panel::before {
-    top: -1px;
-    left: -1px;
-
-    border-width:
-        2px 0 0 2px;
-}
-
-
-.hero-panel::after {
-    right: -1px;
-    bottom: -1px;
-
-    border-width:
-        0 2px 2px 0;
-}
-
-
-/* =========================================================
-   PDA TITLE SECTION
-========================================================= */
-
-.hero-title {
-    position: relative;
-
-    width: 100%;
-
-    margin: 0;
-    padding: 0;
-
-    box-sizing: border-box;
-
-    overflow: hidden;
-
-    background:
-        transparent;
-
-    border: 0;
-
-    z-index: 3;
-
-    pointer-events: auto;
-}
-
-
-/* =========================================================
-   PDA TITLE HEADER BAR
-========================================================= */
-
-.hero-title-bar {
-    display: flex;
-
-    align-items: center;
-
-    width: 100%;
-
-    min-height: 2rem;
-
-    padding:
-        0.5rem
-        0.75rem;
-
-    box-sizing: border-box;
-
-    background:
-        var(--accent);
-
-    color:
-        var(--bg-main);
-
-    font-size:
-        clamp(
-            0.48rem,
-            0.6vw,
-            0.65rem
-        );
-
-    font-weight:
-        800;
-
-    line-height:
-        1;
-
-    letter-spacing:
-        0.16em;
-
-    text-transform:
-        uppercase;
-}
-
-
-/* =========================================================
-   MAIN PDA TITLE
-========================================================= */
-
-.hero-title-text {
-    display: flex;
-
-    flex-direction: column;
-
-    width: 100%;
-
-    margin: 0;
-
-    padding:
-        clamp(
-            1.25rem,
-            2.5vw,
-            2rem
-        )
-        clamp(
-            0.85rem,
-            1.8vw,
-            1.5rem
-        )
-        0.75rem;
-
-    box-sizing: border-box;
-
-    font-size:
-        clamp(
-            2rem,
-            4.8vw,
-            4.75rem
-        );
-
-    line-height:
-        0.86;
-
-    font-weight:
-        800;
-
-    letter-spacing:
-        -0.045em;
-
-    text-transform:
-        uppercase;
-
-    overflow:
-        visible;
-}
-
-
-/* =========================================================
-   TITLE LINES
-   ---------------------------------------------------------
-   EACH WORD STAYS ON ITS OWN LINE
-   BUT THE PDA ITSELF CONTROLS THE WIDTH
-========================================================= */
-
-.hero-title .glitch-line {
-    display: block;
-
-    width: 100%;
-
-    margin: 0;
-    padding: 0;
-
-    white-space: nowrap;
-
-    box-sizing: border-box;
-}
-
-
-/* =========================================================
-   PDA SYSTEM INFORMATION
-========================================================= */
-
+.hero-title-bar,
+.data-card-header,
+.data-card-footer,
 .hero-system-line {
-    display: flex;
-
-    align-items: center;
-
-    flex-wrap: wrap;
-
-    gap:
-        0.35rem
-        1rem;
-
-    width: 100%;
-
-    padding:
-        0.65rem
-        clamp(
-            0.85rem,
-            1.8vw,
-            1.5rem
-        );
-
-    border-top:
-        1px solid
-        rgba(255, 255, 255, 0.1);
-
-    box-sizing: border-box;
-
-    color:
-        color-mix(
-            in srgb,
-            var(--text-main) 48%,
-            transparent
-        );
-
-    font-size:
-        clamp(
-            0.42rem,
-            0.52vw,
-            0.58rem
-        );
-
-    font-weight:
-        600;
-
-    line-height:
-        1.4;
-
-    letter-spacing:
-        0.08em;
-
-    text-transform:
-        uppercase;
+    display: none;
 }
 
-
-/* =========================================================
-   DATABASE PROFILE SECTION
-========================================================= */
 
 .data-card {
-    position: relative;
-
-    width: 100%;
-
-    margin: 0;
-    padding: 0;
-
-    box-sizing: border-box;
-
-    background:
-        transparent;
-
-    border: 0;
-
-    overflow: hidden;
-
-    z-index: 3;
-
-    pointer-events: auto;
+    display: none;
 }
 
-
-/* =========================================================
-   PROFILE HEADER
-========================================================= */
-
-.data-card-header {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 1rem;
-
-    width: 100%;
-
-    padding:
-        0.5rem
-        clamp(
-            0.75rem,
-            1.5vw,
-            1rem
-        );
-
-    margin: 0;
-
-    box-sizing: border-box;
-
-    background:
-        var(--accent);
-
-    color:
-        var(--bg-main);
-
-    font-size:
-        clamp(
-            0.48rem,
-            0.6vw,
-            0.65rem
-        );
-
-    font-weight:
-        800;
-
-    line-height:
-        1;
-
-    letter-spacing:
-        0.12em;
-
-    text-transform:
-        uppercase;
-}
-
-
-/* =========================================================
-   PROFILE CONTENT
-========================================================= */
 
 .data-card-content {
-    width: 100%;
-
-    margin: 0;
-
-    padding:
-        clamp(
-            0.9rem,
-            1.8vw,
-            1.4rem
-        );
-
-    box-sizing: border-box;
-
-    color:
-        var(--text-main);
+    display: none;
 }
 
 
-/* =========================================================
-   PROFILE NAME
-========================================================= */
-
-.data-card-content .glitch-line {
-    display: block;
-
-    width: 100%;
-
-    margin: 0;
-
-    font-size:
-        clamp(
-            1rem,
-            1.45vw,
-            1.45rem
-        );
-
-    line-height:
-        1.05;
-
-    font-weight:
-        700;
-
-    letter-spacing:
-        0.01em;
-
-    overflow-wrap:
-        break-word;
-}
-
-
-/* =========================================================
-   PROFILE FOOTER
-========================================================= */
-
-.data-card-footer {
-    display: flex;
-
-    align-items: center;
-
-    flex-wrap: wrap;
-
-    gap:
-        0.35rem
-        1.25rem;
-
-    margin-top:
-        1rem;
-
-    padding-top:
-        0.65rem;
-
-    border-top:
-        1px solid
-        rgba(255, 255, 255, 0.08);
-
-    color:
-        color-mix(
-            in srgb,
-            var(--text-main) 55%,
-            transparent
-        );
-
-    font-size:
-        clamp(
-            0.42rem,
-            0.52vw,
-            0.58rem
-        );
-
-    line-height:
-        1.4;
-
-    letter-spacing:
-        0.08em;
-
-    text-transform:
-        uppercase;
-}
-
-
-/* =========================================================
-   CYBER BRUSH GLITCH
-========================================================= */
-
-@keyframes cyber-brush-glitch {
-
-    0% {
-        transform: translate(0, 0);
-        opacity: 1;
-        clip-path: none;
-    }
-
-    6% {
-        transform: translate(-4px, 0);
-        opacity: 0.75;
-
-        clip-path: polygon(
-            0 8%, 100% 8%, 100% 15%, 0 15%,
-            0 42%, 100% 42%, 100% 46%, 0 46%
-        );
-    }
-
-    12% {
-        transform: translate(5px, 0);
-        opacity: 1;
-
-        clip-path: polygon(
-            0 20%, 100% 20%, 100% 24%, 0 24%,
-            0 68%, 100% 68%, 100% 73%, 0 73%
-        );
-    }
-
-    18% {
-        transform: translate(-7px, 1px);
-        opacity: 0.65;
-
-        clip-path: polygon(
-            0 5%, 100% 5%, 100% 8%, 0 8%,
-            0 34%, 100% 34%, 100% 38%, 0 38%,
-            0 81%, 100% 81%, 100% 86%, 0 86%
-        );
-    }
-
-    24% {
-        transform: translate(6px, -1px);
-        opacity: 1;
-
-        clip-path: polygon(
-            0 14%, 100% 14%, 100% 17%, 0 17%,
-            0 52%, 100% 52%, 100% 57%, 0 57%
-        );
-    }
-
-    31% {
-        transform: translate(-3px, 0);
-        opacity: 0.8;
-
-        clip-path: polygon(
-            0 27%, 100% 27%, 100% 30%, 0 30%,
-            0 74%, 100% 74%, 100% 78%, 0 78%
-        );
-    }
-
-    38% {
-        transform: translate(8px, 0);
-        opacity: 0.55;
-
-        clip-path: polygon(
-            0 4%, 100% 4%, 100% 7%, 0 7%,
-            0 39%, 100% 39%, 100% 43%, 0 43%,
-            0 91%, 100% 91%, 100% 95%, 0 95%
-        );
-    }
-
-    45% {
-        transform: translate(-6px, 1px);
-        opacity: 1;
-
-        clip-path: polygon(
-            0 18%, 100% 18%, 100% 22%, 0 22%,
-            0 61%, 100% 61%, 100% 66%, 0 66%
-        );
-    }
-
-    53% {
-        transform: translate(4px, 0);
-        opacity: 0.7;
-
-        clip-path: polygon(
-            0 9%, 100% 9%, 100% 13%, 0 13%,
-            0 47%, 100% 47%, 100% 51%, 0 51%,
-            0 83%, 100% 83%, 100% 87%, 0 87%
-        );
-    }
-
-    61% {
-        transform: translate(-8px, 0);
-        opacity: 0.9;
-
-        clip-path: polygon(
-            0 30%, 100% 30%, 100% 34%, 0 34%,
-            0 70%, 100% 70%, 100% 75%, 0 75%
-        );
-    }
-
-    69% {
-        transform: translate(5px, -1px);
-        opacity: 0.6;
-
-        clip-path: polygon(
-            0 11%, 100% 11%, 100% 15%, 0 15%,
-            0 55%, 100% 55%, 100% 59%, 0 59%
-        );
-    }
-
-    77% {
-        transform: translate(-4px, 0);
-        opacity: 0.85;
-
-        clip-path: polygon(
-            0 21%, 100% 21%, 100% 25%, 0 25%,
-            0 64%, 100% 64%, 100% 68%, 0 68%,
-            0 90%, 100% 90%, 100% 94%, 0 94%
-        );
-    }
-
-    85% {
-        transform: translate(3px, 0);
-        opacity: 0.7;
-
-        clip-path: polygon(
-            0 37%, 100% 37%, 100% 40%, 0 40%,
-            0 78%, 100% 78%, 100% 82%, 0 82%
-        );
-    }
-
-    93% {
-        transform: translate(-2px, 0);
-        opacity: 0.9;
-
-        clip-path: polygon(
-            0 16%, 100% 16%, 100% 19%, 0 19%,
-            0 58%, 100% 58%, 100% 61%, 0 61%
-        );
-    }
-
-    100% {
-        transform: translate(0, 0);
-        opacity: 1;
-        clip-path: none;
-    }
-}
-
-
-/* =========================================================
-   CYBER OFFSET LAYER 1
-========================================================= */
-
-@keyframes cyber-glitch-before {
-
-    0% {
-        opacity: 0;
-        transform: translate(0, 0);
-        clip-path: none;
-    }
-
-    8% {
-        opacity: 0.8;
-        transform: translate(-7px, 0);
-
-        clip-path: polygon(
-            0 6%, 100% 6%, 100% 11%, 0 11%,
-            0 44%, 100% 44%, 100% 48%, 0 48%
-        );
-    }
-
-    17% {
-        opacity: 0;
-        transform: translate(0, 0);
-        clip-path: none;
-    }
-
-    27% {
-        opacity: 0.7;
-        transform: translate(8px, -1px);
-
-        clip-path: polygon(
-            0 22%, 100% 22%, 100% 26%, 0 26%,
-            0 67%, 100% 67%, 100% 71%, 0 71%
-        );
-    }
-
-    38% {
-        opacity: 0.35;
-        transform: translate(-5px, 1px);
-
-        clip-path: polygon(
-            0 13%, 100% 13%, 100% 17%, 0 17%,
-            0 77%, 100% 77%, 100% 81%, 0 81%
-        );
-    }
-
-    49% {
-        opacity: 0.85;
-        transform: translate(7px, 0);
-
-        clip-path: polygon(
-            0 35%, 100% 35%, 100% 39%, 0 39%,
-            0 87%, 100% 87%, 100% 91%, 0 91%
-        );
-    }
-
-    61% {
-        opacity: 0.2;
-        transform: translate(-4px, 0);
-
-        clip-path: polygon(
-            0 17%, 100% 17%, 100% 21%, 0 21%,
-            0 53%, 100% 53%, 100% 57%, 0 57%
-        );
-    }
-
-    73% {
-        opacity: 0.7;
-        transform: translate(5px, 1px);
-
-        clip-path: polygon(
-            0 65%, 100% 65%, 100% 70%, 0 70%
-        );
-    }
-
-    84% {
-        opacity: 0.25;
-        transform: translate(-3px, 0);
-
-        clip-path: polygon(
-            0 29%, 100% 29%, 100% 33%, 0 33%,
-            0 72%, 100% 72%, 100% 76%, 0 76%
-        );
-    }
-
-    94% {
-        opacity: 0;
-        transform: translate(0, 0);
-        clip-path: none;
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(0, 0);
-        clip-path: none;
-    }
-}
-
-
-/* =========================================================
-   CYBER OFFSET LAYER 2
-========================================================= */
-
-@keyframes cyber-glitch-after {
-
-    0% {
-        opacity: 0;
-        transform: translate(0, 0);
-        clip-path: none;
-    }
-
-    11% {
-        opacity: 0.7;
-        transform: translate(6px, 0);
-
-        clip-path: polygon(
-            0 15%, 100% 15%, 100% 19%, 0 19%,
-            0 58%, 100% 58%, 100% 62%, 0 62%
-        );
-    }
-
-    23% {
-        opacity: 0;
-        transform: translate(0, 0);
-        clip-path: none;
-    }
-
-    35% {
-        opacity: 0.8;
-        transform: translate(-8px, 1px);
-
-        clip-path: polygon(
-            0 28%, 100% 28%, 100% 32%, 0 32%,
-            0 71%, 100% 71%, 100% 75%, 0 75%
-        );
-    }
-
-    48% {
-        opacity: 0.3;
-        transform: translate(5px, -1px);
-
-        clip-path: polygon(
-            0 8%, 100% 8%, 100% 12%, 0 12%,
-            0 82%, 100% 82%, 100% 86%, 0 86%
-        );
-    }
-
-    62% {
-        opacity: 0.75;
-        transform: translate(-6px, 0);
-
-        clip-path: polygon(
-            0 23%, 100% 23%, 100% 27%, 0 27%,
-            0 50%, 100% 50%, 100% 54%, 0 54%
-        );
-    }
-
-    76% {
-        opacity: 0.3;
-        transform: translate(4px, 1px);
-
-        clip-path: polygon(
-            0 63%, 100% 63%, 100% 68%, 0 68%,
-            0 89%, 100% 89%, 100% 93%, 0 93%
-        );
-    }
-
-    89% {
-        opacity: 0.55;
-        transform: translate(-2px, 0);
-
-        clip-path: polygon(
-            0 42%, 100% 42%, 100% 46%, 0 46%
-        );
-    }
-
-    95% {
-        opacity: 0;
-        transform: translate(0, 0);
-        clip-path: none;
-    }
-
-    100% {
-        opacity: 0;
-        transform: translate(0, 0);
-        clip-path: none;
-    }
+.hero-accent-box {
+    display: none;
 }
 
 
@@ -1263,6 +752,7 @@
 .hero-img.ambient-cyber .heroregular,
 .hero-img.ambient-exit .heroregular {
     opacity: 0;
+
     visibility: hidden;
 }
 
@@ -1273,6 +763,7 @@
 
 .hero-img.ambient-glitch .cyber-layer {
     -webkit-mask-image: none;
+
     mask-image: none;
 
     animation:
@@ -1290,10 +781,10 @@
     opacity: 1;
 
     -webkit-mask-image: none;
+
     mask-image: none;
 
-    animation:
-        none;
+    animation: none;
 }
 
 
@@ -1313,10 +804,464 @@
     opacity: 1;
 
     -webkit-mask-image: none;
+
     mask-image: none;
 
-    animation:
-        none;
+    animation: none;
+}
+
+
+/* =========================================================
+   CYBER BRUSH GLITCH
+========================================================= */
+
+@keyframes cyber-brush-glitch {
+
+    0% {
+        transform:
+            translate(0, 0);
+
+        opacity: 1;
+
+        clip-path: none;
+    }
+
+    6% {
+        transform:
+            translate(-4px, 0);
+
+        opacity: 0.75;
+
+        clip-path:
+            polygon(
+                0 8%, 100% 8%, 100% 15%, 0 15%,
+                0 42%, 100% 42%, 100% 46%, 0 46%
+            );
+    }
+
+    12% {
+        transform:
+            translate(5px, 0);
+
+        opacity: 1;
+
+        clip-path:
+            polygon(
+                0 20%, 100% 20%, 100% 24%, 0 24%,
+                0 68%, 100% 68%, 100% 73%, 0 73%
+            );
+    }
+
+    18% {
+        transform:
+            translate(-7px, 1px);
+
+        opacity: 0.65;
+
+        clip-path:
+            polygon(
+                0 5%, 100% 5%, 100% 8%, 0 8%,
+                0 34%, 100% 34%, 100% 38%, 0 38%,
+                0 81%, 100% 81%, 100% 86%, 0 86%
+            );
+    }
+
+    24% {
+        transform:
+            translate(6px, -1px);
+
+        opacity: 1;
+
+        clip-path:
+            polygon(
+                0 14%, 100% 14%, 100% 17%, 0 17%,
+                0 52%, 100% 52%, 100% 57%, 0 57%
+            );
+    }
+
+    31% {
+        transform:
+            translate(-3px, 0);
+
+        opacity: 0.8;
+
+        clip-path:
+            polygon(
+                0 27%, 100% 27%, 100% 30%, 0 30%,
+                0 74%, 100% 74%, 100% 78%, 0 78%
+            );
+    }
+
+    38% {
+        transform:
+            translate(8px, 0);
+
+        opacity: 0.55;
+
+        clip-path:
+            polygon(
+                0 4%, 100% 4%, 100% 7%, 0 7%,
+                0 39%, 100% 39%, 100% 43%, 0 43%,
+                0 91%, 100% 91%, 100% 95%, 0 95%
+            );
+    }
+
+    45% {
+        transform:
+            translate(-6px, 1px);
+
+        opacity: 1;
+
+        clip-path:
+            polygon(
+                0 18%, 100% 18%, 100% 22%, 0 22%,
+                0 61%, 100% 61%, 100% 66%, 0 66%
+            );
+    }
+
+    53% {
+        transform:
+            translate(4px, 0);
+
+        opacity: 0.7;
+
+        clip-path:
+            polygon(
+                0 9%, 100% 9%, 100% 13%, 0 13%,
+                0 47%, 100% 47%, 100% 51%, 0 51%,
+                0 83%, 100% 83%, 100% 87%, 0 87%
+            );
+    }
+
+    61% {
+        transform:
+            translate(-8px, 0);
+
+        opacity: 0.9;
+
+        clip-path:
+            polygon(
+                0 30%, 100% 30%, 100% 34%, 0 34%,
+                0 70%, 100% 70%, 100% 75%, 0 75%
+            );
+    }
+
+    69% {
+        transform:
+            translate(5px, -1px);
+
+        opacity: 0.6;
+
+        clip-path:
+            polygon(
+                0 11%, 100% 11%, 100% 15%, 0 15%,
+                0 55%, 100% 55%, 100% 59%, 0 59%
+            );
+    }
+
+    77% {
+        transform:
+            translate(-4px, 0);
+
+        opacity: 0.85;
+
+        clip-path:
+            polygon(
+                0 21%, 100% 21%, 100% 25%, 0 25%,
+                0 64%, 100% 64%, 100% 68%, 0 68%,
+                0 90%, 100% 90%, 100% 94%, 0 94%
+            );
+    }
+
+    85% {
+        transform:
+            translate(3px, 0);
+
+        opacity: 0.7;
+
+        clip-path:
+            polygon(
+                0 37%, 100% 37%, 100% 40%, 0 40%,
+                0 78%, 100% 78%, 100% 82%, 0 82%
+            );
+    }
+
+    93% {
+        transform:
+            translate(-2px, 0);
+
+        opacity: 0.9;
+
+        clip-path:
+            polygon(
+                0 16%, 100% 16%, 100% 19%, 0 19%,
+                0 58%, 100% 58%, 100% 61%, 0 61%
+            );
+    }
+
+    100% {
+        transform:
+            translate(0, 0);
+
+        opacity: 1;
+
+        clip-path: none;
+    }
+}
+
+
+/* =========================================================
+   CYBER OFFSET LAYER 1
+========================================================= */
+
+@keyframes cyber-glitch-before {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    8% {
+        opacity: 0.8;
+
+        transform:
+            translate(-7px, 0);
+
+        clip-path:
+            polygon(
+                0 6%, 100% 6%, 100% 11%, 0 11%,
+                0 44%, 100% 44%, 100% 48%, 0 48%
+            );
+    }
+
+    17% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    27% {
+        opacity: 0.7;
+
+        transform:
+            translate(8px, -1px);
+
+        clip-path:
+            polygon(
+                0 22%, 100% 22%, 100% 26%, 0 26%,
+                0 67%, 100% 67%, 100% 71%, 0 71%
+            );
+    }
+
+    38% {
+        opacity: 0.35;
+
+        transform:
+            translate(-5px, 1px);
+
+        clip-path:
+            polygon(
+                0 13%, 100% 13%, 100% 17%, 0 17%,
+                0 77%, 100% 77%, 100% 81%, 0 81%
+            );
+    }
+
+    49% {
+        opacity: 0.85;
+
+        transform:
+            translate(7px, 0);
+
+        clip-path:
+            polygon(
+                0 35%, 100% 35%, 100% 39%, 0 39%,
+                0 87%, 100% 87%, 100% 91%, 0 91%
+            );
+    }
+
+    61% {
+        opacity: 0.2;
+
+        transform:
+            translate(-4px, 0);
+
+        clip-path:
+            polygon(
+                0 17%, 100% 17%, 100% 21%, 0 21%,
+                0 53%, 100% 53%, 100% 57%, 0 57%
+            );
+    }
+
+    73% {
+        opacity: 0.7;
+
+        transform:
+            translate(5px, 1px);
+
+        clip-path:
+            polygon(
+                0 65%, 100% 65%, 100% 70%, 0 70%
+            );
+    }
+
+    84% {
+        opacity: 0.25;
+
+        transform:
+            translate(-3px, 0);
+
+        clip-path:
+            polygon(
+                0 29%, 100% 29%, 100% 33%, 0 33%,
+                0 72%, 100% 72%, 100% 76%, 0 76%
+            );
+    }
+
+    94% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+}
+
+
+/* =========================================================
+   CYBER OFFSET LAYER 2
+========================================================= */
+
+@keyframes cyber-glitch-after {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    11% {
+        opacity: 0.7;
+
+        transform:
+            translate(6px, 0);
+
+        clip-path:
+            polygon(
+                0 15%, 100% 15%, 100% 19%, 0 19%,
+                0 58%, 100% 58%, 100% 62%, 0 62%
+            );
+    }
+
+    23% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    35% {
+        opacity: 0.8;
+
+        transform:
+            translate(-8px, 1px);
+
+        clip-path:
+            polygon(
+                0 28%, 100% 28%, 100% 32%, 0 32%,
+                0 71%, 100% 71%, 100% 75%, 0 75%
+            );
+    }
+
+    48% {
+        opacity: 0.3;
+
+        transform:
+            translate(5px, -1px);
+
+        clip-path:
+            polygon(
+                0 8%, 100% 8%, 100% 12%, 0 12%,
+                0 82%, 100% 82%, 100% 86%, 0 86%
+            );
+    }
+
+    62% {
+        opacity: 0.75;
+
+        transform:
+            translate(-6px, 0);
+
+        clip-path:
+            polygon(
+                0 23%, 100% 23%, 100% 27%, 0 27%,
+                0 50%, 100% 50%, 100% 54%, 0 54%
+            );
+    }
+
+    76% {
+        opacity: 0.3;
+
+        transform:
+            translate(4px, 1px);
+
+        clip-path:
+            polygon(
+                0 63%, 100% 63%, 100% 68%, 0 68%,
+                0 89%, 100% 89%, 100% 93%, 0 93%
+            );
+    }
+
+    89% {
+        opacity: 0.55;
+
+        transform:
+            translate(-2px, 0);
+
+        clip-path:
+            polygon(
+                0 42%, 100% 42%, 100% 46%, 0 46%
+            );
+    }
+
+    95% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
 }
 
 
@@ -1397,7 +1342,7 @@
 
 
 /* =========================================================
-   AMBIENT WHOLE-IMAGE GLITCH
+   AMBIENT WHOLE IMAGE GLITCH
 ========================================================= */
 
 @keyframes ambient-image-glitch {
@@ -1406,8 +1351,7 @@
         transform:
             translateX(0);
 
-        clip-path:
-            none;
+        clip-path: none;
     }
 
     7% {
@@ -1548,33 +1492,8 @@
         transform:
             translateX(0);
 
-        clip-path:
-            none;
+        clip-path: none;
     }
-}
-
-
-/* =========================================================
-   HERO ACCENT BAR
-========================================================= */
-
-.hero-accent-box {
-    position: absolute;
-
-    left: 0;
-    bottom: 0;
-
-    width: 100%;
-    height: 1rem;
-
-    background:
-        var(--accent);
-
-    z-index: 20;
-
-    display: block;
-
-    pointer-events: none;
 }
 
 
@@ -1590,15 +1509,17 @@
 
     border-radius: 50%;
 
-    background:
-        var(--text-main);
+    background: #FFFFFF;
 
     pointer-events: none;
 
     z-index: 9999;
 
     transform:
-        translate(-50%, -50%);
+        translate(
+            -50%,
+            -50%
+        );
 
     opacity: 0;
 
@@ -1617,234 +1538,121 @@
 
 
 /* =========================================================
-   320px - 479px
+   320px - 767px
+   ---------------------------------------------------------
+   TITLE = FULL HERO
+   IMAGE = LOWER FULL-WIDTH LAYER
 ========================================================= */
 
-@media (max-width: 479px) {
+@media (max-width: 767px) {
 
     .hero {
+        width: 100%;
         height: 100dvh;
         min-height: 100dvh;
     }
 
 
-    .hero .container {
-        height: 100%;
-        min-height: 100dvh;
+    /* ---------------------------------------------
+       TITLE
+    --------------------------------------------- */
 
-        grid-template-columns:
-            1fr;
+    .hero-title-layer {
+        inset: 0;
 
-        grid-template-rows:
-            44% 56%;
-    }
-
-
-    .hero-img {
         width: 100%;
         height: 100%;
-
-        align-items:
-            flex-end;
-
-        justify-content:
-            center;
-
-        --brush-size:
-            120px;
-    }
-
-
-    .hero-header {
-        height: 100%;
-
-        justify-content:
-            center;
-
-        align-items:
-            center;
-
-        padding:
-            1rem
-            1.25rem
-            1.5rem;
     }
 
 
     .hero-panel {
+        left: 50%;
+        top: 42%;
+
+        width:
+            calc(
+                100vw - 2rem
+            );
+
+        max-width:
+            calc(
+                100vw - 2rem
+            );
+
+        transform:
+            translate(
+                -50%,
+                -50%
+            );
+    }
+
+
+    .hero-title {
+        width: max-content;
+
+        max-width:
+            calc(
+                100vw - 2rem
+            );
+
+        font-size:
+            clamp(
+                2.35rem,
+                10.5vw,
+                4.75rem
+            );
+
+        line-height: 0.84;
+    }
+
+
+    .hero-name {
         width: 100%;
 
         max-width:
-            22rem;
-    }
-
-
-    .hero-title-bar {
-        min-height:
-            1.75rem;
-
-        padding:
-            0.4rem
-            0.55rem;
-
-        font-size:
-            0.45rem;
-    }
-
-
-    .hero-title-text {
-        padding:
-            1.15rem
-            0.7rem
-            0.65rem;
+            calc(
+                100vw - 2rem
+            );
 
         font-size:
             clamp(
-                1.8rem,
-                9vw,
-                2.6rem
+                0.64rem,
+                1.7vw,
+                0.78rem
             );
 
-        line-height:
-            0.88;
+        white-space: normal;
     }
 
 
-    .hero-system-line {
-        padding:
-            0.5rem
-            0.7rem;
+    /* ---------------------------------------------
+       IMAGE LAYER
+    --------------------------------------------- */
 
-        gap:
-            0.25rem
-            0.7rem;
+    .hero-image-layer {
+        top: auto;
+        right: 0;
+        bottom: 0;
 
-        font-size:
-            0.38rem;
-    }
+        width: 100%;
+        height: 56%;
 
-
-    .data-card-header {
-        padding:
-            0.4rem
-            0.55rem;
-
-        font-size:
-            0.45rem;
-    }
-
-
-    .data-card-content {
-        padding:
-            0.7rem;
-    }
-
-
-    .data-card-content .glitch-line {
-        font-size:
-            1rem;
-    }
-
-
-    .data-card-footer {
-        margin-top:
-            0.75rem;
-
-        padding-top:
-            0.55rem;
-
-        font-size:
-            0.38rem;
-    }
-
-
-    .hero-img::before {
-        display:
-            none;
-    }
-
-
-    .heroregular,
-    .herocyber {
-        width:
-            100%;
-
-        height:
-            100%;
-    }
-}
-
-
-/* =========================================================
-   480px - 767px
-========================================================= */
-
-@media (min-width: 480px) and (max-width: 767px) {
-
-    .hero .container {
-        grid-template-columns:
-            1fr;
-
-        grid-template-rows:
-            45% 55%;
+        z-index: 3;
     }
 
 
     .hero-img {
-        width:
-            100%;
+        width: 100%;
+        height: 100%;
 
-        height:
-            100%;
-    }
-
-
-    .hero-header {
-        padding:
-            1.25rem
-            2rem
-            1.75rem;
-    }
-
-
-    .hero-panel {
-        width:
-            min(
-                100%,
-                26rem
-            );
-    }
-
-
-    .hero-title-text {
-        font-size:
-            clamp(
-                2.2rem,
-                8vw,
-                3.5rem
-            );
-    }
-
-
-    .hero-system-line {
-        font-size:
-            0.45rem;
-    }
-
-
-    .hero-img::before {
-        display:
-            none;
+        --brush-size: 120px;
     }
 
 
     .heroregular,
     .herocyber {
-        width:
-            100%;
-
-        height:
-            100%;
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -1852,83 +1660,62 @@
 /* =========================================================
    768px - 1023px
    ---------------------------------------------------------
-   40% IMAGE / 60% PDA
+   DESKTOP-STYLE SIDE COMPOSITION
 ========================================================= */
 
 @media (min-width: 768px) and (max-width: 1023px) {
 
-    .hero .container {
-        grid-template-columns:
-            40% 60%;
-
-        grid-template-rows:
-            1fr;
-    }
-
-
-    .hero-header {
-        padding:
-            4rem
-            clamp(
-                1.5rem,
-                4vw,
-                3rem
-            )
-            2rem;
+    .hero-title-layer {
+        inset: 0;
     }
 
 
     .hero-panel {
-        width:
-            min(
-                100%,
-                25rem
+        left: 50%;
+        top: 50%;
+
+        width: max-content;
+
+        max-width:
+            calc(
+                100vw - 2rem
+            );
+
+        transform:
+            translate(
+                -50%,
+                -50%
             );
     }
 
 
-    .hero-title-text {
+    .hero-title {
         font-size:
             clamp(
-                2.2rem,
-                4vw,
-                3.5rem
+                3rem,
+                6vw,
+                5.5rem
             );
     }
 
 
-    .data-card-content .glitch-line {
-        font-size:
-            clamp(
-                0.9rem,
-                1.4vw,
-                1.3rem
-            );
+    .hero-name {
+        font-size: 0.78rem;
+    }
+
+
+    .hero-image-layer {
+        top: 0;
+        right: 0;
+        bottom: auto;
+
+        width: 60%;
+        height: 100%;
     }
 
 
     .hero-img {
-        width:
-            100%;
-
-        height:
-            100%;
-    }
-
-
-    .hero-img::before {
-        display:
-            none;
-    }
-
-
-    .heroregular,
-    .herocyber {
-        width:
-            100%;
-
-        height:
-            100%;
+        --brush-size: 150px;
     }
 }
 
@@ -1939,63 +1726,61 @@
 
 @media (min-width: 1024px) and (max-width: 1439px) {
 
-    .hero .container {
-        grid-template-columns:
-            40% 60%;
-    }
-
- .hero-header {
-        padding:
-            5rem
-            0
-            2rem
-            clamp(3rem, 5vw, 5rem);
-
-        justify-content: flex-end;
+    .hero-title-layer {
+        inset: 0;
     }
 
 
     .hero-panel {
-        width:
-            min(
-                100%,
-                30rem
+        left: 50%;
+        top: 50%;
+
+        width: max-content;
+
+        max-width:
+            calc(
+                100vw - 2rem
+            );
+
+        transform:
+            translate(
+                -50%,
+                -50%
             );
     }
 
 
-    .hero-title-text {
+    .hero-title {
         font-size:
             clamp(
-                2.8rem,
-                4.2vw,
-                4.5rem
+                3.5rem,
+                6vw,
+                6rem
             );
+    }
+
+
+    .hero-name {
+        font-size:
+            clamp(
+                0.78rem,
+                0.9vw,
+                0.95rem
+            );
+    }
+
+
+    .hero-image-layer {
+        top: 0;
+        right: 0;
+
+        width: 60%;
+        height: 100%;
     }
 
 
     .hero-img {
-        width:
-            100%;
-
-        height:
-            100%;
-    }
-
-
-    .hero-img::before {
-        display:
-            none;
-    }
-
-
-    .heroregular,
-    .herocyber {
-        width:
-            100%;
-
-        height:
-            100%;
+        --brush-size: 180px;
     }
 }
 
@@ -2006,65 +1791,61 @@
 
 @media (min-width: 1440px) {
 
-    .hero .container {
-        grid-template-columns:
-            40% 60%;
-    }
-
-
-    .hero-header {
-        padding:
-            4rem
-            clamp(
-                3rem,
-                5vw,
-                7rem
-            )
-            2rem;
+    .hero-title-layer {
+        inset: 0;
     }
 
 
     .hero-panel {
-        width:
-            min(
-                34rem,
-                90%
+        left: 50%;
+        top: 50%;
+
+        width: max-content;
+
+        max-width:
+            calc(
+                100vw - 2rem
+            );
+
+        transform:
+            translate(
+                -50%,
+                -50%
             );
     }
 
 
-    .hero-title-text {
+    .hero-title {
         font-size:
             clamp(
-                3.5rem,
-                4vw,
-                5.25rem
+                4rem,
+                5.8vw,
+                6.5rem
             );
+    }
+
+
+    .hero-name {
+        font-size:
+            clamp(
+                0.8rem,
+                0.85vw,
+                1rem
+            );
+    }
+
+
+    .hero-image-layer {
+        top: 0;
+        right: 0;
+
+        width: 60%;
+        height: 100%;
     }
 
 
     .hero-img {
-        width:
-            100%;
-
-        height:
-            100%;
-    }
-
-
-    .hero-img::before {
-        display:
-            none;
-    }
-
-
-    .heroregular,
-    .herocyber {
-        width:
-            100%;
-
-        height:
-            100%;
+        --brush-size: 180px;
     }
 }
 
@@ -2083,7 +1864,6 @@
     .hero-img.ambient-glitch .cyber-layer,
     .hero-img.ambient-exit {
 
-        animation:
-            none !important;
+        animation: none !important;
     }
 }

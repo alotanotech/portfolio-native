@@ -20,7 +20,7 @@
     /*
      * Navigation is fixed and removed from normal flow.
      */
-    padding-top: var(--topbar-height);
+   
     padding-bottom: 1.5rem;
 
     box-sizing: border-box;

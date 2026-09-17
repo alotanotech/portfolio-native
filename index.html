@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 
@@ -10,15 +11,17 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/nav.css">
     <link rel="stylesheet" href="/css/hero.css">
- <link rel="stylesheet" href="/css/intro.css">
- <link rel="stylesheet" href="/css/about.css">
- <link rel="stylesheet" href="/css/work.css">
+    <link rel="stylesheet" href="/css/intro.css">
+    <link rel="stylesheet" href="/css/about.css">
+    <link rel="stylesheet" href="/css/work.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Syne:wght@700;800&display=swap"
         rel="stylesheet">
 </head>
+
 <script>
     window.addEventListener("load", () => {
 
@@ -48,70 +51,143 @@
 </script>
 
 <body>
-  
+
+
     <!-- ====================== INTRO ====================== -->
+
     <div class="intro" id="intro">
-        <div class="intro-logo"> <img src="/asset/logo/logo.png" alt="Lyanlu" class="intro-logo-img" /> </div>
-    </div>
 
-      <!-- ====================== TOP BAR ====================== -->
+        <div class="intro-logo">
 
-    <nav class="topbar">
-        <a href="#hero" class="main-logo">
-            <img src="/asset/logo/logo.png" alt="Logo" class="main-logo-static" />
+            <img
+                src="/asset/logo/logo.png"
+                alt="Lyanlu"
+                class="intro-logo-img"
+            />
 
-            <img src="/asset/logo/mainlogo.gif" alt="" class="main-logo-gif" aria-hidden="true" />
-        </a>
-
-        <div class="nav-index">
-           <ul class="nav-links">
-    <li>
-        <a href="#hero" data-text="Home">
-            <span>Home</span>
-        </a>
-    </li>
-
-    <li>
-        <a href="#about" data-text="About">
-            <span>About</span>
-        </a>
-    </li>
-
-    <li>
-        <a href="#work" data-text="Work">
-            <span>Work</span>
-        </a>
-    </li>
-</ul>
-
-           <a href="#contact" class="contact-button" data-text="Contact Me">
-    <span>Contact Me</span>
-</a>
         </div>
 
-           <!-- ====================== MOBILE MENU BUTTON ====================== -->
+    </div>
 
-    <button
-        class="nav-toggle"
-        type="button"
-        aria-label="Open navigation"
-        aria-expanded="false"
-    >
-        <span></span>
-        <span></span>
-        <span></span>
-    </button>
+
+    <!-- ====================== TOP BAR ====================== -->
+
+    <nav class="topbar">
+
+        <a
+            href="#hero"
+            class="main-logo"
+        >
+
+            <img
+                src="/asset/logo/logo.png"
+                alt="Logo"
+                class="main-logo-static"
+            />
+
+            <img
+                src="/asset/logo/mainlogo.gif"
+                alt=""
+                class="main-logo-gif"
+                aria-hidden="true"
+            />
+
+        </a>
+
+
+        <div class="nav-index">
+
+            <ul class="nav-links">
+
+                <li>
+
+                    <a
+                        href="#hero"
+                        data-text="Home"
+                    >
+
+                        <span>
+                            Home
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a
+                        href="#about"
+                        data-text="About"
+                    >
+
+                        <span>
+                            About
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <li>
+
+                    <a
+                        href="#work"
+                        data-text="Work"
+                    >
+
+                        <span>
+                            Work
+                        </span>
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+
+            <a
+                href="#contact"
+                class="contact-button"
+                data-text="Contact Me"
+            >
+
+                <span>
+                    Contact Me
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- ====================== MOBILE MENU BUTTON ====================== -->
+
+        <button
+            class="nav-toggle"
+            type="button"
+            aria-label="Open navigation"
+            aria-expanded="false"
+        >
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
     </nav>
-
-
 
 
     <main>
 
-    <!-- ====================== Hero ====================== -->
 
+        <!-- ====================== HERO ====================== -->
 
-<section class="hero" id="hero">
+        <section class="hero" id="hero">
 
     <!-- ================================================
          CUSTOM CURSOR
@@ -119,114 +195,62 @@
     <div class="hero-cursor"></div>
 
 
-    <div class="container">
-
-        <!-- =============================================
-             LEFT / UNIFIED PDA DATABASE INTERFACE
-        ============================================== -->
+    <!-- ================================================
+         TITLE LAYER
+         ------------------------------------------------
+         FULL HERO SIZE
+         TRUE CENTER REFERENCE
+    ================================================= -->
+    <div class="hero-title-layer">
 
         <header class="hero-header">
 
             <div class="hero-panel">
 
-                <!-- =====================================
-                     PDA TITLE SECTION
-                ====================================== -->
+                <h1 class="hero-title">
 
-                <div class="hero-title">
+                    <span
+                        class="glitch-line"
+                        data-text="CREATIVE"
+                    >
+                        CREATIVE
+                    </span>
 
-                    <!-- PDA HEADER -->
-                    <div class="hero-title-bar">
-                        SYS // CREATIVE DATABASE
-                    </div>
+                    <span
+                        class="glitch-line"
+                        data-text="PORTFOLIO"
+                    >
+                        PORTFOLIO
+                    </span>
 
+                </h1>
 
-                    <!-- PDA MAIN TITLE -->
-                    <h1 class="hero-title-text">
-
-                        <span
-                            class="glitch-line"
-                            data-text="Creative"
-                        >
-                            CREATIVE
-                        </span>
-
-                        <span
-                            class="glitch-line"
-                            data-text="Portfolio"
-                        >
-                            PORTFOLIO
-                        </span>
-
-                    </h1>
-
-
-              
-
-                </div>
-
-
-                <!-- =====================================
-                     PDA PROFILE RECORD
-                ====================================== -->
-
-                <div class="data-card">
-
-                
-
-                    <!-- PROFILE CONTENT -->
-                    <div class="data-card-content">
-
-                        <span
-                            class="glitch-line"
-                            data-text="Christopher Luna"
-                        >
-                            Christopher Luna
-                        </span>
-
-
-                        <!-- PROFILE FOOTER -->
-                        <div class="data-card-footer">
-
-                            <span>
-                                STATUS&nbsp;&nbsp; ONLINE
-                            </span>
-
-                            <span>
-                                ACCESS&nbsp;&nbsp; PUBLIC
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </div>
+                <p class="hero-name">
+                    Christopher Aurellyan Alotano Luna
+                </p>
 
             </div>
 
         </header>
 
+    </div>
 
-        <!-- =============================================
-             RIGHT / CHARACTER PANEL
-        ============================================== -->
+
+    <!-- ================================================
+         IMAGE LAYER
+         ------------------------------------------------
+         RIGHT SIDE DESKTOP
+         FULL WIDTH MOBILE
+    ================================================= -->
+    <div class="hero-image-layer">
 
         <div class="hero-img">
 
-            <!-- =========================================
-                 REGULAR CHARACTER
-            ========================================== -->
-
             <img
                 src="/asset/hero/Regular.png"
-                alt="Christopher Luna"
+                alt="Christopher Aurellyan Alotano Luna"
                 class="heroregular"
             >
-
-
-            <!-- =========================================
-                 CYBER BRUSH
-            ========================================== -->
 
             <div class="cyber-layer">
 
@@ -243,1225 +267,1328 @@
 
     </div>
 
-
-    <!-- ================================================
-         HERO ACCENT BAR
-    ================================================= -->
-
-    <div
-        class="hero-accent-box"
-        aria-hidden="true"
-    ></div>
-
 </section>
 
 
 
 
-      <section class="about" id="about">
+        <!-- =========================================================
+             ABOUT
+             ---------------------------------------------------------
+             CSS-only scroll reveal:
+             reveal-section       = global reveal animation
+             reveal-section--left = enters from the left
+        ========================================================== -->
 
-    <div class="about-interface">
-
-        <!-- =====================================================
-             DATABASE HEADER
-        ====================================================== -->
-
-        <header class="database-header">
-
-            <div class="database-header-title">
-
-                <span class="database-status"></span>
-
-                <span class="database-header-label">
-                    Designer Database
-                </span>
-
-            </div>
-
-
-            <div class="database-header-meta">
-
-                <span>
-                    DB / 001
-                </span>
-
-                <span>
-                    ACCESS / PUBLIC
-                </span>
-
-                <span>
-                    STATUS / ACTIVE
-                </span>
-
-            </div>
-
-        </header>
-
-
-        <!-- =====================================================
-             DATABASE BODY
-        ====================================================== -->
-
-        <div class="database-body">
-
-
-            <!-- =================================================
-                 LEFT COLUMN
-            ================================================== -->
-
-            <div class="database-left">
-
-
-                <!-- =============================================
-                     CYBER ID
-                ============================================== -->
-
-                <article class="database-card database-card--identity">
-
-                    <div class="database-card-header">
-
-                        <span>
-                            Identity Record
-                        </span>
-
-                        <span>
-                            ID / 001
-                        </span>
-
-                    </div>
-
-
-                    <div class="database-card-content">
-
-                        <div class="identity-record">
-
-
-                            <!-- PROFILE IMAGE -->
-
-                      
-<div class="identity-photo">
-
-    <!-- =============================================
-         REGULAR PROFILE
-    ============================================== -->
-
-    <img
-        src="/asset/hero/Regular.png"
-        alt="Christopher Aurellyan Alotano Luna"
-        class="identity-regular"
-    >
-
-
-    <!-- =============================================
-         CYBER PROFILE
-    ============================================== -->
-
-    <div class="identity-cyber-layer">
-
-        <img
-            src="/asset/hero/Cyber.png"
-            alt=""
-            class="identity-cyber"
-            aria-hidden="true"
+        <section
+            class="about reveal-section reveal-section--left"
+            id="about"
         >
 
-    </div>
+            <div class="about-interface">
 
 
-    <!-- =============================================
-         PROFILE META
-    ============================================== -->
+                <!-- =====================================================
+                     DATABASE HEADER
+                ====================================================== -->
 
-    <span class="identity-photo-code">
-        IMG / 001
-    </span>
+                <header class="database-header">
 
-</div>
+                    <div class="database-header-title">
 
+                        <span class="database-status"></span>
 
-
-
-                            <!-- PROFILE INFORMATION -->
-
-                            <div class="identity-information">
-
-
-                                <!-- FULL NAME -->
-
-                                <div class="identity-field">
-
-                                    <span class="identity-label">
-                                        Full Name
-                                    </span>
-
-                                    <span class="identity-value identity-value--name">
-                                        Christopher Aurellyan Alotano Luna
-                                    </span>
-
-                                </div>
-
-
-                                <!-- ALIAS -->
-
-                                <div class="identity-field">
-
-                                    <span class="identity-label">
-                                        Alias
-                                    </span>
-
-                                    <span class="identity-value">
-                                        Lyan
-                                    </span>
-
-                                </div>
-
-
-                                <!-- OCCUPATION -->
-
-                                <div class="identity-field">
-
-                                    <span class="identity-label">
-                                        Occupation
-                                    </span>
-
-                                    <span class="identity-value">
-                                        Graphic Designer / Web Developer
-                                    </span>
-
-                                </div>
-
-
-                                <!-- DOMICILE -->
-
-                                <div class="identity-field">
-
-                                    <span class="identity-label">
-                                        Domicile
-                                    </span>
-
-                                    <span class="identity-value">
-                                        Pontianak, Indonesia
-                                    </span>
-
-                                </div>
-
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- ID STATUS -->
-
-                        <div class="identity-status">
-
-                            <div class="identity-status-item">
-
-                                <span class="identity-status-label">
-                                    Record Status
-                                </span>
-
-                                <span class="identity-status-value">
-
-                                    <span class="status-dot"></span>
-
-                                    Active
-
-                                </span>
-
-                            </div>
-
-
-                            <div class="identity-status-item">
-
-                                <span class="identity-status-label">
-                                    Classification
-                                </span>
-
-                                <span class="identity-status-value">
-                                    Designer
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </article>
-
-
-
-                <!-- =============================================
-                     SKILLS DATABASE
-                ============================================== -->
-
-                <article class="database-card database-card--skills">
-
-                    <div class="database-card-header">
-
-                        <span>
-                            Skills / Software
-                        </span>
-
-                        <span>
-                            RECORDS / 005
+                        <span class="database-header-label">
+                            Designer Database
                         </span>
 
                     </div>
 
 
-                    <div class="database-card-content database-card-content--skills">
-
-                        <div class="skills-list">
-
-
-                            <!-- PHOTOSHOP -->
-
-                            <div class="skill-item">
-
-                                <div class="skill-icon">
-
-                                    <img
-                                        src="/asset/software/photoshop.webp"
-                                        alt="Adobe Photoshop"
-                                    >
-
-                                </div>
-
-
-                                <div class="skill-information">
-
-                                    <span class="skill-name">
-                                        Photoshop
-                                    </span>
-
-                                    <span class="skill-type">
-                                        Raster Design
-                                    </span>
-
-                                    <p class="skill-description">
-                                        Photo manipulation, compositing,
-                                        visual design, image editing,
-                                        and promotional graphics.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- ILLUSTRATOR -->
-
-                            <div class="skill-item">
-
-                                <div class="skill-icon">
-
-                                    <img
-                                        src="/asset/software/illustrator.webp"
-                                        alt="Adobe Illustrator"
-                                    >
-
-                                </div>
-
-
-                                <div class="skill-information">
-
-                                    <span class="skill-name">
-                                        Illustrator
-                                    </span>
-
-                                    <span class="skill-type">
-                                        Vector Design
-                                    </span>
-
-                                    <p class="skill-description">
-                                        Logo design, vector graphics,
-                                        typography, branding assets,
-                                        and scalable illustrations.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- FIGMA -->
-
-                            <div class="skill-item">
-
-                                <div class="skill-icon">
-
-                                    <img
-                                        src="/asset/software/figma.webp"
-                                        alt="Figma"
-                                    >
-
-                                </div>
-
-
-                                <div class="skill-information">
-
-                                    <span class="skill-name">
-                                        Figma
-                                    </span>
-
-                                    <span class="skill-type">
-                                        UI / UX Design
-                                    </span>
-
-                                    <p class="skill-description">
-                                        Interface design, wireframing,
-                                        prototyping, layouts,
-                                        and design systems.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- KRITA -->
-
-                            <div class="skill-item">
-
-                                <div class="skill-icon">
-
-                                    <img
-                                        src="/asset/software/krita.webp"
-                                        alt="Krita"
-                                    >
-
-                                </div>
-
-
-                                <div class="skill-information">
-
-                                    <span class="skill-name">
-                                        Krita
-                                    </span>
-
-                                    <span class="skill-type">
-                                        Digital Illustration
-                                    </span>
-
-                                    <p class="skill-description">
-                                        Digital painting, illustration,
-                                        concept development,
-                                        and hand-drawn artwork.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- CANVA -->
-
-                            <div class="skill-item">
-
-                                <div class="skill-icon">
-
-                                    <img
-                                        src="/asset/software/canva.webp"
-                                        alt="Canva"
-                                    >
-
-                                </div>
-
-
-                                <div class="skill-information">
-
-                                    <span class="skill-name">
-                                        Canva
-                                    </span>
-
-                                    <span class="skill-type">
-                                        Visual Content
-                                    </span>
-
-                                    <p class="skill-description">
-                                        Social media graphics,
-                                        presentation layouts,
-                                        marketing materials,
-                                        and rapid visual production.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-
-                            <!-- BLENDER -->
-
-                            <div class="skill-item">
-
-                                <div class="skill-icon">
-
-                                    <img
-                                        src="/asset/software/blender.webp"
-                                        alt="Blender"
-                                    >
-
-                                </div>
-
-
-                                <div class="skill-information">
-
-                                    <span class="skill-name">
-                                        Blender
-                                    </span>
-
-                                    <span class="skill-type">
-                                        3D Design
-                                    </span>
-
-                                    <p class="skill-description">
-                                        3D modeling, scene composition,
-                                        materials, rendering,
-                                        and visual experimentation.
-                                    </p>
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
+                    <div class="database-header-meta">
+
+                        <span>
+                            DB / 001
+                        </span>
+
+                        <span>
+                            ACCESS / PUBLIC
+                        </span>
+
+                        <span>
+                            STATUS / ACTIVE
+                        </span>
 
                     </div>
 
-                </article>
+                </header>
+
+
+                <!-- =====================================================
+                     DATABASE BODY
+                ====================================================== -->
+
+                <div class="database-body">
+
+
+                    <!-- =================================================
+                         LEFT COLUMN
+                    ================================================== -->
+
+                    <div class="database-left">
+
+
+                        <!-- =============================================
+                             CYBER ID
+                        ============================================== -->
+
+                        <article class="database-card database-card--identity">
+
+                            <div class="database-card-header">
+
+                                <span>
+                                    Identity Record
+                                </span>
+
+                                <span>
+                                    ID / 001
+                                </span>
+
+                            </div>
+
+
+                            <div class="database-card-content">
+
+                                <div class="identity-record">
+
+
+                                    <!-- PROFILE IMAGE -->
+
+                                    <div class="identity-photo">
+
+
+                                        <!-- =============================================
+                                             REGULAR PROFILE
+                                        ============================================== -->
+
+                                        <img
+                                            src="/asset/hero/Regular.png"
+                                            alt="Christopher Aurellyan Alotano Luna"
+                                            class="identity-regular"
+                                        >
+
+
+                                        <!-- =============================================
+                                             CYBER PROFILE
+                                        ============================================== -->
+
+                                        <div class="identity-cyber-layer">
+
+                                            <img
+                                                src="/asset/hero/Cyber.png"
+                                                alt=""
+                                                class="identity-cyber"
+                                                aria-hidden="true"
+                                            >
+
+                                        </div>
+
+
+                                        <!-- =============================================
+                                             PROFILE META
+                                        ============================================== -->
+
+                                        <span class="identity-photo-code">
+                                            IMG / 001
+                                        </span>
+
+                                    </div>
+
+
+
+
+                                    <!-- PROFILE INFORMATION -->
+
+                                    <div class="identity-information">
+
+
+                                        <!-- FULL NAME -->
+
+                                        <div class="identity-field">
+
+                                            <span class="identity-label">
+                                                Full Name
+                                            </span>
+
+                                            <span class="identity-value identity-value--name">
+                                                Christopher Aurellyan Alotano Luna
+                                            </span>
+
+                                        </div>
+
+
+                                        <!-- ALIAS -->
+
+                                        <div class="identity-field">
+
+                                            <span class="identity-label">
+                                                Alias
+                                            </span>
+
+                                            <span class="identity-value">
+                                                Lyan
+                                            </span>
+
+                                        </div>
+
+
+                                        <!-- OCCUPATION -->
+
+                                        <div class="identity-field">
+
+                                            <span class="identity-label">
+                                                Occupation
+                                            </span>
+
+                                            <span class="identity-value">
+                                                Graphic Designer / Web Developer
+                                            </span>
+
+                                        </div>
+
+
+                                        <!-- DOMICILE -->
+
+                                        <div class="identity-field">
+
+                                            <span class="identity-label">
+                                                Domicile
+                                            </span>
+
+                                            <span class="identity-value">
+                                                Pontianak, Indonesia
+                                            </span>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- ID STATUS -->
+
+                                <div class="identity-status">
+
+                                    <div class="identity-status-item">
+
+                                        <span class="identity-status-label">
+                                            Record Status
+                                        </span>
+
+                                        <span class="identity-status-value">
+
+                                            <span class="status-dot"></span>
+
+                                            Active
+
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="identity-status-item">
+
+                                        <span class="identity-status-label">
+                                            Classification
+                                        </span>
+
+                                        <span class="identity-status-value">
+                                            Designer
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+
+
+                        <!-- =============================================
+                             SKILLS DATABASE
+                        ============================================== -->
+
+                        <article class="database-card database-card--skills">
+
+                            <div class="database-card-header">
+
+                                <span>
+                                    Skills / Software
+                                </span>
+
+                                <span>
+                                    RECORDS / 005
+                                </span>
+
+                            </div>
+
+
+                            <div class="database-card-content database-card-content--skills">
+
+                                <div class="skills-list">
+
+
+                                    <!-- PHOTOSHOP -->
+
+                                    <div class="skill-item">
+
+                                        <div class="skill-icon">
+
+                                            <img
+                                                src="/asset/software/photoshop.webp"
+                                                alt="Adobe Photoshop"
+                                            >
+
+                                        </div>
+
+
+                                        <div class="skill-information">
+
+                                            <span class="skill-name">
+                                                Photoshop
+                                            </span>
+
+                                            <span class="skill-type">
+                                                Raster Design
+                                            </span>
+
+                                            <p class="skill-description">
+                                                Photo manipulation, compositing,
+                                                visual design, image editing,
+                                                and promotional graphics.
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- ILLUSTRATOR -->
+
+                                    <div class="skill-item">
+
+                                        <div class="skill-icon">
+
+                                            <img
+                                                src="/asset/software/illustrator.webp"
+                                                alt="Adobe Illustrator"
+                                            >
+
+                                        </div>
+
+
+                                        <div class="skill-information">
+
+                                            <span class="skill-name">
+                                                Illustrator
+                                            </span>
+
+                                            <span class="skill-type">
+                                                Vector Design
+                                            </span>
+
+                                            <p class="skill-description">
+                                                Logo design, vector graphics,
+                                                typography, branding assets,
+                                                and scalable illustrations.
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- FIGMA -->
+
+                                    <div class="skill-item">
+
+                                        <div class="skill-icon">
+
+                                            <img
+                                                src="/asset/software/figma.webp"
+                                                alt="Figma"
+                                            >
+
+                                        </div>
+
+
+                                        <div class="skill-information">
+
+                                            <span class="skill-name">
+                                                Figma
+                                            </span>
+
+                                            <span class="skill-type">
+                                                UI / UX Design
+                                            </span>
+
+                                            <p class="skill-description">
+                                                Interface design, wireframing,
+                                                prototyping, layouts,
+                                                and design systems.
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- KRITA -->
+
+                                    <div class="skill-item">
+
+                                        <div class="skill-icon">
+
+                                            <img
+                                                src="/asset/software/krita.webp"
+                                                alt="Krita"
+                                            >
+
+                                        </div>
+
+
+                                        <div class="skill-information">
+
+                                            <span class="skill-name">
+                                                Krita
+                                            </span>
+
+                                            <span class="skill-type">
+                                                Digital Illustration
+                                            </span>
+
+                                            <p class="skill-description">
+                                                Digital painting, illustration,
+                                                concept development,
+                                                and hand-drawn artwork.
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- CANVA -->
+
+                                    <div class="skill-item">
+
+                                        <div class="skill-icon">
+
+                                            <img
+                                                src="/asset/software/canva.webp"
+                                                alt="Canva"
+                                            >
+
+                                        </div>
+
+
+                                        <div class="skill-information">
+
+                                            <span class="skill-name">
+                                                Canva
+                                            </span>
+
+                                            <span class="skill-type">
+                                                Visual Content
+                                            </span>
+
+                                            <p class="skill-description">
+                                                Social media graphics,
+                                                presentation layouts,
+                                                marketing materials,
+                                                and rapid visual production.
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- BLENDER -->
+
+                                    <div class="skill-item">
+
+                                        <div class="skill-icon">
+
+                                            <img
+                                                src="/asset/software/blender.webp"
+                                                alt="Blender"
+                                            >
+
+                                        </div>
+
+
+                                        <div class="skill-information">
+
+                                            <span class="skill-name">
+                                                Blender
+                                            </span>
+
+                                            <span class="skill-type">
+                                                3D Design
+                                            </span>
+
+                                            <p class="skill-description">
+                                                3D modeling, scene composition,
+                                                materials, rendering,
+                                                and visual experimentation.
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+
+
+                    <!-- =================================================
+                         RIGHT COLUMN
+                    ================================================== -->
+
+                    <div class="database-right">
+
+
+                        <!-- =============================================
+                             DESCRIPTION
+                        ============================================== -->
+
+                        <article class="database-card database-card--description">
+
+                            <div class="database-card-header">
+
+                                <span>
+                                    Description
+                                </span>
+
+                                <span>
+                                    FILE / ABOUT.TXT
+                                </span>
+
+                            </div>
+
+
+                            <div class="database-card-content database-card-content--description">
+
+
+                                <!-- DESCRIPTION INTRO -->
+
+                                <div class="description-heading">
+
+                                    <span class="description-label">
+                                        Personal Record
+                                    </span>
+
+                                    <h2>
+                                        Designer &amp; Developer
+                                    </h2>
+
+                                </div>
+
+
+                                <!-- DESCRIPTION TEXT -->
+
+                                <div class="description-text">
+
+                                    <p>
+                                        I'm Christopher Aurellyan Alotano Luna,
+                                        a creative designer and aspiring web
+                                        developer who enjoys turning ideas into
+                                        visual and interactive experiences.
+                                    </p>
+
+                                    <p>
+                                        My work sits somewhere between graphic
+                                        design, digital art, and web development.
+                                        I enjoy experimenting with visual
+                                        composition, typography, layouts,
+                                        illustration, and code to create work
+                                        that feels simple while still having
+                                        its own character.
+                                    </p>
+
+                                    <p>
+                                        Graphic design is where I spend most of
+                                        my creative energy. I work with raster
+                                        and vector graphics, digital illustration,
+                                        interface design, branding, and visual
+                                        content. I also explore 3D design and
+                                        interactive experiences as another way
+                                        to expand the way I approach visual
+                                        problems.
+                                    </p>
+
+                                    <p>
+                                        On the development side, I enjoy building
+                                        websites and experimenting with the
+                                        relationship between design and technology.
+                                        I like taking an idea from a visual
+                                        concept and gradually turning it into
+                                        something functional through HTML, CSS,
+                                        JavaScript, and other web technologies.
+                                    </p>
+
+                                    <p>
+                                        I'm still learning, experimenting, and
+                                        refining my approach. The goal is not
+                                        simply to make things look good, but to
+                                        understand why they work and how design,
+                                        interaction, and technology can support
+                                        one another.
+                                    </p>
+
+                                </div>
+
+
+                                <!-- DESCRIPTION FOOTER DATA -->
+
+                                <div class="description-data">
+
+                                    <div class="description-data-item">
+
+                                        <span class="description-data-label">
+                                            Primary Field
+                                        </span>
+
+                                        <span class="description-data-value">
+                                            Graphic Design
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="description-data-item">
+
+                                        <span class="description-data-label">
+                                            Secondary Field
+                                        </span>
+
+                                        <span class="description-data-value">
+                                            Web Development
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="description-data-item">
+
+                                        <span class="description-data-label">
+                                            Current Status
+                                        </span>
+
+                                        <span class="description-data-value">
+                                            Learning / Creating
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+
+                            <!-- DESCRIPTION META -->
+
+                            <div class="database-card-meta">
+
+                                <span class="database-meta-indicator"></span>
+
+                                <span>
+                                    END OF RECORD
+                                </span>
+
+                                <span class="database-meta-line"></span>
+
+                                <span>
+                                    LYAN / DESIGNER DATABASE
+                                </span>
+
+                            </div>
+
+                        </article>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =====================================================
+                     DATABASE FOOTER
+                ====================================================== -->
+
+                <footer class="database-footer">
+
+                    <span>
+                        SYSTEM / DESIGNER_DATABASE
+                    </span>
+
+                    <span>
+                        RECORD 001
+                    </span>
+
+                    <span>
+                        CONNECTION / STABLE
+                    </span>
+
+                </footer>
 
             </div>
 
+        </section>
 
 
-            <!-- =================================================
-                 RIGHT COLUMN
-            ================================================== -->
 
-            <div class="database-right">
 
+        <!-- =========================================================
+             WORK
+             ---------------------------------------------------------
+             CSS-only scroll reveal:
+             reveal-section       = global reveal animation
+             reveal-section--right = enters from the right
+        ========================================================== -->
 
-                <!-- =============================================
-                     DESCRIPTION
-                ============================================== -->
-
-                <article class="database-card database-card--description">
-
-                    <div class="database-card-header">
-
-                        <span>
-                            Description
-                        </span>
-
-                        <span>
-                            FILE / ABOUT.TXT
-                        </span>
-
-                    </div>
-
-
-                    <div class="database-card-content database-card-content--description">
-
-
-                        <!-- DESCRIPTION INTRO -->
-
-                        <div class="description-heading">
-
-                            <span class="description-label">
-                                Personal Record
-                            </span>
-
-                            <h2>
-                                Designer &amp; Developer
-                            </h2>
-
-                        </div>
-
-
-                        <!-- DESCRIPTION TEXT -->
-
-                        <div class="description-text">
-
-                            <p>
-                                I'm Christopher Aurellyan Alotano Luna,
-                                a creative designer and aspiring web
-                                developer who enjoys turning ideas into
-                                visual and interactive experiences.
-                            </p>
-
-                            <p>
-                                My work sits somewhere between graphic
-                                design, digital art, and web development.
-                                I enjoy experimenting with visual
-                                composition, typography, layouts,
-                                illustration, and code to create work
-                                that feels simple while still having
-                                its own character.
-                            </p>
-
-                            <p>
-                                Graphic design is where I spend most of
-                                my creative energy. I work with raster
-                                and vector graphics, digital illustration,
-                                interface design, branding, and visual
-                                content. I also explore 3D design and
-                                interactive experiences as another way
-                                to expand the way I approach visual
-                                problems.
-                            </p>
-
-                            <p>
-                                On the development side, I enjoy building
-                                websites and experimenting with the
-                                relationship between design and technology.
-                                I like taking an idea from a visual
-                                concept and gradually turning it into
-                                something functional through HTML, CSS,
-                                JavaScript, and other web technologies.
-                            </p>
-
-                            <p>
-                                I'm still learning, experimenting, and
-                                refining my approach. The goal is not
-                                simply to make things look good, but to
-                                understand why they work and how design,
-                                interaction, and technology can support
-                                one another.
-                            </p>
-
-                        </div>
-
-
-                        <!-- DESCRIPTION FOOTER DATA -->
-
-                        <div class="description-data">
-
-                            <div class="description-data-item">
-
-                                <span class="description-data-label">
-                                    Primary Field
-                                </span>
-
-                                <span class="description-data-value">
-                                    Graphic Design
-                                </span>
-
-                            </div>
-
-
-                            <div class="description-data-item">
-
-                                <span class="description-data-label">
-                                    Secondary Field
-                                </span>
-
-                                <span class="description-data-value">
-                                    Web Development
-                                </span>
-
-                            </div>
-
-
-                            <div class="description-data-item">
-
-                                <span class="description-data-label">
-                                    Current Status
-                                </span>
-
-                                <span class="description-data-value">
-                                    Learning / Creating
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-
-                    <!-- DESCRIPTION META -->
-
-                    <div class="database-card-meta">
-
-                        <span class="database-meta-indicator"></span>
-
-                        <span>
-                            END OF RECORD
-                        </span>
-
-                        <span class="database-meta-line"></span>
-
-                        <span>
-                            LYAN / DESIGNER DATABASE
-                        </span>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-        </div>
-
-
-        <!-- =====================================================
-             DATABASE FOOTER
-        ====================================================== -->
-
-        <footer class="database-footer">
-
-            <span>
-                SYSTEM / DESIGNER_DATABASE
-            </span>
-
-            <span>
-                RECORD 001
-            </span>
-
-            <span>
-                CONNECTION / STABLE
-            </span>
-
-        </footer>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     WORK
-========================================================= -->
-
-<!-- =========================================================
-     WORK
-========================================================= -->
-
-<section class="work" id="work">
-
-    <!-- ================================================
-         NAVBAR OFFSET
-         ------------------------------------------------
-         Reserves the 5rem fixed navbar space while
-         keeping the WORK section at exactly 100dvh.
-    ================================================= -->
-
-    <div
-        class="work-nav-offset"
-        aria-hidden="true"
-    >
-    </div>
-
-
-    <!-- ================================================
-         WORK HEADER
-    ================================================= -->
-
-    <header class="work-header">
-
-        <div class="work-header-index">
-
-            <span class="work-status-dot"></span>
-
-            <span>
-                SYS / WORK_DATABASE
-            </span>
-
-        </div>
-
-
-        <div class="work-header-main">
-
-            <p class="work-eyebrow">
-                SELECTED WORKS
-            </p>
-
-            <h2 class="work-title">
-                WORK
-            </h2>
-
-        </div>
-
-
-        <div class="work-header-meta">
-
-            <span>
-                PROJECTS
-            </span>
-
-            <span class="work-project-count">
-                04
-            </span>
-
-        </div>
-
-    </header>
-
-
-    <!-- ================================================
-         WORK VIEWPORT
-         ------------------------------------------------
-         This is the only independently scrolling area.
-         Additional projects will continue downward.
-    ================================================= -->
-
-    <div class="work-scroll">
-
-        <div class="work-grid">
-
-
-            <!-- =========================================
-                 PROJECT 01
-            ========================================== -->
-
-            <article class="work-card">
-
-                <a
-                    href="#"
-                    class="work-card-link"
-                    aria-label="View PCBA Semiconductor International project"
-                >
-
-                    <span class="work-card-index">
-                        001
-                    </span>
-
-
-                    <!-- =================================
-                         PROJECT IMAGE
-                    ================================== -->
-
-                    <div class="work-image-wrapper">
-
-                        <img
-                            src="./asset/project/PSI.png"
-                            alt="PCBA Semiconductor International project"
-                            class="work-image"
-                        >
-
-                        <div
-                            class="work-image-overlay"
-                            aria-hidden="true"
-                        >
-                        </div>
-
-                        <span class="work-image-code">
-                            IMG / 001
-                        </span>
-
-                    </div>
-
-
-                    <!-- =================================
-                         PROJECT INFORMATION
-                    ================================== -->
-
-                    <div class="work-card-content">
-
-                        <div class="work-card-top">
-
-                            <span class="work-card-type">
-                                BRAND / DESIGN
-                            </span>
-
-                            <span class="work-card-state">
-                                ARCHIVED
-                            </span>
-
-                        </div>
-
-
-                        <div class="work-card-title-wrapper">
-
-                            <h3 class="work-card-title">
-                                PCBA
-                            </h3>
-
-                            <h3 class="work-card-title-secondary">
-                                SEMICONDUCTOR
-                            </h3>
-
-                        </div>
-
-
-                        <div class="work-card-footer">
-
-                            <span class="work-card-id">
-                                PROJECT_001
-                            </span>
-
-                            <span class="work-card-action">
-
-                                VIEW PROJECT
-
-                                <span
-                                    class="work-arrow"
-                                    aria-hidden="true"
-                                >
-                                    ↗
-                                </span>
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </a>
-
-            </article>
-
-
-            <!-- =========================================
-                 PROJECT 02
-            ========================================== -->
-
-            <article class="work-card">
-
-                <a
-                    href="#"
-                    class="work-card-link"
-                    aria-label="View Little Lady project"
-                >
-
-                    <span class="work-card-index">
-                        002
-                    </span>
-
-
-                    <!-- =================================
-                         PROJECT IMAGE
-                    ================================== -->
-
-                    <div class="work-image-wrapper">
-
-                        <img
-                            src="./asset/project/LittleLady.png"
-                            alt="Little Lady project"
-                            class="work-image"
-                        >
-
-                        <div
-                            class="work-image-overlay"
-                            aria-hidden="true"
-                        >
-                        </div>
-
-                        <span class="work-image-code">
-                            IMG / 002
-                        </span>
-
-                    </div>
-
-
-                    <!-- =================================
-                         PROJECT INFORMATION
-                    ================================== -->
-
-                    <div class="work-card-content">
-
-                        <div class="work-card-top">
-
-                            <span class="work-card-type">
-                                BRAND / IDENTITY
-                            </span>
-
-                            <span class="work-card-state">
-                                ARCHIVED
-                            </span>
-
-                        </div>
-
-
-                        <div class="work-card-title-wrapper">
-
-                            <h3 class="work-card-title">
-                                LITTLE
-                            </h3>
-
-                            <h3 class="work-card-title-secondary">
-                                LADY
-                            </h3>
-
-                        </div>
-
-
-                        <div class="work-card-footer">
-
-                            <span class="work-card-id">
-                                PROJECT_002
-                            </span>
-
-                            <span class="work-card-action">
-
-                                VIEW PROJECT
-
-                                <span
-                                    class="work-arrow"
-                                    aria-hidden="true"
-                                >
-                                    ↗
-                                </span>
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </a>
-
-            </article>
-
-
-            <!-- =========================================
-                 PROJECT 03
-            ========================================== -->
-
-            <article class="work-card">
-
-                <a
-                    href="#"
-                    class="work-card-link"
-                    aria-label="View Pacohome project"
-                >
-
-                    <span class="work-card-index">
-                        003
-                    </span>
-
-
-                    <!-- =================================
-                         PROJECT IMAGE
-                    ================================== -->
-
-                    <div class="work-image-wrapper">
-
-                        <img
-                            src="./asset/project/Pacohome.png"
-                            alt="Pacohome project"
-                            class="work-image"
-                        >
-
-                        <div
-                            class="work-image-overlay"
-                            aria-hidden="true"
-                        >
-                        </div>
-
-                        <span class="work-image-code">
-                            IMG / 003
-                        </span>
-
-                    </div>
-
-
-                    <!-- =================================
-                         PROJECT INFORMATION
-                    ================================== -->
-
-                    <div class="work-card-content">
-
-                        <div class="work-card-top">
-
-                            <span class="work-card-type">
-                                BRAND / CAMPAIGN
-                            </span>
-
-                            <span class="work-card-state">
-                                ARCHIVED
-                            </span>
-
-                        </div>
-
-
-                        <div class="work-card-title-wrapper">
-
-                            <h3 class="work-card-title">
-                                PACO
-                            </h3>
-
-                            <h3 class="work-card-title-secondary">
-                                HOME
-                            </h3>
-
-                        </div>
-
-
-                        <div class="work-card-footer">
-
-                            <span class="work-card-id">
-                                PROJECT_003
-                            </span>
-
-                            <span class="work-card-action">
-
-                                VIEW PROJECT
-
-                                <span
-                                    class="work-arrow"
-                                    aria-hidden="true"
-                                >
-                                    ↗
-                                </span>
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </a>
-
-            </article>
-
-
-            <!-- =========================================
-                 PROJECT 04
-            ========================================== -->
-
-            <article class="work-card">
-
-                <a
-                    href="#"
-                    class="work-card-link"
-                    aria-label="View Adiograf Indonesia project"
-                >
-
-                    <span class="work-card-index">
-                        004
-                    </span>
-
-
-                    <!-- =================================
-                         PROJECT IMAGE
-                    ================================== -->
-
-                    <div class="work-image-wrapper">
-
-                        <img
-                            src="./asset/project/Adiograf.png"
-                            alt="Adiograf Indonesia project"
-                            class="work-image"
-                        >
-
-                        <div
-                            class="work-image-overlay"
-                            aria-hidden="true"
-                        >
-                        </div>
-
-                        <span class="work-image-code">
-                            IMG / 004
-                        </span>
-
-                    </div>
-
-
-                    <!-- =================================
-                         PROJECT INFORMATION
-                    ================================== -->
-
-                    <div class="work-card-content">
-
-                        <div class="work-card-top">
-
-                            <span class="work-card-type">
-                                BRAND / GRAPHIC
-                            </span>
-
-                            <span class="work-card-state">
-                                ARCHIVED
-                            </span>
-
-                        </div>
-
-
-                        <div class="work-card-title-wrapper">
-
-                            <h3 class="work-card-title">
-                                ADIOGRAF
-                            </h3>
-
-                            <h3 class="work-card-title-secondary">
-                                INDONESIA
-                            </h3>
-
-                        </div>
-
-
-                        <div class="work-card-footer">
-
-                            <span class="work-card-id">
-                                PROJECT_004
-                            </span>
-
-                            <span class="work-card-action">
-
-                                VIEW PROJECT
-
-                                <span
-                                    class="work-arrow"
-                                    aria-hidden="true"
-                                >
-                                    ↗
-                                </span>
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                </a>
-
-            </article>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- ================================================
-         WORK FOOTER
-    ================================================= -->
-
-    <div class="work-footer">
-
-        <span>
-            SCROLL TO EXPLORE
-        </span>
-
-        <span
-            class="work-footer-line"
-            aria-hidden="true"
+        <section
+            class="work reveal-section reveal-section--right"
+            id="work"
         >
-        </span>
 
-        <span>
-            END / DATABASE
-        </span>
 
-    </div>
+            <!-- ================================================
+                 NAVBAR OFFSET
+                 ------------------------------------------------
+                 Reserves the 5rem fixed navbar space while
+                 keeping the WORK section at exactly 100dvh.
+            ================================================= -->
 
-</section>
-<div
-        class="work-nav-offset"
-        aria-hidden="true"
+          
+
+
+            <!-- ================================================
+                 WORK HEADER
+            ================================================= -->
+
+            <header class="work-header">
+
+                <div class="work-header-index">
+
+                    <span class="work-status-dot"></span>
+
+                    <span>
+                        SYS / WORK_DATABASE
+                    </span>
+
+                </div>
+
+
+                <div class="work-header-main">
+
+                    <p class="work-eyebrow">
+                        SELECTED WORKS
+                    </p>
+
+                    <h2 class="work-title">
+                        WORK
+                    </h2>
+
+                </div>
+
+
+                <div class="work-header-meta">
+
+                    <span>
+                        PROJECTS
+                    </span>
+
+                    <span class="work-project-count">
+                        04
+                    </span>
+
+                </div>
+
+            </header>
+
+
+            <!-- ================================================
+                 WORK VIEWPORT
+                 ------------------------------------------------
+                 This is the only independently scrolling area.
+                 Additional projects will continue downward.
+            ================================================= -->
+
+            <div class="work-scroll">
+
+                <div class="work-grid">
+
+
+                    <!-- =========================================
+                         PROJECT 01
+                    ========================================== -->
+
+                    <article class="work-card">
+
+                        <a
+                            href="./pages/project.html?project=pcba"
+                            class="work-card-link"
+                            aria-label="View PCBA Semiconductor International project"
+                        >
+
+                            <span class="work-card-index">
+                                001
+                            </span>
+
+
+                            <!-- =================================
+                                 PROJECT IMAGE
+                            ================================== -->
+
+                            <div class="work-image-wrapper">
+
+                                <img
+                                    src="./asset/project/PSI.png"
+                                    alt="PCBA Semiconductor International project"
+                                    class="work-image"
+                                >
+
+                                <div
+                                    class="work-image-overlay"
+                                    aria-hidden="true"
+                                >
+                                </div>
+
+                                <span class="work-image-code">
+                                    IMG / 001
+                                </span>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 PROJECT INFORMATION
+                            ================================== -->
+
+                            <div class="work-card-content">
+
+                                <div class="work-card-top">
+
+                                    <span class="work-card-type">
+                                        BRAND / DESIGN
+                                    </span>
+
+                                    <span class="work-card-state">
+                                        ARCHIVED
+                                    </span>
+
+                                </div>
+
+
+                                <div class="work-card-title-wrapper">
+
+                                    <h3 class="work-card-title">
+                                        PCBA
+                                    </h3>
+
+                                    <h3 class="work-card-title-secondary">
+                                        SEMICONDUCTOR
+                                    </h3>
+
+                                </div>
+
+
+                                <div class="work-card-footer">
+
+                                    <span class="work-card-id">
+                                        PROJECT_001
+                                    </span>
+
+                                    <span class="work-card-action">
+
+                                        VIEW PROJECT
+
+                                        <span
+                                            class="work-arrow"
+                                            aria-hidden="true"
+                                        >
+                                            ↗
+                                        </span>
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </article>
+
+
+                    <!-- =========================================
+                         PROJECT 02
+                    ========================================== -->
+
+                    <article class="work-card">
+
+                        <a
+    href="./pages/project.html?project=little-lady"
+    class="work-card-link"
+    aria-label="View Little Lady project"
+>
+
+                            <span class="work-card-index">
+                                002
+                            </span>
+
+
+                            <!-- =================================
+                                 PROJECT IMAGE
+                            ================================== -->
+
+                            <div class="work-image-wrapper">
+
+                                <img
+                                    src="./asset/project/LittleLady.png"
+                                    alt="Little Lady project"
+                                    class="work-image"
+                                >
+
+                                <div
+                                    class="work-image-overlay"
+                                    aria-hidden="true"
+                                >
+                                </div>
+
+                                <span class="work-image-code">
+                                    IMG / 002
+                                </span>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 PROJECT INFORMATION
+                            ================================== -->
+
+                            <div class="work-card-content">
+
+                                <div class="work-card-top">
+
+                                    <span class="work-card-type">
+                                        BRAND / IDENTITY
+                                    </span>
+
+                                    <span class="work-card-state">
+                                        ARCHIVED
+                                    </span>
+
+                                </div>
+
+
+                                <div class="work-card-title-wrapper">
+
+                                    <h3 class="work-card-title">
+                                        LITTLE
+                                    </h3>
+
+                                    <h3 class="work-card-title-secondary">
+                                        LADY
+                                    </h3>
+
+                                </div>
+
+
+                                <div class="work-card-footer">
+
+                                    <span class="work-card-id">
+                                        PROJECT_002
+                                    </span>
+
+                                    <span class="work-card-action">
+
+                                        VIEW PROJECT
+
+                                        <span
+                                            class="work-arrow"
+                                            aria-hidden="true"
+                                        >
+                                            ↗
+                                        </span>
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </article>
+
+
+                    <!-- =========================================
+                         PROJECT 03
+                    ========================================== -->
+
+                    <article class="work-card">
+
+                       <a
+    href="./pages/project.html?project=pacohome"
+    class="work-card-link"
+    aria-label="View Pacohome project"
+>
+
+                            <span class="work-card-index">
+                                003
+                            </span>
+
+
+                            <!-- =================================
+                                 PROJECT IMAGE
+                            ================================== -->
+
+                            <div class="work-image-wrapper">
+
+                                <img
+                                    src="./asset/project/Pacohome.png"
+                                    alt="Pacohome project"
+                                    class="work-image"
+                                >
+
+                                <div
+                                    class="work-image-overlay"
+                                    aria-hidden="true"
+                                >
+                                </div>
+
+                                <span class="work-image-code">
+                                    IMG / 003
+                                </span>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 PROJECT INFORMATION
+                            ================================== -->
+
+                            <div class="work-card-content">
+
+                                <div class="work-card-top">
+
+                                    <span class="work-card-type">
+                                        BRAND / CAMPAIGN
+                                    </span>
+
+                                    <span class="work-card-state">
+                                        ARCHIVED
+                                    </span>
+
+                                </div>
+
+
+                                <div class="work-card-title-wrapper">
+
+                                    <h3 class="work-card-title">
+                                        PACO
+                                    </h3>
+
+                                    <h3 class="work-card-title-secondary">
+                                        HOME
+                                    </h3>
+
+                                </div>
+
+
+                                <div class="work-card-footer">
+
+                                    <span class="work-card-id">
+                                        PROJECT_003
+                                    </span>
+
+                                    <span class="work-card-action">
+
+                                        VIEW PROJECT
+
+                                        <span
+                                            class="work-arrow"
+                                            aria-hidden="true"
+                                        >
+                                            ↗
+                                        </span>
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </article>
+
+
+                    <!-- =========================================
+                         PROJECT 04
+                    ========================================== -->
+
+                    <article class="work-card">
+
+                        <a
+    href="./pages/project.html?project=adiograf"
+    class="work-card-link"
+    aria-label="View Adiograf Indonesia project"
+>
+
+                            <span class="work-card-index">
+                                004
+                            </span>
+
+
+                            <!-- =================================
+                                 PROJECT IMAGE
+                            ================================== -->
+
+                            <div class="work-image-wrapper">
+
+                                <img
+                                    src="./asset/project/Adiograf.png"
+                                    alt="Adiograf Indonesia project"
+                                    class="work-image"
+                                >
+
+                                <div
+                                    class="work-image-overlay"
+                                    aria-hidden="true"
+                                >
+                                </div>
+
+                                <span class="work-image-code">
+                                    IMG / 004
+                                </span>
+
+                            </div>
+
+
+                            <!-- =================================
+                                 PROJECT INFORMATION
+                            ================================== -->
+
+                            <div class="work-card-content">
+
+                                <div class="work-card-top">
+
+                                    <span class="work-card-type">
+                                        BRAND / GRAPHIC
+                                    </span>
+
+                                    <span class="work-card-state">
+                                        ARCHIVED
+                                    </span>
+
+                                </div>
+
+
+                                <div class="work-card-title-wrapper">
+
+                                    <h3 class="work-card-title">
+                                        ADIOGRAF
+                                    </h3>
+
+                                    <h3 class="work-card-title-secondary">
+                                        INDONESIA
+                                    </h3>
+
+                                </div>
+
+
+                                <div class="work-card-footer">
+
+                                    <span class="work-card-id">
+                                        PROJECT_004
+                                    </span>
+
+                                    <span class="work-card-action">
+
+                                        VIEW PROJECT
+
+                                        <span
+                                            class="work-arrow"
+                                            aria-hidden="true"
+                                        >
+                                            ↗
+                                        </span>
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </a>
+
+                    </article>
+
+<!-- =========================================
+     PROJECT 05
+========================================== -->
+
+<article class="work-card">
+
+    <a
+        href="./pages/project.html?project=bagatelle"
+        class="work-card-link"
+        aria-label="View Bagatelle project"
     >
-    </div>
+
+        <span class="work-card-index">
+            005
+        </span>
+
+
+        <!-- =================================
+             PROJECT IMAGE
+        ================================== -->
+
+        <div class="work-image-wrapper">
+
+            <img
+                src="./asset/project/Bagatelle.png"
+                alt="Bagatelle project"
+                class="work-image"
+            >
+
+            <div
+                class="work-image-overlay"
+                aria-hidden="true"
+            >
+            </div>
+
+            <span class="work-image-code">
+                IMG / 005
+            </span>
+
+        </div>
+
+
+        <!-- =================================
+             PROJECT INFORMATION
+        ================================== -->
+
+        <div class="work-card-content">
+
+            <div class="work-card-top">
+
+                <span class="work-card-type">
+                    BRAND / SOCIAL
+                </span>
+
+                <span class="work-card-state">
+                    ARCHIVED
+                </span>
+
+            </div>
+
+
+            <div class="work-card-title-wrapper">
+
+                <h3 class="work-card-title">
+                    BAGATELLE
+                </h3>
+
+                <h3 class="work-card-title-secondary">
+                    CREATIVE
+                </h3>
+
+            </div>
+
+
+            <div class="work-card-footer">
+
+                <span class="work-card-id">
+                    PROJECT_005
+                </span>
+
+                <span class="work-card-action">
+
+                    VIEW PROJECT
+
+                    <span
+                        class="work-arrow"
+                        aria-hidden="true"
+                    >
+                        ↗
+                    </span>
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </a>
+
+</article>
+                </div>
+
+            </div>
+
+
+            <!-- ================================================
+                 WORK FOOTER
+            ================================================= -->
+
+            <div class="work-footer">
+
+                <span>
+                    SCROLL TO EXPLORE
+                </span>
+
+                <span
+                    class="work-footer-line"
+                    aria-hidden="true"
+                >
+                </span>
+
+                <span>
+                    END / DATABASE
+                </span>
+
+            </div>
+
+        </section>
+
+
+      
+
     </main>
+
+
+    <script src="/js/hero.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/about.js"></script>
+    <script src="./js/work.js"></script>
 
 </body>
 
 </html>
-
- <script src="/js/hero.js"></script>
-  <script src="/js/nav.js"></script>
-  <script src="/js/about.js"></script>
-  <script src="./js/work.js"></script>

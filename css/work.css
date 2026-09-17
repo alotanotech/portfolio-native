@@ -7,7 +7,7 @@
 
     width: 100%;
     height: 100dvh;
-    min-height: 100dvh;
+    min-height: 0;
 
     display: flex;
     flex-direction: column;
@@ -33,7 +33,9 @@
 
     width: 100%;
     height: 5rem;
+
     background-color: black;
+
     box-sizing: border-box;
 }
 
@@ -208,19 +210,22 @@
 /* =========================================================
    WORK SCROLL
    ---------------------------------------------------------
-   This area consumes all remaining space.
+   IMPORTANT:
+   This is the flexible region.
 
-   4 projects on desktop = normally visible.
-   5+ projects = vertical scrolling inside this area.
+   The WORK section itself stays locked to 100dvh.
+   The grid is allowed to become taller than this area,
+   while this element handles the scrolling.
 ========================================================= */
 
 .work-scroll {
     position: relative;
 
-    flex: 1 1 auto;
+    flex: 1 1 0;
 
     width: min(70dvw, 1200px);
 
+    height: 0;
     min-height: 0;
 
     margin: 0 auto;
@@ -264,6 +269,12 @@
 
 /* =========================================================
    WORK GRID
+   ---------------------------------------------------------
+   The grid is allowed to grow naturally.
+
+   Its height does NOT determine the height of the
+   WORK section. Instead, it creates scrollable content
+   inside .work-scroll.
 ========================================================= */
 
 .work-grid {
@@ -276,14 +287,15 @@
 
     width: 100%;
 
+    min-width: 0;
+    min-height: max-content;
+
     box-sizing: border-box;
 }
 
 
 /* =========================================================
    WORK CARD
-   ---------------------------------------------------------
-   Reserves space for the information panel.
 ========================================================= */
 
 .work-card {
@@ -310,8 +322,6 @@
 
 /* =========================================================
    CARD LINK
-   ---------------------------------------------------------
-   16:9 IMAGE FRAME
 ========================================================= */
 
 .work-card-link {
@@ -484,7 +494,7 @@
 
 
 /* =========================================================
-   OVERLAPPING PROJECT INFO
+   PROJECT INFO PANEL
 ========================================================= */
 
 .work-card-content {
@@ -513,7 +523,7 @@
 
     border: 1px solid #111111;
 
-    overflow: visible;
+    overflow: hidden;
 
     z-index: 10;
 
@@ -712,7 +722,10 @@
 
     gap: 0.3rem;
 
-    width: auto;
+    width: max-content;
+    max-width: max-content;
+
+    flex: 0 0 auto;
 
     color: #111111;
 
@@ -721,6 +734,8 @@
     font-weight: 800;
 
     letter-spacing: 0.08em;
+
+    line-height: 1;
 
     white-space: nowrap;
 
@@ -745,6 +760,8 @@
 
 .work-arrow {
     display: inline-block;
+
+    flex: 0 0 auto;
 
     color: #111111;
 
@@ -823,11 +840,11 @@
 
 
 /* =========================================================
-   INFORMATION PANEL SHRINK
+   COMPACT CTA PANEL
 ========================================================= */
 
 .work-card-link:hover .work-card-content {
-    width: 8rem;
+    width: 10rem;
     height: 6rem;
 
     transform:
@@ -835,7 +852,7 @@
 
     padding: 0.65rem;
 
-    overflow: visible;
+    overflow: hidden;
 }
 
 
@@ -862,10 +879,7 @@
 .work-card-link:hover .work-card-footer {
     position: absolute;
 
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    inset: 0;
 
     width: auto;
     height: auto;
@@ -887,6 +901,7 @@
     pointer-events: none;
 }
 
+
 /* =========================================================
    HOVER CTA
 ========================================================= */
@@ -899,10 +914,10 @@
     align-items: center;
     justify-content: center;
 
-    flex: 0 1 auto;
+    flex: 0 0 auto;
 
-    width: 100%;
-    max-width: 100%;
+    width: max-content;
+    max-width: none;
 
     height: auto;
 
@@ -919,7 +934,7 @@
 
     box-sizing: border-box;
 
-    overflow: hidden;
+    overflow: visible;
 }
 
 
@@ -1125,7 +1140,7 @@
 
 
     .work-card-link:hover .work-card-content {
-        width: 9rem;
+        width: 11rem;
         height: 7rem;
 
         padding: 0.75rem;
@@ -1206,7 +1221,7 @@ and (max-width: 1439px) {
 
 
     .work-card-link:hover .work-card-content {
-        width: 7rem;
+        width: 9rem;
         height: 5.5rem;
 
         padding: 0.6rem;
@@ -1284,8 +1299,10 @@ and (max-width: 1023px) {
 
 
     .work-card-link:hover .work-card-content {
-        width: 8rem;
+        width: 10rem;
         height: 6rem;
+
+        padding: 0.6rem;
     }
 
 
@@ -1368,7 +1385,7 @@ and (max-width: 767px) {
 
 
     .work-card-link:hover .work-card-content {
-        width: 6.5rem;
+        width: 8.5rem;
         height: 5rem;
 
         padding: 0.55rem;
@@ -1459,7 +1476,7 @@ and (max-width: 599px) {
 
 
     .work-card-link:hover .work-card-content {
-        width: 5.5rem;
+        width: 7.5rem;
         height: 4.5rem;
 
         padding: 0.45rem;
@@ -1566,7 +1583,7 @@ and (max-width: 479px) {
 
 
     .work-card-link:hover .work-card-content {
-        width: 4.5rem;
+        width: 6.5rem;
         height: 4rem;
 
         padding: 0.4rem;
@@ -1679,7 +1696,7 @@ and (max-width: 479px) {
 
 
     .work-card-link:hover .work-card-content {
-        width: 3.75rem;
+        width: 5.5rem;
         height: 3.25rem;
 
         padding: 0.3rem;
@@ -1744,10 +1761,12 @@ and (max-width: 479px) {
 
 
     .work-card-link:active .work-card-content {
-        width: 8rem;
+        width: 10rem;
         height: 6rem;
 
-        overflow: visible;
+        padding: 0.65rem;
+
+        overflow: hidden;
     }
 
 
@@ -1762,16 +1781,13 @@ and (max-width: 479px) {
 
 
     /* =============================================
-       TOUCH CTA REPLACES PANEL CONTENT
+       TOUCH CTA
     ============================================= */
 
     .work-card-link:active .work-card-footer {
         position: absolute;
 
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
+        inset: 0;
 
         display: flex;
 
@@ -1788,7 +1804,7 @@ and (max-width: 479px) {
 
         gap: 0;
 
-        overflow: visible;
+        overflow: hidden;
 
         pointer-events: none;
     }
@@ -1804,8 +1820,8 @@ and (max-width: 479px) {
 
         flex: 0 0 auto;
 
-        width: auto;
-        max-width: none;
+        width: max-content;
+        max-width: max-content;
 
         height: auto;
 
@@ -1819,6 +1835,8 @@ and (max-width: 479px) {
         pointer-events: auto;
 
         white-space: nowrap;
+
+        overflow: visible;
     }
 }
 

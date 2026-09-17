@@ -1,0 +1,21 @@
+{
+  "name": "native",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "gallery": "node scripts/generate-gallery-manifests.js"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alotanotech/portfolio-native.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/alotanotech/portfolio-native/issues"
+  },
+  "homepage": "https://github.com/alotanotech/portfolio-native#readme"
+}

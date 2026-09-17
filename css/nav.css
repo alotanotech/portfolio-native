@@ -1,12 +1,16 @@
+
 /* =========================================================
    MAIN LOGO
 ========================================================= */
 
 .main-logo {
+
     position: relative;
+
     display: block;
 
     width: 5rem;
+
     height: 5rem;
 
     --logo-hover-transform:
@@ -14,13 +18,18 @@
         scale(1.1)
         rotate(-15deg)
         translateY(6px);
+
+    flex-shrink: 0;
 }
 
 .main-logo img {
+
     position: absolute;
+
     inset: 0;
 
     width: 100%;
+
     height: 100%;
 
     object-fit: contain;
@@ -32,10 +41,12 @@
 ========================================================= */
 
 .main-logo-static {
+
     opacity: 1;
 }
 
 .main-logo-gif {
+
     opacity: 0;
 
     transform: scaleX(-1);
@@ -53,10 +64,12 @@
 ========================================================= */
 
 .main-logo:hover .main-logo-static {
+
     opacity: 0;
 }
 
 .main-logo:hover .main-logo-gif {
+
     opacity: 1;
 
     transform: var(--logo-hover-transform);
@@ -64,25 +77,36 @@
 
 
 /* =========================================================
-   TOPBAR
+   TOPBAR VARIABLES
 ========================================================= */
 
 :root {
+
     --topbar-height: 5rem;
+
+    --topbar-content-width: 80dvw;
 }
 
 
 /* =========================================================
    TOPBAR
+   ---------------------------------------------------------
+   80dvw CONTENT AREA
+
+   The navbar waits for the intro sequence to finish,
+   then enters from the right side of the screen.
 ========================================================= */
 
 .topbar {
+
     position: fixed;
 
     top: 0;
+
     left: 50%;
 
-    width: 80dvw;
+    width: var(--topbar-content-width);
+
     height: var(--topbar-height);
 
     z-index: 60;
@@ -90,26 +114,97 @@
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
     padding: 0;
 
     box-sizing: border-box;
 
+    background: transparent;
+
+    /*
+        The intro occupies the screen first.
+
+        The navbar waits before entering so its animation
+        is actually visible after the intro is gone.
+    */
     animation:
-        slide-down 0.8s ease-in forwards;
+        topbar-enter-right
+        1s
+        cubic-bezier(.16, 1, .3, 1)
+        1.5s
+        both;
+
+    /*
+        Keeps the pseudo-element background inside the
+        navbar stacking context.
+    */
+    isolation: isolate;
 }
 
 
-@keyframes slide-down {
+/* =========================================================
+   FULL-WIDTH BLACK BACKGROUND
+   ---------------------------------------------------------
+   The navbar content stays 80dvw.
+
+   This pseudo-element stretches the black background
+   to the entire viewport width.
+========================================================= */
+
+.topbar::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: 50%;
+
+    width: 100dvw;
+
+    height: 100%;
+
+    transform: translateX(-50%);
+
+    background: #000;
+
+    z-index: -1;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   TOPBAR ENTRANCE ANIMATION
+   ---------------------------------------------------------
+   The intro plays first.
+
+   After the 1.85s delay, the navbar slides in from
+   the right side and settles into its normal position.
+========================================================= */
+
+@keyframes topbar-enter-right {
+
     from {
+
         opacity: 0;
-        transform: translate(-50%, -30px);
+
+        transform:
+            translate(
+                calc(-50% + 120px),
+                0
+            );
     }
 
     to {
+
         opacity: 1;
-        transform: translate(-50%, 0);
+
+        transform:
+            translate(-50%, 0);
     }
 }
 
@@ -119,13 +214,16 @@
 ========================================================= */
 
 .nav-index {
+
     display: flex;
+
     align-items: center;
+
+    justify-content: flex-end;
 
     gap: 6px;
 
     flex-wrap: wrap;
-    justify-content: flex-end;
 }
 
 
@@ -134,12 +232,15 @@
 ========================================================= */
 
 .nav-links {
+
     display: flex;
+
     align-items: center;
 
     gap: 6px;
 
     margin: 0;
+
     padding: 0;
 
     list-style: none;
@@ -151,6 +252,7 @@
 ========================================================= */
 
 .nav-index .nav-links a {
+
     position: relative;
 
     display: inline-block;
@@ -158,9 +260,11 @@
     padding: 8px 12px;
 
     font-size: 0.9rem;
+
     line-height: 1.2;
 
     letter-spacing: 0.18em;
+
     text-transform: uppercase;
 
     color: var(--text-main);
@@ -180,6 +284,7 @@
 ========================================================= */
 
 .nav-index .nav-links a span {
+
     position: relative;
 
     display: inline-block;
@@ -191,7 +296,10 @@
     --glitch-color: #e0287d;
 
     animation:
-        nav-glitch-magenta 7s step-end infinite;
+        nav-glitch-magenta
+        7s
+        step-end
+        infinite;
 }
 
 
@@ -200,6 +308,7 @@
 ========================================================= */
 
 .nav-index .nav-links a::before {
+
     content: "";
 
     position: absolute;
@@ -215,7 +324,9 @@
         skewX(-12deg);
 
     transition:
-        transform 0.45s cubic-bezier(.16, 1, .3, 1);
+        transform
+        0.45s
+        cubic-bezier(.16, 1, .3, 1);
 
     pointer-events: none;
 }
@@ -226,6 +337,7 @@
 ========================================================= */
 
 .nav-index .nav-links a::after {
+
     content: attr(data-text);
 
     position: absolute;
@@ -247,43 +359,43 @@
     mix-blend-mode: screen;
 
     animation:
-        nav-glitch-cyan 7s step-end infinite;
+        nav-glitch-cyan
+        7s
+        step-end
+        infinite;
 }
 
 
 /* =========================================================
    NAV GLITCH OFFSETS
-   ---------------------------------------------------------
-   Every link uses the same 7s animation.
-
-   Negative delay starts each animation at a different
-   point in the 7s cycle.
 
    Home    = 0s
-   Work    = -1.75s
-   About   = -3.5s
+   About   = -1.75s
+   Work    = -3.5s
    Contact = -5.25s
-
-   Therefore they do NOT glitch simultaneously.
 ========================================================= */
 
 .nav-index .nav-links li:nth-child(1) a span,
 .nav-index .nav-links li:nth-child(1) a::after {
+
     animation-delay: 0s;
 }
 
 .nav-index .nav-links li:nth-child(2) a span,
 .nav-index .nav-links li:nth-child(2) a::after {
+
     animation-delay: -1.75s;
 }
 
 .nav-index .nav-links li:nth-child(3) a span,
 .nav-index .nav-links li:nth-child(3) a::after {
+
     animation-delay: -3.5s;
 }
 
 .contact-button span,
 .contact-button::after {
+
     animation-delay: -5.25s;
 }
 
@@ -498,25 +610,26 @@
 ========================================================= */
 
 .nav-index .nav-links a:hover {
+
     color: #000;
 }
 
-
 .nav-index .nav-links a:hover::before {
+
     transform:
         translateY(0)
         skewX(-12deg);
 }
 
-
 .nav-index .nav-links a:hover::after {
+
     animation: none;
 
     opacity: 0;
 }
 
-
 .nav-index .nav-links a:hover span {
+
     animation: none;
 
     color: #000;
@@ -534,6 +647,7 @@
 ========================================================= */
 
 .contact-button {
+
     position: relative;
 
     display: inline-block;
@@ -541,9 +655,11 @@
     padding: 10px 16px;
 
     font-size: 0.95rem;
+
     line-height: 1.2;
 
     letter-spacing: 0.16em;
+
     text-transform: uppercase;
 
     color: var(--text-main);
@@ -563,6 +679,7 @@
 ========================================================= */
 
 .contact-button span {
+
     position: relative;
 
     display: inline-block;
@@ -574,7 +691,10 @@
     --glitch-color: #e0287d;
 
     animation:
-        nav-glitch-magenta 7s step-end infinite;
+        nav-glitch-magenta
+        7s
+        step-end
+        infinite;
 }
 
 
@@ -583,6 +703,7 @@
 ========================================================= */
 
 .contact-button::before {
+
     content: "";
 
     position: absolute;
@@ -598,7 +719,9 @@
         skewX(-12deg);
 
     transition:
-        transform 0.45s cubic-bezier(.16, 1, .3, 1);
+        transform
+        0.45s
+        cubic-bezier(.16, 1, .3, 1);
 
     pointer-events: none;
 }
@@ -609,6 +732,7 @@
 ========================================================= */
 
 .contact-button::after {
+
     content: attr(data-text);
 
     position: absolute;
@@ -620,7 +744,9 @@
     z-index: 2;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     color: #1bc7fb;
@@ -634,7 +760,10 @@
     mix-blend-mode: screen;
 
     animation:
-        nav-glitch-cyan 7s step-end infinite;
+        nav-glitch-cyan
+        7s
+        step-end
+        infinite;
 }
 
 
@@ -643,25 +772,26 @@
 ========================================================= */
 
 .contact-button:hover {
+
     color: #000;
 }
 
-
 .contact-button:hover::before {
+
     transform:
         translateY(0)
         skewX(-12deg);
 }
 
-
 .contact-button:hover::after {
+
     animation: none;
 
     opacity: 0;
 }
 
-
 .contact-button:hover span {
+
     animation: none;
 
     color: #000;
@@ -675,52 +805,31 @@
 
 
 /* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    .topbar {
-        animation: none;
-    }
-
-    .nav-index .nav-links a::after,
-    .nav-index .nav-links a span,
-    .contact-button::after,
-    .contact-button span {
-        animation: none;
-    }
-
-    .nav-index .nav-links a::before,
-    .contact-button::before {
-        transition: none;
-    }
-}
-
-/* =========================================================
-   MOBILE NAVIGATION
-   ---------------------------------------------------------
-   HAMBURGER NAV
-   Active below 768px
+   MOBILE NAV TOGGLE
 ========================================================= */
 
 .nav-toggle {
+
     display: none;
 
     position: relative;
 
     width: 42px;
+
     height: 42px;
 
     padding: 0;
 
     border: 1px solid var(--accent);
+
     background: transparent;
 
     cursor: pointer;
 
     align-items: center;
+
     justify-content: center;
+
     flex-direction: column;
 
     gap: 5px;
@@ -734,9 +843,11 @@
 ========================================================= */
 
 .nav-toggle span {
+
     display: block;
 
     width: 20px;
+
     height: 2px;
 
     background: var(--text-main);
@@ -753,63 +864,134 @@
 ========================================================= */
 
 .nav-toggle:hover {
+
     background: var(--accent);
 }
 
 .nav-toggle:hover span {
+
     background: #000;
 }
 
 
 /* =========================================================
-   MOBILE MENU
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .topbar {
+
+        animation: none;
+
+        opacity: 1;
+
+        transform:
+            translate(-50%, 0);
+    }
+
+    .nav-index .nav-links a::after,
+    .nav-index .nav-links a span,
+    .contact-button::after,
+    .contact-button span {
+
+        animation: none;
+    }
+
+    .nav-index .nav-links a::before,
+    .contact-button::before {
+
+        transition: none;
+    }
+
+    .main-logo-gif {
+
+        transition: none;
+    }
+
+    .nav-toggle span {
+
+        transition: none;
+    }
+}
+
+
+/* =========================================================
+   MOBILE NAVIGATION
+   ---------------------------------------------------------
+   Active below 768px
 ========================================================= */
 
 @media (max-width: 767px) {
 
-    .topbar {
-        width: calc(100dvw - 2rem);
-        height: 4.5rem;
+    /* =====================================================
+       MOBILE TOPBAR
+       -----------------------------------------------------
+       The content area becomes viewport width minus
+       2rem, while the black background still reaches
+       the entire viewport.
+    ===================================================== */
 
-        padding: 0;
+    .topbar {
+
+        width: calc(100dvw - 2rem);
+
+        height: 4.5rem;
 
         left: 50%;
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
+       MOBILE FULL-WIDTH BACKGROUND
+    ===================================================== */
+
+    .topbar::before {
+
+        width: 100dvw;
+    }
+
+
+    /* =====================================================
        LOGO
-    ----------------------------------------------------- */
+    ===================================================== */
 
     .main-logo {
+
         width: 3.5rem;
+
         height: 3.5rem;
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        HAMBURGER
-    ----------------------------------------------------- */
+    ===================================================== */
 
     .nav-toggle {
+
         display: flex;
     }
 
 
-    /* -----------------------------------------------------
-       HIDE DESKTOP NAV
-    ----------------------------------------------------- */
+    /* =====================================================
+       MOBILE NAV CONTAINER
+    ===================================================== */
 
     .nav-index {
+
         position: absolute;
 
         top: calc(100% + 0.75rem);
+
         left: 0;
 
         width: 100%;
 
         display: flex;
+
         flex-direction: column;
+
         align-items: stretch;
 
         gap: 0;
@@ -823,6 +1005,7 @@
         box-sizing: border-box;
 
         opacity: 0;
+
         visibility: hidden;
 
         transform:
@@ -840,12 +1023,14 @@
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        OPEN MENU
-    ----------------------------------------------------- */
+    ===================================================== */
 
     .topbar.menu-open .nav-index {
+
         opacity: 1;
+
         visibility: visible;
 
         transform:
@@ -856,33 +1041,42 @@
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        LINK LIST
-    ----------------------------------------------------- */
+    ===================================================== */
 
     .nav-links {
+
         width: 100%;
 
         display: flex;
+
         flex-direction: column;
 
         gap: 0;
     }
 
 
+    /* =====================================================
+       LINK ITEMS
+    ===================================================== */
+
     .nav-index .nav-links li {
+
         width: 100%;
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        MOBILE LINKS
-    ----------------------------------------------------- */
+    ===================================================== */
 
     .nav-index .nav-links a {
+
         display: flex;
 
         width: 100%;
+
         min-height: 3.25rem;
 
         padding: 0 1rem;
@@ -892,9 +1086,11 @@
         align-items: center;
 
         font-size: 0.8rem;
+
         letter-spacing: 0.16em;
 
-        border-bottom: 1px solid
+        border-bottom:
+            1px solid
             color-mix(
                 in srgb,
                 var(--text-main) 12%,
@@ -903,32 +1099,40 @@
     }
 
 
+    /* =====================================================
+       LAST LINK
+    ===================================================== */
+
     .nav-index .nav-links li:last-child a {
+
         border-bottom: none;
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        CYAN GLITCH LAYER
-       Match mobile padding
-    ----------------------------------------------------- */
+    ===================================================== */
 
     .nav-index .nav-links a::after {
+
         padding: 0 1rem;
 
         display: flex;
+
         align-items: center;
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        CONTACT BUTTON
-    ----------------------------------------------------- */
+    ===================================================== */
 
     .contact-button {
+
         display: flex;
 
         width: 100%;
+
         min-height: 3.25rem;
 
         box-sizing: border-box;
@@ -936,14 +1140,17 @@
         padding: 0 1rem;
 
         align-items: center;
+
         justify-content: flex-start;
 
         font-size: 0.8rem;
+
         letter-spacing: 0.16em;
 
         margin-top: 0.5rem;
 
-        border-top: 1px solid
+        border-top:
+            1px solid
             color-mix(
                 in srgb,
                 var(--text-main) 12%,
@@ -952,28 +1159,422 @@
     }
 
 
+    /* =====================================================
+       CONTACT GLITCH LAYER
+    ===================================================== */
+
     .contact-button::after {
+
         padding: 0 1rem;
 
         align-items: center;
+
         justify-content: flex-start;
     }
 
 
-    /* -----------------------------------------------------
+    /* =====================================================
        HAMBURGER → X
-    ----------------------------------------------------- */
+    ===================================================== */
 
     .topbar.menu-open .nav-toggle span:nth-child(1) {
-        transform: translateY(7px) rotate(45deg);
+
+        transform:
+            translateY(7px)
+            rotate(45deg);
     }
 
     .topbar.menu-open .nav-toggle span:nth-child(2) {
+
         opacity: 0;
     }
 
     .topbar.menu-open .nav-toggle span:nth-child(3) {
-        transform: translateY(-7px) rotate(-45deg);
+
+        transform:
+            translateY(-7px)
+            rotate(-45deg);
+    }
+}
+
+
+/* =========================================================
+   INTRO
+========================================================= */
+
+.intro {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: grid;
+
+    place-items: center;
+
+    width: 100%;
+
+    height: 100dvh;
+
+    background: var(--bg-main);
+
+    overflow: hidden;
+
+    /*
+        The intro starts covering the entire website.
+        JS later adds .intro-hidden.
+    */
+
+    transform: translateY(0);
+
+    transition:
+        transform 1s var(--ease-io);
+
+    will-change: transform;
+}
+
+
+/* =========================================================
+   INTRO LOGO WRAPPER
+========================================================= */
+
+.intro-logo {
+
+    position: relative;
+
+    width: clamp(6rem, 12vw, 20rem);
+
+    aspect-ratio: 1;
+
+    display: grid;
+
+    place-items: center;
+
+    /*
+        Keeps both logo versions perfectly stacked.
+    */
+
+    transform:
+        scale(.5)
+        rotate(-20deg);
+
+    opacity: 0;
+
+    animation:
+        intro-logo-enter
+        0.8s
+        var(--ease-out)
+        .15s
+        forwards;
+}
+
+
+/* =========================================================
+   LOGO IMAGES
+========================================================= */
+
+.intro-logo img {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    border-radius: 100%;
+
+    object-fit: contain;
+
+    user-select: none;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   STATIC PNG
+========================================================= */
+
+.intro-static {
+
+    opacity: 1;
+
+    transform:
+        scaleX(-1)
+        rotate(0deg);
+
+    /*
+        PNG stays visible initially.
+    */
+
+    animation:
+        intro-static-out
+        .35s
+        var(--ease-out)
+        1.25s
+        forwards;
+}
+
+
+/* =========================================================
+   GIF
+========================================================= */
+
+.intro-gif {
+
+    opacity: 0;
+
+    transform:
+        scaleX(-1)
+        scale(.85)
+        rotate(-8deg);
+
+    /*
+        GIF appears after the logo has entered.
+    */
+
+    animation:
+        intro-gif-in
+        .45s
+        var(--ease-out)
+        1.2s
+        forwards;
+}
+
+
+/* =========================================================
+   LOGO ENTRY
+========================================================= */
+
+@keyframes intro-logo-enter {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            scale(.35)
+            rotate(-35deg);
     }
 
+    35% {
+
+        opacity: 1;
+
+        transform:
+            scale(1.18)
+            rotate(12deg);
+    }
+
+    55% {
+
+        transform:
+            scale(.92)
+            rotate(-6deg);
+    }
+
+    75% {
+
+        transform:
+            scale(1.06)
+            rotate(3deg);
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            scale(1)
+            rotate(0deg);
+    }
 }
+
+
+/* =========================================================
+   STATIC LOGO EXIT
+========================================================= */
+
+@keyframes intro-static-out {
+
+    0% {
+
+        opacity: 1;
+
+        transform:
+            scaleX(-1)
+            scale(1);
+    }
+
+    100% {
+
+        opacity: 0;
+
+        transform:
+            scaleX(-1)
+            scale(.85)
+            rotate(-8deg);
+    }
+}
+
+
+/* =========================================================
+   GIF ENTRY
+========================================================= */
+
+@keyframes intro-gif-in {
+
+    0% {
+
+        opacity: 0;
+
+        transform:
+            scaleX(-1)
+            scale(.8)
+            rotate(-10deg);
+    }
+
+    55% {
+
+        opacity: 1;
+
+        transform:
+            scaleX(-1)
+            scale(1.08)
+            rotate(5deg);
+    }
+
+    100% {
+
+        opacity: 1;
+
+        transform:
+            scaleX(-1)
+            scale(1)
+            rotate(0deg);
+    }
+}
+
+
+/* =========================================================
+   INTRO EXIT
+========================================================= */
+
+.intro-hidden {
+
+    transform: translateY(-100%);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   OPTIONAL EXIT ACCENT
+========================================================= */
+
+/*
+    This creates a tiny yellow edge during the screen reveal.
+    It is subtle enough not to turn your portfolio into
+    a PowerPoint transition from 2007.
+*/
+
+.intro::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+
+    bottom: 0;
+
+    width: 100%;
+
+    height: 20px;
+
+    background: var(--accent);
+
+    transform: scaleX(0);
+
+    transform-origin: left;
+
+    animation:
+        intro-edge
+        1.8s
+        var(--ease-out)
+        forwards;
+
+    pointer-events: none;
+}
+
+
+@keyframes intro-edge {
+
+    0% {
+
+        transform: scaleX(0);
+    }
+
+    55% {
+
+        transform: scaleX(1);
+    }
+
+    100% {
+
+        transform: scaleX(1);
+    }
+}
+
+
+/* =========================================================
+   INTRO REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .intro {
+
+        transition: none;
+    }
+
+    .intro-logo {
+
+        opacity: 1;
+
+        transform: none;
+
+        animation: none;
+    }
+
+    .intro-static {
+
+        opacity: 1;
+
+        animation: none;
+    }
+
+    .intro-gif {
+
+        opacity: 0;
+
+        animation: none;
+    }
+
+    .intro::after {
+
+        animation: none;
+
+        transform: scaleX(1);
+    }
+
+    .intro-hidden {
+
+        transform: translateY(-100%);
+    }
+}
+
