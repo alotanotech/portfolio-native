@@ -1,0 +1,1862 @@
+/* =========================================================
+   WORK
+========================================================= */
+
+.work {
+    position: relative;
+
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+    background: #FFFFFF;
+    color: #111111;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   NAVBAR OFFSET
+   ---------------------------------------------------------
+   Reserves the fixed navbar space while keeping the
+   entire WORK section at exactly 100dvh.
+========================================================= */
+
+.work-nav-offset {
+    flex: 0 0 5rem;
+
+    width: 100%;
+    height: 5rem;
+    background-color: black;
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   WORK HEADER
+========================================================= */
+
+.work-header {
+    position: relative;
+
+    flex: 0 0 auto;
+
+    width: min(70dvw, 1200px);
+
+    margin: 0 auto;
+
+    padding-top: 2rem;
+    padding-bottom: 1.25rem;
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+
+    align-items: end;
+
+    border-bottom: 1px solid #111111;
+
+    box-sizing: border-box;
+
+    z-index: 20;
+}
+
+
+/* =========================================================
+   HEADER INDEX
+========================================================= */
+
+.work-header-index {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    font-size: 0.6rem;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    color: #111111;
+}
+
+
+/* =========================================================
+   STATUS DOT
+========================================================= */
+
+.work-status-dot {
+    width: 0.4rem;
+    height: 0.4rem;
+
+    display: block;
+
+    flex: 0 0 auto;
+
+    background: #111111;
+
+    animation:
+        work-status-pulse
+        2s steps(2, end)
+        infinite;
+}
+
+
+/* =========================================================
+   HEADER MAIN
+========================================================= */
+
+.work-header-main {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 0.1rem;
+}
+
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.work-eyebrow {
+    margin: 0;
+
+    font-size: 0.55rem;
+    font-weight: 700;
+
+    letter-spacing: 0.18em;
+
+    color: #111111;
+}
+
+
+/* =========================================================
+   MAIN TITLE
+========================================================= */
+
+.work-title {
+    margin: 0;
+
+    font-size: clamp(
+        1.5rem,
+        1rem + 2vw,
+        3rem
+    );
+
+    line-height: 0.8;
+
+    font-weight: 800;
+
+    letter-spacing: -0.04em;
+
+    text-transform: uppercase;
+
+    color: #111111;
+}
+
+
+/* =========================================================
+   HEADER META
+========================================================= */
+
+.work-header-meta {
+    justify-self: end;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.65rem;
+
+    font-size: 0.6rem;
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    color: #111111;
+}
+
+
+/* =========================================================
+   PROJECT COUNT
+========================================================= */
+
+.work-project-count {
+    padding: 0.25rem 0.4rem;
+
+    border: 1px solid #111111;
+
+    color: #111111;
+
+    font-size: 0.55rem;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   WORK SCROLL
+   ---------------------------------------------------------
+   This area consumes all remaining space.
+
+   4 projects on desktop = normally visible.
+   5+ projects = vertical scrolling inside this area.
+========================================================= */
+
+.work-scroll {
+    position: relative;
+
+    flex: 1 1 auto;
+
+    width: min(70dvw, 1200px);
+
+    min-height: 0;
+
+    margin: 0 auto;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    box-sizing: border-box;
+
+    scrollbar-width: thin;
+
+    scrollbar-color:
+        #111111
+        transparent;
+
+    scroll-behavior: smooth;
+
+    overscroll-behavior: contain;
+
+    padding-top: 1.5rem;
+    padding-bottom: 4rem;
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+.work-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.work-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.work-scroll::-webkit-scrollbar-thumb {
+    background: #111111;
+}
+
+
+/* =========================================================
+   WORK GRID
+========================================================= */
+
+.work-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 4rem 3rem;
+
+    width: 100%;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   WORK CARD
+   ---------------------------------------------------------
+   Reserves space for the information panel.
+========================================================= */
+
+.work-card {
+    position: relative;
+
+    width: 100%;
+    min-width: 0;
+
+    padding-right: 8rem;
+
+    box-sizing: border-box;
+
+    animation:
+        work-card-enter
+        linear both;
+
+    animation-timeline: view();
+
+    animation-range:
+        entry 0%
+        cover 35%;
+}
+
+
+/* =========================================================
+   CARD LINK
+   ---------------------------------------------------------
+   16:9 IMAGE FRAME
+========================================================= */
+
+.work-card-link {
+    position: relative;
+
+    display: block;
+
+    width: 100%;
+
+    aspect-ratio: 16 / 9;
+
+    height: auto;
+
+    color: #111111;
+
+    text-decoration: none;
+
+    box-sizing: border-box;
+
+    cursor: pointer;
+
+    overflow: visible;
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   CARD INDEX
+========================================================= */
+
+.work-card-index {
+    position: absolute;
+
+    top: 0.6rem;
+    left: 0.6rem;
+
+    z-index: 30;
+
+    padding: 0.2rem 0.35rem;
+
+    background: #FFFFFF;
+
+    border: 1px solid #111111;
+
+    color: #111111;
+
+    font-size: 0.55rem;
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+
+    line-height: 1;
+
+    pointer-events: none;
+
+    transition:
+        transform 300ms
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =========================================================
+   IMAGE WRAPPER
+========================================================= */
+
+.work-image-wrapper {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: #111111;
+
+    box-sizing: border-box;
+
+    z-index: 1;
+
+    transition:
+        width 500ms
+        cubic-bezier(.2,.8,.2,1),
+
+        transform 500ms
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.work-image {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    transform: scale(1);
+
+    filter:
+        contrast(1.05);
+
+    transition:
+        transform 650ms
+        cubic-bezier(.2,.8,.2,1),
+
+        filter 350ms ease;
+}
+
+
+/* =========================================================
+   IMAGE OVERLAY
+========================================================= */
+
+.work-image-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent 0%,
+            transparent 70%,
+            rgba(0, 0, 0, 0.18) 100%
+        );
+
+    transition:
+        opacity 350ms ease;
+}
+
+
+/* =========================================================
+   IMAGE CODE
+========================================================= */
+
+.work-image-code {
+    position: absolute;
+
+    right: 0.6rem;
+    bottom: 0.5rem;
+
+    z-index: 4;
+
+    color: #FFFFFF;
+
+    font-size: 0.5rem;
+
+    letter-spacing: 0.1em;
+
+    opacity: 0.7;
+
+    pointer-events: none;
+
+    transition:
+        opacity 300ms ease;
+}
+
+
+/* =========================================================
+   OVERLAPPING PROJECT INFO
+========================================================= */
+
+.work-card-content {
+    position: absolute;
+
+    top: 50%;
+    right: -8rem;
+
+    width: 14rem;
+    height: 10rem;
+
+    transform:
+        translateY(-50%);
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    padding: 0.9rem;
+
+    box-sizing: border-box;
+
+    background: #FFFFFF;
+
+    border: 1px solid #111111;
+
+    overflow: visible;
+
+    z-index: 10;
+
+    transition:
+        width 500ms
+        cubic-bezier(.2,.8,.2,1),
+
+        height 500ms
+        cubic-bezier(.2,.8,.2,1),
+
+        transform 500ms
+        cubic-bezier(.2,.8,.2,1),
+
+        padding 500ms
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.work-card-top {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 0.5rem;
+
+    font-size: 0.5rem;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    color: #111111;
+
+    transition:
+        opacity 250ms ease,
+
+        transform 350ms
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =========================================================
+   CARD TYPE
+========================================================= */
+
+.work-card-type {
+    color: #111111;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   CARD STATE
+========================================================= */
+
+.work-card-state {
+    color: #111111;
+
+    white-space: nowrap;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   TITLE WRAPPER
+========================================================= */
+
+.work-card-title-wrapper {
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: flex-start;
+
+    min-width: 0;
+
+    height: 100%;
+
+    overflow: hidden;
+
+    color: #111111;
+
+    transition:
+        opacity 250ms ease,
+
+        transform 350ms
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =========================================================
+   PROJECT TITLE
+========================================================= */
+
+.work-card-title,
+.work-card-title-secondary {
+    position: relative;
+
+    max-width: 100%;
+
+    margin: 0;
+
+    font-size: clamp(
+        1.15rem,
+        1.8vw,
+        2.35rem
+    );
+
+    line-height: 0.85;
+
+    font-weight: 800;
+
+    letter-spacing: -0.045em;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    color: #111111;
+}
+
+
+/* =========================================================
+   SECONDARY TITLE
+========================================================= */
+
+.work-card-title-secondary {
+    color: #111111;
+}
+
+
+/* =========================================================
+   CARD FOOTER
+========================================================= */
+
+.work-card-footer {
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 0.5rem;
+
+    font-size: 0.5rem;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+
+    color: #111111;
+}
+
+
+/* =========================================================
+   PROJECT ID
+========================================================= */
+
+.work-card-id {
+    color: #111111;
+
+    font-weight: 700;
+
+    transition:
+        opacity 250ms ease,
+
+        transform 350ms
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.work-card-action {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 0.3rem;
+
+    width: auto;
+
+    color: #111111;
+
+    font-size: 0.8rem;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    white-space: nowrap;
+
+    opacity: 0;
+
+    transform:
+        translateY(0.5rem);
+
+    pointer-events: none;
+
+    transition:
+        opacity 250ms ease,
+
+        transform 350ms
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =========================================================
+   ARROW
+========================================================= */
+
+.work-arrow {
+    display: inline-block;
+
+    color: #111111;
+
+    transition:
+        transform 300ms
+        cubic-bezier(.2,.8,.2,1);
+}
+
+
+/* =========================================================
+   CORNER MARKERS
+========================================================= */
+
+.work-card-link::before,
+.work-card-link::after {
+    content: "";
+
+    position: absolute;
+
+    width: 0.45rem;
+    height: 0.45rem;
+
+    z-index: 25;
+
+    pointer-events: none;
+
+    transition:
+        width 250ms ease,
+        height 250ms ease;
+}
+
+
+.work-card-link::before {
+    top: -1px;
+    right: -1px;
+
+    border-top: 1px solid #111111;
+    border-right: 1px solid #111111;
+}
+
+
+.work-card-link::after {
+    bottom: -1px;
+    left: -1px;
+
+    border-bottom: 1px solid #111111;
+    border-left: 1px solid #111111;
+}
+
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.work-card-link:hover .work-image-wrapper {
+    width: calc(100% + 8rem);
+}
+
+
+.work-card-link:hover .work-image {
+    transform: scale(1.8);
+
+    filter:
+        contrast(1.1);
+}
+
+
+.work-card-link:hover .work-image-overlay {
+    opacity: 0.35;
+}
+
+
+.work-card-link:hover .work-image-code {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   INFORMATION PANEL SHRINK
+========================================================= */
+
+.work-card-link:hover .work-card-content {
+    width: 8rem;
+    height: 6rem;
+
+    transform:
+        translateY(-50%);
+
+    padding: 0.65rem;
+
+    overflow: visible;
+}
+
+
+/* =========================================================
+   HIDE NORMAL INFORMATION
+========================================================= */
+
+.work-card-link:hover .work-card-top,
+.work-card-link:hover .work-card-title-wrapper,
+.work-card-link:hover .work-card-id {
+    opacity: 0;
+
+    transform:
+        translateY(-0.5rem);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   HOVER FOOTER
+========================================================= */
+
+.work-card-link:hover .work-card-footer {
+    position: absolute;
+
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    width: auto;
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    gap: 0;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+/* =========================================================
+   HOVER CTA
+========================================================= */
+
+.work-card-link:hover .work-card-action {
+    position: static;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    flex: 0 1 auto;
+
+    width: 100%;
+    max-width: 100%;
+
+    height: auto;
+
+    margin: 0;
+    padding: 0;
+
+    transform: none;
+
+    opacity: 1;
+
+    pointer-events: auto;
+
+    white-space: nowrap;
+
+    box-sizing: border-box;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   CTA ARROW
+========================================================= */
+
+.work-card-link:hover .work-arrow {
+    transform:
+        translate(0.15rem, -0.15rem);
+}
+
+
+/* =========================================================
+   INDEX HOVER
+========================================================= */
+
+.work-card-link:hover .work-card-index {
+    transform:
+        translate(0.15rem, 0.15rem);
+}
+
+
+/* =========================================================
+   CORNER MARKERS HOVER
+========================================================= */
+
+.work-card-link:hover::before,
+.work-card-link:hover::after {
+    width: 1rem;
+    height: 1rem;
+}
+
+
+/* =========================================================
+   WORK FOOTER
+========================================================= */
+
+.work-footer {
+    flex: 0 0 auto;
+
+    width: min(70dvw, 1200px);
+
+    margin: 0 auto;
+
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.75rem;
+
+    font-size: 0.5rem;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    color: #111111;
+
+    box-sizing: border-box;
+}
+
+
+.work-footer-line {
+    flex: 1;
+
+    height: 1px;
+
+    background: #111111;
+}
+
+
+/* =========================================================
+   SCROLL INTRO
+========================================================= */
+
+@keyframes work-card-enter {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(3rem)
+            scale(0.96);
+
+        filter:
+            blur(5px);
+    }
+
+    35% {
+        opacity: 0.5;
+
+        transform:
+            translateY(1rem)
+            scale(0.985);
+
+        filter:
+            blur(2px);
+    }
+
+    70% {
+        opacity: 0.85;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter:
+            blur(0);
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter:
+            blur(0);
+    }
+}
+
+
+/* =========================================================
+   STATUS PULSE
+========================================================= */
+
+@keyframes work-status-pulse {
+
+    0%,
+    45% {
+        opacity: 1;
+    }
+
+    46%,
+    55% {
+        opacity: 0.25;
+    }
+
+    56%,
+    100% {
+        opacity: 1;
+    }
+}
+
+
+/* =========================================================
+   1440+
+========================================================= */
+
+@media (min-width: 1440px) {
+
+    .work-header {
+        width: min(70dvw, 1400px);
+
+        padding-top: 2.5rem;
+        padding-bottom: 1.5rem;
+    }
+
+
+    .work-scroll {
+        width: min(70dvw, 1400px);
+
+        padding-top: 2rem;
+        padding-bottom: 5rem;
+    }
+
+
+    .work-grid {
+        gap: 4.5rem 3.5rem;
+    }
+
+
+    .work-card {
+        padding-right: 10rem;
+    }
+
+
+    .work-card-link {
+        height: auto;
+
+        aspect-ratio: 16 / 9;
+    }
+
+
+    .work-card-content {
+        right: -10rem;
+
+        width: 17rem;
+        height: 12rem;
+
+        padding: 1rem;
+    }
+
+
+    .work-card-link:hover .work-image-wrapper {
+        width: calc(100% + 10rem);
+    }
+
+
+    .work-card-link:hover .work-card-content {
+        width: 9rem;
+        height: 7rem;
+
+        padding: 0.75rem;
+    }
+
+
+    .work-card-title,
+    .work-card-title-secondary {
+        font-size: clamp(
+            1.5rem,
+            2vw,
+            2.8rem
+        );
+    }
+
+
+    .work-card-action {
+        font-size: 0.9rem;
+    }
+
+
+    .work-footer {
+        width: min(70dvw, 1400px);
+    }
+}
+
+
+/* =========================================================
+   1024 - 1439
+========================================================= */
+
+@media (min-width: 1024px)
+and (max-width: 1439px) {
+
+    .work-header {
+        width: 70dvw;
+    }
+
+
+    .work-scroll {
+        width: 70dvw;
+    }
+
+
+    .work-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 3rem 2rem;
+    }
+
+
+    .work-card {
+        padding-right: 7rem;
+    }
+
+
+    .work-card-link {
+        height: auto;
+
+        aspect-ratio: 16 / 9;
+    }
+
+
+    .work-card-content {
+        right: -7rem;
+
+        width: 13rem;
+        height: 10rem;
+
+        padding: 0.75rem;
+    }
+
+
+    .work-card-link:hover .work-image-wrapper {
+        width: calc(100% + 7rem);
+    }
+
+
+    .work-card-link:hover .work-card-content {
+        width: 7rem;
+        height: 5.5rem;
+
+        padding: 0.6rem;
+    }
+
+
+    .work-card-title,
+    .work-card-title-secondary {
+        font-size: clamp(
+            1.1rem,
+            1.7vw,
+            2.15rem
+        );
+    }
+
+
+    .work-card-action {
+        font-size: 0.8rem;
+    }
+
+
+    .work-footer {
+        width: 70dvw;
+    }
+}
+
+
+/* =========================================================
+   768 - 1023
+========================================================= */
+
+@media (min-width: 768px)
+and (max-width: 1023px) {
+
+    .work-header {
+        width: 80dvw;
+    }
+
+
+    .work-scroll {
+        width: 80dvw;
+    }
+
+
+    .work-grid {
+        grid-template-columns: 1fr;
+
+        gap: 3rem;
+    }
+
+
+    .work-card {
+        padding-right: 8rem;
+    }
+
+
+    .work-card-link {
+        height: auto;
+
+        aspect-ratio: 16 / 9;
+    }
+
+
+    .work-card-content {
+        right: -8rem;
+
+        width: 14rem;
+        height: 10.5rem;
+    }
+
+
+    .work-card-link:hover .work-image-wrapper {
+        width: calc(100% + 8rem);
+    }
+
+
+    .work-card-link:hover .work-card-content {
+        width: 8rem;
+        height: 6rem;
+    }
+
+
+    .work-card-title,
+    .work-card-title-secondary {
+        font-size: clamp(
+            1.2rem,
+            2.5vw,
+            2rem
+        );
+    }
+
+
+    .work-card-action {
+        font-size: 0.8rem;
+    }
+
+
+    .work-footer {
+        width: 80dvw;
+    }
+}
+
+
+/* =========================================================
+   600 - 767
+========================================================= */
+
+@media (min-width: 600px)
+and (max-width: 767px) {
+
+    .work-header {
+        width: 84dvw;
+
+        padding-top: 1.5rem;
+        padding-bottom: 1rem;
+    }
+
+
+    .work-scroll {
+        width: 84dvw;
+
+        padding-top: 1rem;
+        padding-bottom: 3rem;
+    }
+
+
+    .work-grid {
+        grid-template-columns: 1fr;
+
+        gap: 2rem;
+    }
+
+
+    .work-card {
+        padding-right: 6rem;
+    }
+
+
+    .work-card-link {
+        height: auto;
+
+        aspect-ratio: 16 / 9;
+    }
+
+
+    .work-card-content {
+        right: -6rem;
+
+        width: 11rem;
+        height: 9rem;
+
+        padding: 0.65rem;
+    }
+
+
+    .work-card-link:hover .work-image-wrapper {
+        width: calc(100% + 6rem);
+    }
+
+
+    .work-card-link:hover .work-card-content {
+        width: 6.5rem;
+        height: 5rem;
+
+        padding: 0.55rem;
+    }
+
+
+    .work-card-title,
+    .work-card-title-secondary {
+        font-size: clamp(
+            0.9rem,
+            3.4vw,
+            1.55rem
+        );
+    }
+
+
+    .work-card-top,
+    .work-card-footer {
+        font-size: 0.45rem;
+    }
+
+
+    .work-card-action {
+        font-size: 0.7rem;
+    }
+
+
+    .work-image-code {
+        font-size: 0.42rem;
+    }
+
+
+    .work-footer {
+        width: 84dvw;
+    }
+}
+
+
+/* =========================================================
+   480 - 599
+========================================================= */
+
+@media (min-width: 480px)
+and (max-width: 599px) {
+
+    .work-header {
+        width: 88dvw;
+    }
+
+
+    .work-scroll {
+        width: 88dvw;
+    }
+
+
+    .work-grid {
+        grid-template-columns: 1fr;
+
+        gap: 1.75rem;
+    }
+
+
+    .work-card {
+        padding-right: 4.5rem;
+    }
+
+
+    .work-card-link {
+        height: auto;
+
+        aspect-ratio: 16 / 9;
+    }
+
+
+    .work-card-content {
+        right: -4.5rem;
+
+        width: 8.5rem;
+        height: 7.5rem;
+
+        padding: 0.65rem;
+    }
+
+
+    .work-card-link:hover .work-image-wrapper {
+        width: calc(100% + 4.5rem);
+    }
+
+
+    .work-card-link:hover .work-card-content {
+        width: 5.5rem;
+        height: 4.5rem;
+
+        padding: 0.45rem;
+    }
+
+
+    .work-card-title,
+    .work-card-title-secondary {
+        font-size: clamp(
+            0.78rem,
+            4vw,
+            1.4rem
+        );
+    }
+
+
+    .work-card-top,
+    .work-card-footer {
+        font-size: 0.42rem;
+    }
+
+
+    .work-card-action {
+        font-size: 0.65rem;
+    }
+
+
+    .work-image-code {
+        font-size: 0.42rem;
+    }
+
+
+    .work-footer {
+        width: 88dvw;
+    }
+}
+
+
+/* =========================================================
+   360 - 479
+========================================================= */
+
+@media (min-width: 360px)
+and (max-width: 479px) {
+
+    .work-header {
+        width: 90dvw;
+
+        padding-top: 1rem;
+        padding-bottom: 0.8rem;
+    }
+
+
+    .work-header-index {
+        font-size: 0.5rem;
+    }
+
+
+    .work-header-meta {
+        font-size: 0.5rem;
+    }
+
+
+    .work-scroll {
+        width: 90dvw;
+
+        padding-top: 0.8rem;
+        padding-bottom: 3rem;
+    }
+
+
+    .work-grid {
+        grid-template-columns: 1fr;
+
+        gap: 1.5rem;
+    }
+
+
+    .work-card {
+        padding-right: 3.5rem;
+    }
+
+
+    .work-card-link {
+        height: auto;
+
+        aspect-ratio: 16 / 9;
+    }
+
+
+    .work-card-content {
+        right: -3.5rem;
+
+        width: 6.5rem;
+        height: 6rem;
+
+        padding: 0.5rem;
+    }
+
+
+    .work-card-link:hover .work-image-wrapper {
+        width: calc(100% + 3.5rem);
+    }
+
+
+    .work-card-link:hover .work-card-content {
+        width: 4.5rem;
+        height: 4rem;
+
+        padding: 0.4rem;
+    }
+
+
+    .work-card-title,
+    .work-card-title-secondary {
+        font-size: clamp(
+            0.68rem,
+            4vw,
+            1.15rem
+        );
+    }
+
+
+    .work-card-top,
+    .work-card-footer {
+        font-size: 0.42rem;
+    }
+
+
+    .work-card-action {
+        font-size: 0.6rem;
+    }
+
+
+    .work-image-code {
+        font-size: 0.42rem;
+    }
+
+
+    .work-footer {
+        width: 90dvw;
+
+        font-size: 0.42rem;
+    }
+}
+
+
+/* =========================================================
+   320 - 359
+========================================================= */
+
+@media (max-width: 359px) {
+
+    .work-header {
+        width: 92dvw;
+
+        padding-top: 0.8rem;
+        padding-bottom: 0.7rem;
+    }
+
+
+    .work-header-index {
+        font-size: 0.42rem;
+    }
+
+
+    .work-header-meta {
+        font-size: 0.42rem;
+    }
+
+
+    .work-title {
+        font-size: 1.35rem;
+    }
+
+
+    .work-scroll {
+        width: 92dvw;
+
+        padding-top: 0.7rem;
+        padding-bottom: 2.5rem;
+    }
+
+
+    .work-grid {
+        grid-template-columns: 1fr;
+
+        gap: 1.25rem;
+    }
+
+
+    .work-card {
+        padding-right: 2.75rem;
+    }
+
+
+    .work-card-link {
+        height: auto;
+
+        aspect-ratio: 16 / 9;
+    }
+
+
+    .work-card-content {
+        right: -2.75rem;
+
+        width: 5.25rem;
+        height: 4.75rem;
+
+        padding: 0.4rem;
+    }
+
+
+    .work-card-link:hover .work-image-wrapper {
+        width: calc(100% + 2.75rem);
+    }
+
+
+    .work-card-link:hover .work-card-content {
+        width: 3.75rem;
+        height: 3.25rem;
+
+        padding: 0.3rem;
+    }
+
+
+    .work-card-title,
+    .work-card-title-secondary {
+        font-size: 0.64rem;
+    }
+
+
+    .work-card-top,
+    .work-card-footer {
+        font-size: 0.36rem;
+    }
+
+
+    .work-card-action {
+        font-size: 0.55rem;
+    }
+
+
+    .work-card-index {
+        top: 0.35rem;
+        left: 0.35rem;
+
+        font-size: 0.4rem;
+    }
+
+
+    .work-image-code {
+        font-size: 0.36rem;
+    }
+
+
+    .work-footer {
+        width: 92dvw;
+
+        font-size: 0.36rem;
+    }
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) {
+
+    .work-card-link:active .work-image-wrapper {
+        width: calc(100% + 8rem);
+    }
+
+
+    .work-card-link:active .work-image {
+        transform: scale(1.35);
+
+        filter:
+            contrast(1.1);
+    }
+
+
+    .work-card-link:active .work-card-content {
+        width: 8rem;
+        height: 6rem;
+
+        overflow: visible;
+    }
+
+
+    .work-card-link:active .work-card-top,
+    .work-card-link:active .work-card-title-wrapper,
+    .work-card-link:active .work-card-id {
+        opacity: 0;
+
+        transform:
+            translateY(-0.5rem);
+    }
+
+
+    /* =============================================
+       TOUCH CTA REPLACES PANEL CONTENT
+    ============================================= */
+
+    .work-card-link:active .work-card-footer {
+        position: absolute;
+
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        width: auto;
+        height: auto;
+
+        margin: 0;
+        padding: 0;
+
+        box-sizing: border-box;
+
+        gap: 0;
+
+        overflow: visible;
+
+        pointer-events: none;
+    }
+
+
+    .work-card-link:active .work-card-action {
+        position: static;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        flex: 0 0 auto;
+
+        width: auto;
+        max-width: none;
+
+        height: auto;
+
+        margin: 0;
+        padding: 0;
+
+        opacity: 1;
+
+        transform: none;
+
+        pointer-events: auto;
+
+        white-space: nowrap;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .work-card {
+        animation: none;
+    }
+
+
+    .work-image,
+    .work-image-wrapper,
+    .work-card-content,
+    .work-card-title,
+    .work-card-title-secondary,
+    .work-card-action,
+    .work-arrow,
+    .work-card-index,
+    .work-image-code,
+    .work-image-overlay,
+    .work-card-top,
+    .work-card-title-wrapper,
+    .work-card-id {
+        transition: none;
+    }
+
+
+    .work-status-dot {
+        animation: none;
+    }
+
+
+    .work-scroll {
+        scroll-behavior: auto;
+    }
+}
