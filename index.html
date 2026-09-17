@@ -12,8 +12,7 @@
     <link rel="stylesheet" href="/css/hero.css">
  <link rel="stylesheet" href="/css/intro.css">
  <link rel="stylesheet" href="/css/about.css">
- <script src="/js/hero.js"></script>
-  <script src="/js/nav.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -114,29 +113,7 @@
 <section class="hero" id="hero">
 
     <div class="hero-cursor"></div>
-    <!-- <div class="hero-grid" aria-hidden="true">
-        <div class="grid-line grid-v grid-v-1"></div>
-        <div class="grid-line grid-v grid-v-2"></div>
-        <div class="grid-line grid-v grid-v-3"></div>
-        <div class="grid-line grid-v grid-v-4"></div>
-
-        <div class="grid-line grid-h grid-h-1"></div>
-        <div class="grid-line grid-h grid-h-2"></div>
-        <div class="grid-line grid-h grid-h-3"></div>
-        <div class="grid-line grid-h grid-h-4"></div>
-
-        <span class="grid-dot grid-dot-1"></span>
-        <span class="grid-dot grid-dot-2"></span>
-        <span class="grid-dot grid-dot-3"></span>
-
-        <span class="grid-dot grid-dot-4"></span>
-        <span class="grid-dot grid-dot-5"></span>
-        <span class="grid-dot grid-dot-6"></span>
-
-        <span class="grid-dot grid-dot-7"></span>
-        <span class="grid-dot grid-dot-8"></span>
-        <span class="grid-dot grid-dot-9"></span>
-    </div> -->
+  
 
     <div class="container">
 
@@ -283,18 +260,47 @@
 
                             <!-- PROFILE IMAGE -->
 
-                            <div class="identity-photo">
+                      
+<div class="identity-photo">
 
-                                <img
-                                    src="/asset/hero/Regular.png"
-                                    alt="Christopher Aurellyan Alotano Luna"
-                                >
+    <!-- =============================================
+         REGULAR PROFILE
+    ============================================== -->
 
-                                <span class="identity-photo-code">
-                                    IMG / 001
-                                </span>
+    <img
+        src="/asset/hero/Regular.png"
+        alt="Christopher Aurellyan Alotano Luna"
+        class="identity-regular"
+    >
 
-                            </div>
+
+    <!-- =============================================
+         CYBER PROFILE
+    ============================================== -->
+
+    <div class="identity-cyber-layer">
+
+        <img
+            src="/asset/hero/Cyber.png"
+            alt=""
+            class="identity-cyber"
+            aria-hidden="true"
+        >
+
+    </div>
+
+
+    <!-- =============================================
+         PROFILE META
+    ============================================== -->
+
+    <span class="identity-photo-code">
+        IMG / 001
+    </span>
+
+</div>
+
+
 
 
                             <!-- PROFILE INFORMATION -->
@@ -853,3 +859,7 @@
 </body>
 
 </html>
+
+ <script src="/js/hero.js"></script>
+  <script src="/js/nav.js"></script>
+  <script src="/js/about.js"></script>

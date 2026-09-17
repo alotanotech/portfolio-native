@@ -1,4 +1,3 @@
-
 /* =========================================================
    ABOUT
    ---------------------------------------------------------
@@ -19,8 +18,7 @@
     justify-content: center;
 
     /*
-     * The navigation is fixed and therefore removed from
-     * normal document flow.
+     * Navigation is fixed and removed from normal flow.
      */
     padding-top: var(--topbar-height);
     padding-bottom: 1.5rem;
@@ -43,10 +41,6 @@
 
     width: min(80dvw, 1200px);
 
-    /*
-     * Leaves room for the fixed navigation and breathing
-     * space around the database.
-     */
     height: min(
         calc(100dvh - var(--topbar-height) - 3rem),
         850px
@@ -173,10 +167,6 @@
 .database-body {
     display: grid;
 
-    /*
-     * Left = identity + skills
-     * Right = description
-     */
     grid-template-columns:
         minmax(0, 0.9fr)
         minmax(0, 1.1fr);
@@ -364,6 +354,12 @@
 
 /* =========================================================
    IDENTITY PHOTO
+   ---------------------------------------------------------
+   IMPORTANT:
+   This element remains the sizing authority.
+
+   All Regular / Cyber layers are positioned inside
+   this exact box and can never change its dimensions.
 ========================================================= */
 
 .identity-photo {
@@ -375,14 +371,24 @@
 
     overflow: hidden;
 
+    isolation: isolate;
+
     background: #111111;
 
     border:
         1px solid rgba(255, 255, 255, 0.2);
 
     box-sizing: border-box;
+
+    --brush-size: 70px;
+
+    cursor: crosshair;
 }
 
+
+/* =========================================================
+   IDENTITY PHOTO FRAME
+========================================================= */
 
 .identity-photo::before {
     position: absolute;
@@ -391,7 +397,7 @@
 
     inset: 0;
 
-    z-index: 1;
+    z-index: 10;
 
     pointer-events: none;
 
@@ -402,13 +408,412 @@
 }
 
 
-.identity-photo img {
+/* =========================================================
+   IDENTITY REGULAR IMAGE
+========================================================= */
+
+.identity-regular {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
     display: block;
 
     width: 100%;
     height: 100%;
 
     object-fit: cover;
+    object-position: center;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+/* =========================================================
+   IDENTITY CYBER LAYER
+========================================================= */
+
+.identity-cyber-layer {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    -webkit-mask-image: none;
+    mask-image: none;
+
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+
+    will-change: opacity;
+}
+
+
+/* =========================================================
+   IDENTITY CYBER IMAGE
+========================================================= */
+
+.identity-cyber {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    pointer-events: none;
+
+    user-select: none;
+}
+
+
+/* =========================================================
+   IDENTITY GLITCH OVERLAYS
+========================================================= */
+
+.identity-cyber-layer::before,
+.identity-cyber-layer::after {
+    position: absolute;
+
+    content: "";
+
+    inset: 0;
+
+    z-index: 3;
+
+    pointer-events: none;
+
+    background-image:
+        url("/asset/hero/Cyber.png");
+
+    background-repeat: no-repeat;
+
+    background-position: center;
+
+    background-size: cover;
+
+    opacity: 0;
+
+    will-change:
+        transform,
+        clip-path,
+        opacity;
+}
+
+
+/* =========================================================
+   IDENTITY GLITCH OVERLAY 01
+========================================================= */
+
+.identity-cyber-layer::before {
+    mix-blend-mode: screen;
+}
+
+
+/* =========================================================
+   IDENTITY GLITCH OVERLAY 02
+========================================================= */
+
+.identity-cyber-layer::after {
+    mix-blend-mode: screen;
+}
+
+
+/* =========================================================
+   IDENTITY BRUSH REVEAL
+   ---------------------------------------------------------
+   Mouse movement reveals Cyber around the cursor.
+
+   The mask belongs to the Cyber layer only.
+   Therefore the Regular image remains underneath.
+========================================================= */
+
+.identity-photo.is-brush-active
+    .identity-cyber-layer {
+
+    opacity: 1;
+
+    -webkit-mask-image:
+        radial-gradient(
+            circle var(--brush-size)
+            at var(--mouse-x) var(--mouse-y),
+
+            #000 0%,
+            #000 28%,
+
+            rgba(0, 0, 0, 0.90) 42%,
+
+            rgba(0, 0, 0, 0.65) 58%,
+
+            rgba(0, 0, 0, 0.30) 76%,
+
+            transparent 100%
+        );
+
+    mask-image:
+        radial-gradient(
+            circle var(--brush-size)
+            at var(--mouse-x) var(--mouse-y),
+
+            #000 0%,
+            #000 28%,
+
+            rgba(0, 0, 0, 0.90) 42%,
+
+            rgba(0, 0, 0, 0.65) 58%,
+
+            rgba(0, 0, 0, 0.30) 76%,
+
+            transparent 100%
+        );
+}
+
+
+/* =========================================================
+   IDENTITY GLITCH STATE
+   ---------------------------------------------------------
+   Reuses the SAME keyframes from hero.css.
+
+   Do not duplicate those keyframes here.
+========================================================= */
+
+.identity-photo.glitch
+    .identity-cyber-layer {
+
+    opacity: 1;
+
+    -webkit-mask-image: none;
+    mask-image: none;
+
+    animation:
+        cyber-brush-glitch
+        0.9s
+        steps(18, end);
+}
+
+
+.identity-photo.glitch
+    .identity-cyber-layer::before {
+
+    opacity: 1;
+
+    animation:
+        cyber-glitch-before
+        0.9s
+        steps(18, end);
+}
+
+
+.identity-photo.glitch
+    .identity-cyber-layer::after {
+
+    opacity: 1;
+
+    animation:
+        cyber-glitch-after
+        0.9s
+        steps(18, end);
+}
+
+
+/* =========================================================
+   IDENTITY AMBIENT GLITCH
+   ---------------------------------------------------------
+   Regular → glitch → Cyber
+========================================================= */
+
+.identity-photo.ambient-glitch
+    .identity-regular {
+
+    opacity: 0;
+}
+
+
+.identity-photo.ambient-glitch
+    .identity-cyber-layer {
+
+    opacity: 1;
+
+    -webkit-mask-image: none;
+    mask-image: none;
+
+    animation:
+        cyber-brush-glitch
+        0.7s
+        steps(18, end);
+}
+
+
+.identity-photo.ambient-glitch
+    .identity-cyber-layer::before {
+
+    opacity: 1;
+
+    animation:
+        cyber-glitch-before
+        0.7s
+        steps(18, end);
+}
+
+
+.identity-photo.ambient-glitch
+    .identity-cyber-layer::after {
+
+    opacity: 1;
+
+    animation:
+        cyber-glitch-after
+        0.7s
+        steps(18, end);
+}
+
+
+/* =========================================================
+   IDENTITY AMBIENT CYBER HOLD
+   ---------------------------------------------------------
+   Cyber remains fully visible while idle.
+========================================================= */
+
+.identity-photo.ambient-cyber
+    .identity-regular {
+
+    opacity: 0;
+}
+
+
+.identity-photo.ambient-cyber
+    .identity-cyber-layer {
+
+    opacity: 1;
+
+    -webkit-mask-image: none;
+    mask-image: none;
+}
+
+
+.identity-photo.ambient-cyber
+    .identity-cyber-layer::before,
+
+.identity-photo.ambient-cyber
+    .identity-cyber-layer::after {
+
+    opacity: 0;
+}
+
+
+/* =========================================================
+   IDENTITY AMBIENT EXIT
+   ---------------------------------------------------------
+   Cyber → glitch → Regular
+========================================================= */
+
+.identity-photo.ambient-exit
+    .identity-regular {
+
+    opacity: 1;
+
+    animation:
+        identity-ambient-return
+        0.7s
+        steps(18, end);
+}
+
+
+.identity-photo.ambient-exit
+    .identity-cyber-layer {
+
+    opacity: 1;
+
+    -webkit-mask-image: none;
+    mask-image: none;
+
+    animation:
+        cyber-brush-glitch
+        0.7s
+        steps(18, end);
+}
+
+
+.identity-photo.ambient-exit
+    .identity-cyber-layer::before {
+
+    opacity: 1;
+
+    animation:
+        cyber-glitch-before
+        0.7s
+        steps(18, end);
+}
+
+
+.identity-photo.ambient-exit
+    .identity-cyber-layer::after {
+
+    opacity: 1;
+
+    animation:
+        cyber-glitch-after
+        0.7s
+        steps(18, end);
+}
+
+
+/* =========================================================
+   AMBIENT RETURN
+   ---------------------------------------------------------
+   Controls the Regular image returning through the glitch.
+========================================================= */
+
+@keyframes identity-ambient-return {
+
+    0% {
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.15;
+    }
+
+    40% {
+        opacity: 0;
+    }
+
+    60% {
+        opacity: 0.55;
+    }
+
+    80% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 
@@ -422,7 +827,7 @@
     right: 0.35rem;
     bottom: 0.35rem;
 
-    z-index: 2;
+    z-index: 11;
 
     padding: 0.25rem 0.35rem;
 
@@ -1183,6 +1588,11 @@
     }
 
 
+    .identity-photo {
+        --brush-size: 70px;
+    }
+
+
     .skill-item {
         padding: 0.75rem 0.45rem;
     }
@@ -1191,7 +1601,6 @@
     .description-text {
         gap: 1rem;
     }
-
 }
 
 
@@ -1240,6 +1649,11 @@
     }
 
 
+    .identity-photo {
+        --brush-size: 60px;
+    }
+
+
     .identity-value {
         font-size: 0.75rem;
     }
@@ -1253,7 +1667,6 @@
     .description-text p {
         font-size: 0.75rem;
     }
-
 }
 
 
@@ -1278,9 +1691,6 @@
     .about-interface {
         width: 92dvw;
 
-        /*
-         * Database becomes a vertical application layout.
-         */
         height: auto;
 
         min-height:
@@ -1358,6 +1768,11 @@
     }
 
 
+    .identity-photo {
+        --brush-size: 55px;
+    }
+
+
     .identity-value {
         font-size: 0.78rem;
     }
@@ -1373,10 +1788,6 @@
     ----------------------------------------------------- */
 
     .database-card--skills {
-        /*
-         * Prevent the skill database from taking over the
-         * entire tablet page.
-         */
         height: 20rem;
 
         flex: 0 0 20rem;
@@ -1409,7 +1820,6 @@
     .description-data {
         margin-top: 1.5rem;
     }
-
 }
 
 
@@ -1422,7 +1832,8 @@
 @media (max-width: 600px) {
 
     .about {
-        padding-top: calc(var(--topbar-height) + 0.5rem);
+        padding-top:
+            calc(var(--topbar-height) + 0.5rem);
 
         padding-bottom: 0.75rem;
     }
@@ -1525,6 +1936,11 @@
             minmax(0, 1fr);
 
         gap: 0.65rem;
+    }
+
+
+    .identity-photo {
+        --brush-size: 48px;
     }
 
 
@@ -1704,7 +2120,6 @@
 
         line-height: 1.2;
     }
-
 }
 
 
@@ -1743,9 +2158,16 @@
     ----------------------------------------------------- */
 
     .identity-record {
-        grid-template-columns: 5.25rem minmax(0, 1fr);
+        grid-template-columns:
+            5.25rem
+            minmax(0, 1fr);
 
         gap: 0.6rem;
+    }
+
+
+    .identity-photo {
+        --brush-size: 42px;
     }
 
 
@@ -1825,7 +2247,6 @@
 
         line-height: 1.65;
     }
-
 }
 
 
@@ -1868,6 +2289,8 @@
         width: 6rem;
 
         aspect-ratio: 1 / 1.15;
+
+        --brush-size: 38px;
     }
 
 
@@ -1929,7 +2352,6 @@
     .database-card-header span:last-child {
         display: none;
     }
-
 }
 
 
@@ -1942,7 +2364,8 @@
 @media (max-width: 320px) {
 
     .about {
-        padding-top: calc(var(--topbar-height) + 0.25rem);
+        padding-top:
+            calc(var(--topbar-height) + 0.25rem);
 
         padding-bottom: 0.5rem;
     }
@@ -1991,6 +2414,8 @@
 
     .identity-photo {
         width: 5.5rem;
+
+        --brush-size: 35px;
     }
 
 
@@ -2122,7 +2547,6 @@
 
         font-size: 0.4rem;
     }
-
 }
 
 
@@ -2136,4 +2560,37 @@
         transition: none;
     }
 
+
+    .identity-photo.glitch
+        .identity-cyber-layer,
+
+    .identity-photo.glitch
+        .identity-cyber-layer::before,
+
+    .identity-photo.glitch
+        .identity-cyber-layer::after,
+
+    .identity-photo.ambient-glitch
+        .identity-cyber-layer,
+
+    .identity-photo.ambient-glitch
+        .identity-cyber-layer::before,
+
+    .identity-photo.ambient-glitch
+        .identity-cyber-layer::after,
+
+    .identity-photo.ambient-exit
+        .identity-regular,
+
+    .identity-photo.ambient-exit
+        .identity-cyber-layer,
+
+    .identity-photo.ambient-exit
+        .identity-cyber-layer::before,
+
+    .identity-photo.ambient-exit
+        .identity-cyber-layer::after {
+
+        animation: none;
+    }
 }
