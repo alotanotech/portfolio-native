@@ -1,3 +1,4 @@
+
 :root {
     --bg-main: #000000;
     --text-main: #FFFFFF;
@@ -8,13 +9,17 @@
     --ease-out: cubic-bezier(.16, 1, .3, 1);
     --ease-io: cubic-bezier(.86, 0, .07, 1);
 
-    --container-width: 80dvw;
+    --container-width: 80%;
     --section-space: clamp(6rem, 12vw, 12rem);
 
     --font-body: 'JetBrains Mono', monospace;
     --font-display: 'Syne', sans-serif;
 }
 
+
+/* =========================================================
+   RESET
+========================================================= */
 
 *,
 *::before,
@@ -26,13 +31,24 @@
 
 
 html {
+    width: 100%;
+    max-width: 100%;
+
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
+
     background: var(--bg-main);
+
+    overflow-x: hidden;
+
+    scrollbar-color: var(--edge) var(--bg-main);
+    scrollbar-width: thin;
 }
 
 
 body {
+    width: 100%;
+    max-width: 100%;
     min-height: 100vh;
 
     background: var(--bg-main);
@@ -44,8 +60,25 @@ body {
     -moz-osx-font-smoothing: grayscale;
 
     overflow-x: hidden;
+
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
 }
 
+
+@supports (overflow: clip) {
+
+    html,
+    body {
+        overflow-x: clip;
+    }
+}
+
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
 
 h1,
 h2,
@@ -56,6 +89,7 @@ h6,
 .syne {
     font-family: var(--font-body);
     font-weight: 800;
+
     line-height: .92;
     letter-spacing: -.02em;
 }
@@ -77,24 +111,51 @@ input,
 textarea,
 select {
     font: inherit;
+
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
 }
 
 
-img {
+/* =========================================================
+   MEDIA
+========================================================= */
+
+img,
+picture,
+video,
+canvas,
+svg {
     display: block;
     max-width: 100%;
 }
 
 
+img {
+    height: auto;
+}
+
+
+/* =========================================================
+   GLOBAL LAYOUT
+========================================================= */
+
 .container {
     width: var(--container-width);
     max-width: 100%;
+
     margin-inline: auto;
 }
 
 
 section {
     position: relative;
+
+    width: 100%;
+    max-width: 100%;
+
+    min-width: 0;
 }
 
 
@@ -117,24 +178,82 @@ section {
     --reveal-clip-top: 5%;
     --reveal-clip-bottom: 20%;
 
-    animation-name: section-reveal;
-    animation-duration: 1ms;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
+    position: relative;
 
-    animation-timeline: view();
+    width: 100%;
+    max-width: 100%;
 
-    animation-range:
-        entry 30%
-        cover 40%;
-
-    will-change:
-        opacity,
-        transform,
-        clip-path,
-        filter;
+    min-width: 0;
 }
 
+
+/* =========================================================
+   SCROLL-DRIVEN REVEAL
+========================================================= */
+
+@supports (animation-timeline: view()) {
+
+    .reveal-section {
+        animation-name: section-reveal;
+        animation-duration: 1ms;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+
+        animation-timeline: view();
+
+        animation-range:
+            entry 30%
+            cover 40%;
+
+        will-change:
+            opacity,
+            transform,
+            clip-path,
+            filter;
+    }
+
+
+    .reveal-section::before {
+        animation-name: section-scan;
+        animation-duration: 1ms;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+
+        animation-timeline: view();
+
+        animation-range:
+            entry 0%
+            cover 40%;
+    }
+}
+
+
+/* =========================================================
+   FALLBACK FOR BROWSERS WITHOUT SCROLL TIMELINE
+========================================================= */
+
+@supports not (animation-timeline: view()) {
+
+    .reveal-section {
+        opacity: 1;
+
+        transform: none;
+        clip-path: none;
+        filter: none;
+
+        will-change: auto;
+    }
+
+
+    .reveal-section::before {
+        display: none;
+    }
+}
+
+
+/* =========================================================
+   SECTION REVEAL KEYFRAMES
+========================================================= */
 
 @keyframes section-reveal {
 
@@ -374,17 +493,6 @@ section {
     pointer-events: none;
 
     z-index: 10;
-
-    animation-name: section-scan;
-    animation-duration: 1ms;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-
-    animation-timeline: view();
-
-    animation-range:
-        entry 0%
-        cover 40%;
 }
 
 
@@ -442,6 +550,18 @@ section {
             scaleX(1)
             translateZ(0);
     }
+}
+
+
+/* =========================================================
+   CONTACT SELECTION
+========================================================= */
+
+#contact,
+#contact * {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
 }
 
 
@@ -508,12 +628,14 @@ section {
         scroll-behavior: auto;
     }
 
+
     *,
     *::before,
     *::after {
         animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
     }
 
 
@@ -523,9 +645,7 @@ section {
         opacity: 1;
 
         transform: none;
-
         clip-path: none;
-
         filter: none;
 
         will-change: auto;

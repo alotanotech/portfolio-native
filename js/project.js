@@ -1,17 +1,6 @@
-/* =========================================================
-   PROJECT PAGE
-   ---------------------------------------------------------
-   Works with:
+const PROJECT_PAGE =
+    "./pages/project.html";
 
-   /pages/project.html
-   /js/project.js
-   /js/gallery.js
-========================================================= */
-
-
-/* =========================================================
-   PROJECT DATA
-========================================================= */
 
 const projects = {
 
@@ -19,6 +8,9 @@ const projects = {
 
         index:
             "01",
+
+        slug:
+            "pcba",
 
         name:
             "PCBA",
@@ -38,6 +30,12 @@ const projects = {
         status:
             "ARCHIVE",
 
+        kind:
+            "client",
+
+        category:
+            "Client",
+
         description:
             "Visual communication and digital design work created for PCBA Semiconductor International.",
 
@@ -51,6 +49,9 @@ const projects = {
 
         index:
             "02",
+
+        slug:
+            "little-lady",
 
         name:
             "LITTLE LADY",
@@ -70,6 +71,12 @@ const projects = {
         status:
             "ARCHIVE",
 
+        kind:
+            "client",
+
+        category:
+            "Client",
+
         description:
             "Selected visual design work created for Little Lady.",
 
@@ -83,6 +90,9 @@ const projects = {
 
         index:
             "03",
+
+        slug:
+            "pacohome",
 
         name:
             "PACOHOME",
@@ -102,6 +112,12 @@ const projects = {
         status:
             "ARCHIVE",
 
+        kind:
+            "client",
+
+        category:
+            "Client",
+
         description:
             "Selected visual design work created for Pacohome.",
 
@@ -115,6 +131,9 @@ const projects = {
 
         index:
             "04",
+
+        slug:
+            "adiograf",
 
         name:
             "ADIOGRAF",
@@ -134,6 +153,12 @@ const projects = {
         status:
             "ARCHIVE",
 
+        kind:
+            "client",
+
+        category:
+            "Client",
+
         description:
             "Selected visual design work created for Adiograf Indonesia.",
 
@@ -147,6 +172,9 @@ const projects = {
 
         index:
             "05",
+
+        slug:
+            "bagatelle",
 
         name:
             "BAGATELLE",
@@ -166,20 +194,333 @@ const projects = {
         status:
             "ARCHIVE",
 
+        kind:
+            "client",
+
+        category:
+            "Client",
+
         description:
             "Selected visual design work created for Bagatelle.",
 
         folder:
             "../assets/projects/bagatelle/"
 
+    },
+
+
+    "3d": {
+
+        index:
+            "06",
+
+        slug:
+            "3d",
+
+        name:
+            "3D",
+
+        fullName:
+            "3D",
+
+        client:
+            "PERSONAL PROJECT",
+
+        year:
+            "2026",
+
+        type:
+            "3D / PERSONAL",
+
+        status:
+            "ARCHIVE",
+
+        kind:
+            "personal",
+
+        category:
+            "3D",
+
+        description:
+            "A collection of personal 3D work, studies, experiments, and rendered objects.",
+
+        folder:
+            "../assets/projects/3d/"
+
+    },
+
+
+    "digital-illustration": {
+
+        index:
+            "07",
+
+        slug:
+            "digital-illustration",
+
+        name:
+            "DIGITAL ILLUSTRATION",
+
+        fullName:
+            "Digital Illustration",
+
+        client:
+            "PERSONAL PROJECT",
+
+        year:
+            "2025—2026",
+
+        type:
+            "ILLUSTRATION / PERSONAL",
+
+        status:
+            "ARCHIVE",
+
+        kind:
+            "personal",
+
+        category:
+            "Digital Illustration",
+
+        description:
+            "A collection of personal digital illustrations, character work, and visual studies.",
+
+        folder:
+            "../assets/projects/digital-illustration/"
+
+    },
+
+
+    "graphic-design": {
+
+        index:
+            "08",
+
+        slug:
+            "graphic-design",
+
+        name:
+            "GRAPHIC DESIGN",
+
+        fullName:
+            "Graphic Design",
+
+        client:
+            "PERSONAL PROJECT",
+
+        year:
+            "2026",
+
+        type:
+            "GRAPHIC DESIGN / PERSONAL",
+
+        status:
+            "ARCHIVE",
+
+        kind:
+            "personal",
+
+        category:
+            "Graphic Design",
+
+        description:
+            "A collection of personal graphic design experiments, compositions, posters, and visual explorations.",
+
+        folder:
+            "../assets/projects/graphic-design/"
+
+    },
+
+
+    animation: {
+
+        index:
+            "09",
+
+        slug:
+            "animation",
+
+        name:
+            "ANIMATION",
+
+        fullName:
+            "Animation",
+
+        client:
+            "PERSONAL PROJECT",
+
+        year:
+            "2026",
+
+        type:
+            "ANIMATION / PERSONAL",
+
+        status:
+            "ARCHIVE",
+
+        kind:
+            "personal",
+
+        category:
+            "Animation",
+
+        description:
+            "A collection of personal animation experiments, motion studies, and animated work.",
+
+        folder:
+            "../assets/projects/animation/"
+
+    },
+
+
+    "pixel-art": {
+
+        index:
+            "10",
+
+        slug:
+            "pixel-art",
+
+        name:
+            "PIXEL ART",
+
+        fullName:
+            "Pixel Art",
+
+        client:
+            "PERSONAL PROJECT",
+
+        year:
+            "2025—2026",
+
+        type:
+            "PIXEL ART / PERSONAL",
+
+        status:
+            "ARCHIVE",
+
+        kind:
+            "personal",
+
+        category:
+            "Pixel Art",
+
+        description:
+            "A collection of personal pixel art, sprite work, and low-resolution character studies.",
+
+        folder:
+            "../assets/projects/pixel-art/"
+
+    },
+
+
+    brands: {
+
+        index:
+            "11",
+
+        slug:
+            "brands",
+
+        name:
+            "BRANDS",
+
+        fullName:
+            "Brands",
+
+        client:
+            "PERSONAL PROJECT",
+
+        year:
+            "2026",
+
+        type:
+            "BRAND / PERSONAL",
+
+        status:
+            "ARCHIVE",
+
+        kind:
+            "personal",
+
+        category:
+            "Brands",
+
+        description:
+            "A collection of personal branding, identity, logo, and visual system experiments.",
+
+        folder:
+            "../assets/projects/brands/"
+
     }
 
 };
 
 
-/* =========================================================
-   GET PROJECT SLUG
-========================================================= */
+const projectData =
+    projects;
+
+
+function normalizeProjectSlug(
+    value
+) {
+
+    return String(
+        value || ""
+    )
+        .toLowerCase()
+        .trim();
+
+}
+
+
+function openProject(
+    slug
+) {
+
+    const normalizedSlug =
+        normalizeProjectSlug(
+            slug
+        );
+
+
+    if (
+        !normalizedSlug
+    ) {
+
+        console.error(
+            "Cannot open project: project slug is missing."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !projects[
+            normalizedSlug
+        ]
+    ) {
+
+        console.error(
+            `Cannot open project: "${normalizedSlug}" does not exist in project data.`
+        );
+
+        return;
+
+    }
+
+
+    const url =
+        `${PROJECT_PAGE}?project=${encodeURIComponent(normalizedSlug)}`;
+
+
+    window.location.href =
+        url;
+
+}
+
 
 function getProjectSlug() {
 
@@ -189,18 +530,14 @@ function getProjectSlug() {
         );
 
 
-    return (
-        params.get("project") ||
-        ""
-    )
-        .toLowerCase()
-        .trim();
+    return normalizeProjectSlug(
+        params.get(
+            "project"
+        )
+    );
+
 }
 
-
-/* =========================================================
-   GET CURRENT PROJECT
-========================================================= */
 
 function getCurrentProject() {
 
@@ -213,15 +550,14 @@ function getCurrentProject() {
         slug,
 
         data:
-            projects[slug] || null
+            projects[
+                slug
+            ] || null
 
     };
+
 }
 
-
-/* =========================================================
-   SET TEXT HELPER
-========================================================= */
 
 function setProjectText(
     id,
@@ -241,12 +577,9 @@ function setProjectText(
 
     element.textContent =
         value ?? "";
+
 }
 
-
-/* =========================================================
-   APPLY PROJECT DATA
-========================================================= */
 
 function applyProjectData(
     project
@@ -303,12 +636,20 @@ function applyProjectData(
         project.description
     );
 
+
+    document.documentElement.dataset.project =
+        project.slug;
+
+
+    document.documentElement.dataset.projectKind =
+        project.kind;
+
+
+    document.documentElement.dataset.projectCategory =
+        project.category;
+
 }
 
-
-/* =========================================================
-   PROJECT ERROR
-========================================================= */
 
 function showProjectError(
     message
@@ -372,12 +713,9 @@ function showProjectError(
     gallery.append(
         error
     );
+
 }
 
-
-/* =========================================================
-   INITIALIZE PROJECT
-========================================================= */
 
 function initializeProject() {
 
@@ -402,6 +740,7 @@ function initializeProject() {
 
 
         return null;
+
     }
 
 
@@ -411,12 +750,29 @@ function initializeProject() {
 
 
     return data;
+
 }
 
 
-/* =========================================================
-   START
-========================================================= */
+window.projects =
+    projects;
+
+
+window.projectData =
+    projectData;
+
+
+window.openProject =
+    openProject;
+
+
+window.getProjectSlug =
+    getProjectSlug;
+
+
+window.getCurrentProject =
+    getCurrentProject;
+
 
 window.currentProject =
     initializeProject();

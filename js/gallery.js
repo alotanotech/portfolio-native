@@ -1,26 +1,3 @@
-/* =========================================================
-   PROJECT GALLERY
-   ---------------------------------------------------------
-   Works with:
-
-   /pages/project.html
-   /js/project.js
-   /js/gallery.js
-   /assets/projects/<project>/manifest.json
-
-   Gallery categories:
-   - social-post
-   - story
-   - square
-   - landscape
-   - other
-========================================================= */
-
-
-/* =========================================================
-   GALLERY CATEGORIES
-========================================================= */
-
 const galleryCategories = [
 
     {
@@ -35,6 +12,7 @@ const galleryCategories = [
 
         ratio:
             "4:5"
+
     },
 
 
@@ -50,6 +28,7 @@ const galleryCategories = [
 
         ratio:
             "9:16"
+
     },
 
 
@@ -65,6 +44,7 @@ const galleryCategories = [
 
         ratio:
             "1:1"
+
     },
 
 
@@ -80,6 +60,7 @@ const galleryCategories = [
 
         ratio:
             "16:9"
+
     },
 
 
@@ -95,44 +76,37 @@ const galleryCategories = [
 
         ratio:
             "—"
+
     }
 
 ];
 
-
-/* =========================================================
-   GET MANIFEST URL
-========================================================= */
 
 function getManifestURL(
     project
 ) {
 
     if (
-        !project ||
-        !project.folder
+        !project?.folder
     ) {
 
         throw new Error(
             "Project folder is missing."
         );
+
     }
 
 
     return new URL(
         "manifest.json",
-
         new URL(
             project.folder,
             window.location.href
         )
     ).href;
+
 }
 
-
-/* =========================================================
-   GET IMAGE URL
-========================================================= */
 
 function getImageURL(
     project,
@@ -140,29 +114,25 @@ function getImageURL(
 ) {
 
     if (
-        !project ||
-        !project.folder ||
+        !project?.folder ||
         !imagePath
     ) {
 
         return "";
+
     }
 
 
     return new URL(
         imagePath,
-
         new URL(
             project.folder,
             window.location.href
         )
     ).href;
+
 }
 
-
-/* =========================================================
-   LOAD MANIFEST
-========================================================= */
 
 async function loadManifest(
     project
@@ -184,54 +154,145 @@ async function loadManifest(
         );
 
 
-    if (!response.ok) {
+    if (
+        !response.ok
+    ) {
 
         throw new Error(
             `Manifest could not be loaded (${response.status}).`
         );
+
     }
 
 
-    return await response.json();
+    const manifest =
+        await response.json();
+
+
+    if (
+        !manifest ||
+        typeof manifest !==
+        "object"
+    ) {
+
+        throw new Error(
+            "Manifest contains invalid data."
+        );
+
+    }
+
+
+    return manifest;
+
 }
 
 
-/* =========================================================
-   GET COVER PATH
-========================================================= */
+function extractImagePath(
+    image
+) {
+
+    if (
+        typeof image ===
+        "string"
+    ) {
+
+        return image;
+
+    }
+
+
+    if (
+        image &&
+        typeof image ===
+        "object"
+    ) {
+
+        return (
+            image.src ||
+            image.path ||
+            image.url ||
+            image.file ||
+            image.filename ||
+            ""
+        );
+
+    }
+
+
+    return "";
+
+}
+
+
+function getManifestCategories(
+    manifest
+) {
+
+    if (
+        manifest?.categories &&
+        typeof manifest.categories ===
+        "object"
+    ) {
+
+        return manifest.categories;
+
+    }
+
+
+    return manifest || {};
+
+}
+
+
+function getCategoryImages(
+    manifest,
+    category
+) {
+
+    const categories =
+        getManifestCategories(
+            manifest
+        );
+
+
+    const images =
+        categories[
+            category.id
+        ];
+
+
+    return Array.isArray(
+        images
+    )
+        ? images
+        : [];
+
+}
+
 
 function getCoverPath(
     manifest
 ) {
 
-    const possibleCover =
+    const cover =
         manifest?.cover ||
         manifest?.coverImage ||
         manifest?.thumbnail ||
         manifest?.hero;
 
 
-    if (
-        typeof possibleCover ===
-        "string"
-    ) {
-
-        return possibleCover;
-    }
-
-
-    if (
-        possibleCover &&
-        typeof possibleCover ===
-        "object"
-    ) {
-
-        return (
-            possibleCover.src ||
-            possibleCover.path ||
-            possibleCover.url ||
-            ""
+    const directCover =
+        extractImagePath(
+            cover
         );
+
+
+    if (
+        directCover
+    ) {
+
+        return directCover;
+
     }
 
 
@@ -241,46 +302,28 @@ function getCoverPath(
     ) {
 
         const images =
-            Array.isArray(
-                manifest?.[
-                    category.id
-                ]
-            )
-                ? manifest[
-                    category.id
-                ]
-                : [];
+            getCategoryImages(
+                manifest,
+                category
+            );
 
 
         if (
-            images.length > 0
+            images.length
         ) {
 
-            const first =
-                images[0];
-
-
-            if (
-                typeof first ===
-                "string"
-            ) {
-
-                return first;
-            }
-
-
-            if (
-                first &&
-                typeof first ===
-                "object"
-            ) {
-
-                return (
-                    first.src ||
-                    first.path ||
-                    first.url ||
-                    ""
+            const firstPath =
+                extractImagePath(
+                    images[0]
                 );
+
+
+            if (
+                firstPath
+            ) {
+
+                return firstPath;
+
             }
 
         }
@@ -289,12 +332,9 @@ function getCoverPath(
 
 
     return "";
+
 }
 
-
-/* =========================================================
-   APPLY COVER
-========================================================= */
 
 function applyProjectCover(
     project,
@@ -319,6 +359,7 @@ function applyProjectCover(
     ) {
 
         return;
+
     }
 
 
@@ -328,13 +369,16 @@ function applyProjectCover(
         );
 
 
-    if (!coverPath) {
+    if (
+        !coverPath
+    ) {
 
         wrapper.classList.add(
             "is-empty"
         );
 
         return;
+
     }
 
 
@@ -345,6 +389,19 @@ function applyProjectCover(
         );
 
 
+    if (
+        !coverURL
+    ) {
+
+        wrapper.classList.add(
+            "is-empty"
+        );
+
+        return;
+
+    }
+
+
     cover.src =
         coverURL;
 
@@ -353,32 +410,164 @@ function applyProjectCover(
         `${project.name} project cover`;
 
 
-    wrapper.classList.remove(
-        "is-empty"
-    );
+    cover.onload =
+        () => {
+
+            wrapper.classList.remove(
+                "is-empty"
+            );
+
+        };
 
 
-    cover.addEventListener(
-        "error",
+    cover.onerror =
         () => {
 
             wrapper.classList.add(
                 "is-empty"
             );
 
-        },
-        {
-            once:
-                true
-        }
-    );
+        };
 
 }
 
 
-/* =========================================================
-   CREATE CATEGORY
-========================================================= */
+function createGalleryItem(
+    project,
+    category,
+    imagePath,
+    imageIndex,
+    categoryTotal
+) {
+
+    const figure =
+        document.createElement(
+            "figure"
+        );
+
+
+    figure.className =
+        "gallery-item";
+
+
+    const actualPath =
+        extractImagePath(
+            imagePath
+        );
+
+
+    if (
+        !actualPath
+    ) {
+
+        figure.classList.add(
+            "is-error"
+        );
+
+        return figure;
+
+    }
+
+
+    const imageURL =
+        getImageURL(
+            project,
+            actualPath
+        );
+
+
+    const image =
+        document.createElement(
+            "img"
+        );
+
+
+    image.className =
+        "gallery-image";
+
+
+    image.src =
+        imageURL;
+
+
+    image.alt =
+        `${project.name} ${category.label.toLowerCase()} ${imageIndex + 1}`;
+
+
+    image.loading =
+        "lazy";
+
+
+    image.decoding =
+        "async";
+
+
+    const index =
+        document.createElement(
+            "span"
+        );
+
+
+    index.className =
+        "gallery-item-index";
+
+
+    index.textContent =
+        String(
+            imageIndex + 1
+        ).padStart(
+            2,
+            "0"
+        );
+
+
+    image.addEventListener(
+        "error",
+        () => {
+
+            figure.classList.add(
+                "is-error"
+            );
+
+            console.error(
+                `Gallery image could not be loaded: ${imageURL}`
+            );
+
+        }
+    );
+
+
+    if (
+        imageURL
+    ) {
+
+        figure.addEventListener(
+            "click",
+            () => {
+
+                openImageViewer(
+                    imageURL,
+                    category.label,
+                    imageIndex + 1,
+                    categoryTotal
+                );
+
+            }
+        );
+
+    }
+
+
+    figure.append(
+        image,
+        index
+    );
+
+
+    return figure;
+
+}
+
 
 function createGalleryCategory(
     category,
@@ -399,10 +588,6 @@ function createGalleryCategory(
     section.dataset.category =
         category.id;
 
-
-    /* =====================================================
-       HEADER
-    ====================================================== */
 
     const header =
         document.createElement(
@@ -432,10 +617,6 @@ function createGalleryCategory(
     );
 
 
-    /* =====================================================
-       INDEX
-    ====================================================== */
-
     const index =
         document.createElement(
             "span"
@@ -457,10 +638,6 @@ function createGalleryCategory(
         );
 
 
-    /* =====================================================
-       LABEL
-    ====================================================== */
-
     const label =
         document.createElement(
             "span"
@@ -474,10 +651,6 @@ function createGalleryCategory(
     label.textContent =
         category.label;
 
-
-    /* =====================================================
-       INFORMATION
-    ====================================================== */
 
     const information =
         document.createElement(
@@ -543,10 +716,6 @@ function createGalleryCategory(
     );
 
 
-    /* =====================================================
-       TOGGLE
-    ====================================================== */
-
     const toggle =
         document.createElement(
             "button"
@@ -577,10 +746,6 @@ function createGalleryCategory(
         "−";
 
 
-    /* =====================================================
-       HEADER
-    ====================================================== */
-
     header.append(
         index,
         label,
@@ -588,10 +753,6 @@ function createGalleryCategory(
         toggle
     );
 
-
-    /* =====================================================
-       BODY
-    ====================================================== */
 
     const body =
         document.createElement(
@@ -609,10 +770,6 @@ function createGalleryCategory(
     );
 
 
-    /* =====================================================
-       TRACK
-    ====================================================== */
-
     const track =
         document.createElement(
             "div"
@@ -623,13 +780,8 @@ function createGalleryCategory(
         "gallery-category-track";
 
 
-    /* =====================================================
-       EMPTY
-    ====================================================== */
-
     if (
-        !Array.isArray(images) ||
-        images.length === 0
+        !images.length
     ) {
 
         const empty =
@@ -654,19 +806,18 @@ function createGalleryCategory(
 
         images.forEach(
             (
-                imagePath,
+                image,
                 imageIndex
             ) => {
 
                 track.append(
-
                     createGalleryItem(
                         project,
                         category,
-                        imagePath,
-                        imageIndex
+                        image,
+                        imageIndex,
+                        images.length
                     )
-
                 );
 
             }
@@ -695,194 +846,9 @@ function createGalleryCategory(
 
 
     return section;
+
 }
 
-
-/* =========================================================
-   CREATE GALLERY ITEM
-========================================================= */
-
-function createGalleryItem(
-    project,
-    category,
-    imagePath,
-    imageIndex
-) {
-
-    const figure =
-        document.createElement(
-            "figure"
-        );
-
-
-    figure.className =
-        "gallery-item";
-
-
-    const actualPath =
-        typeof imagePath ===
-        "string"
-
-            ? imagePath
-
-            : (
-                imagePath?.src ||
-                imagePath?.path ||
-                imagePath?.url ||
-                ""
-            );
-
-
-    const imageURL =
-        getImageURL(
-            project,
-            actualPath
-        );
-
-
-    /* =====================================================
-       IMAGE
-    ====================================================== */
-
-    const image =
-        document.createElement(
-            "img"
-        );
-
-
-    image.className =
-        "gallery-image";
-
-
-    image.src =
-        imageURL;
-
-
-    image.alt =
-        `${project.name} ${category.label.toLowerCase()} ${imageIndex + 1}`;
-
-
-    image.loading =
-        "lazy";
-
-
-    image.decoding =
-        "async";
-
-
-    /* =====================================================
-       INDEX
-    ====================================================== */
-
-    const index =
-        document.createElement(
-            "span"
-        );
-
-
-    index.className =
-        "gallery-item-index";
-
-
-    index.textContent =
-        String(
-            imageIndex + 1
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    /* =====================================================
-       ERROR
-    ====================================================== */
-
-    image.addEventListener(
-        "error",
-        () => {
-
-            figure.classList.add(
-                "is-error"
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       IMAGE VIEWER
-    ====================================================== */
-
-    figure.addEventListener(
-        "click",
-        () => {
-
-            if (!imageURL) {
-                return;
-            }
-
-
-            openImageViewer(
-                imageURL,
-                category.label,
-                imageIndex + 1,
-                imagesCountForCategory(
-                    category,
-                    project
-                )
-            );
-
-        }
-    );
-
-
-    figure.append(
-        image,
-        index
-    );
-
-
-    return figure;
-}
-
-
-/* =========================================================
-   CATEGORY IMAGE COUNT
-========================================================= */
-
-function imagesCountForCategory(
-    category,
-    project
-) {
-
-    const manifest =
-        window.currentProjectManifest;
-
-
-    if (!manifest) {
-        return 0;
-    }
-
-
-    const images =
-        Array.isArray(
-            manifest?.[
-                category.id
-            ]
-        )
-            ? manifest[
-                category.id
-            ]
-            : [];
-
-
-    return images.length;
-}
-
-
-/* =========================================================
-   CATEGORY TOGGLE
-========================================================= */
 
 function setupCategoryToggle(
     section,
@@ -932,40 +898,14 @@ function setupCategoryToggle(
                 ? "−"
                 : "+";
 
-
-        if (
-            expanded
-        ) {
-
-            requestAnimationFrame(
-                () => {
-
-                    const body =
-                        section.querySelector(
-                            ".gallery-category-body"
-                        );
-
-
-                    if (
-                        body
-                    ) {
-
-                        body.scrollTop =
-                            0;
-
-                    }
-
-                }
-            );
-
-        }
-
     }
 
 
     toggle.addEventListener(
         "click",
-        (event) => {
+        (
+            event
+        ) => {
 
             event.stopPropagation();
 
@@ -977,7 +917,9 @@ function setupCategoryToggle(
 
     header.addEventListener(
         "click",
-        (event) => {
+        (
+            event
+        ) => {
 
             if (
                 event.target.closest(
@@ -986,6 +928,7 @@ function setupCategoryToggle(
             ) {
 
                 return;
+
             }
 
 
@@ -997,12 +940,13 @@ function setupCategoryToggle(
 
     header.addEventListener(
         "keydown",
-        (event) => {
+        (
+            event
+        ) => {
 
             if (
                 event.key ===
                     "Enter" ||
-
                 event.key ===
                     " "
             ) {
@@ -1018,10 +962,6 @@ function setupCategoryToggle(
 
 }
 
-
-/* =========================================================
-   SIDEBAR
-========================================================= */
 
 function setupGallerySidebar() {
 
@@ -1043,6 +983,7 @@ function setupGallerySidebar() {
     ) {
 
         return;
+
     }
 
 
@@ -1084,14 +1025,10 @@ function setupGallerySidebar() {
         "click",
         () => {
 
-            const open =
-                sidebar.classList.contains(
-                    "is-open"
-                );
-
-
             setSidebar(
-                !open
+                !sidebar.classList.contains(
+                    "is-open"
+                )
             );
 
         }
@@ -1100,7 +1037,9 @@ function setupGallerySidebar() {
 
     document.addEventListener(
         "keydown",
-        (event) => {
+        (
+            event
+        ) => {
 
             if (
                 event.key ===
@@ -1117,35 +1056,31 @@ function setupGallerySidebar() {
     );
 
 
-    const links =
-        sidebar.querySelectorAll(
+    sidebar
+        .querySelectorAll(
             ".gallery-sidebar-link"
+        )
+        .forEach(
+            (
+                link
+            ) => {
+
+                link.addEventListener(
+                    "click",
+                    () => {
+
+                        setSidebar(
+                            false
+                        );
+
+                    }
+                );
+
+            }
         );
-
-
-    links.forEach(
-        (link) => {
-
-            link.addEventListener(
-                "click",
-                () => {
-
-                    setSidebar(
-                        false
-                    );
-
-                }
-            );
-
-        }
-    );
 
 }
 
-
-/* =========================================================
-   RENDER GALLERY
-========================================================= */
 
 function renderGallery(
     project,
@@ -1158,13 +1093,16 @@ function renderGallery(
         );
 
 
-    if (!gallery) {
+    if (
+        !gallery
+    ) {
 
         console.error(
             "Element #project-gallery was not found."
         );
 
         return;
+
     }
 
 
@@ -1191,25 +1129,23 @@ function renderGallery(
 
 
     galleryCategories.forEach(
-        (category) => {
+        (
+            category
+        ) => {
 
             const images =
-                Array.isArray(
-                    manifest?.[
-                        category.id
-                    ]
-                )
-                    ? manifest[
-                        category.id
-                    ]
-                    : [];
+                getCategoryImages(
+                    manifest,
+                    category
+                );
 
 
             if (
-                images.length === 0
+                !images.length
             ) {
 
                 return;
+
             }
 
 
@@ -1218,17 +1154,40 @@ function renderGallery(
 
 
             content.append(
-
                 createGalleryCategory(
                     category,
                     images,
                     project
                 )
-
             );
 
         }
     );
+
+
+    if (
+        !content.children.length
+    ) {
+
+        const empty =
+            document.createElement(
+                "div"
+            );
+
+
+        empty.className =
+            "gallery-empty";
+
+
+        empty.textContent =
+            "NO WORKS FOUND";
+
+
+        content.append(
+            empty
+        );
+
+    }
 
 
     gallery.append(
@@ -1236,17 +1195,15 @@ function renderGallery(
     );
 
 
-    /* =====================================================
-       PROJECT TOTAL
-    ====================================================== */
-
     const projectCount =
         document.getElementById(
             "project-count"
         );
 
 
-    if (projectCount) {
+    if (
+        projectCount
+    ) {
 
         projectCount.textContent =
             String(
@@ -1259,17 +1216,15 @@ function renderGallery(
     }
 
 
-    /* =====================================================
-       GALLERY TOTAL
-    ====================================================== */
-
     const galleryCount =
         document.getElementById(
             "project-gallery-count"
         );
 
 
-    if (galleryCount) {
+    if (
+        galleryCount
+    ) {
 
         galleryCount.textContent =
             String(
@@ -1290,10 +1245,6 @@ function renderGallery(
 }
 
 
-/* =========================================================
-   IMAGE VIEWER
-========================================================= */
-
 function openImageViewer(
     imageURL,
     categoryTitle,
@@ -1307,7 +1258,9 @@ function openImageViewer(
         );
 
 
-    if (existing) {
+    if (
+        existing
+    ) {
 
         existing.remove();
 
@@ -1342,10 +1295,6 @@ function openImageViewer(
     );
 
 
-    /* =====================================================
-       BACKDROP
-    ====================================================== */
-
     const backdrop =
         document.createElement(
             "div"
@@ -1362,10 +1311,6 @@ function openImageViewer(
     );
 
 
-    /* =====================================================
-       PANEL
-    ====================================================== */
-
     const panel =
         document.createElement(
             "div"
@@ -1376,10 +1321,6 @@ function openImageViewer(
         "gallery-image-viewer-panel";
 
 
-    /* =====================================================
-       HEADER
-    ====================================================== */
-
     const header =
         document.createElement(
             "header"
@@ -1389,10 +1330,6 @@ function openImageViewer(
     header.className =
         "gallery-image-viewer-header";
 
-
-    /* =====================================================
-       INDEX
-    ====================================================== */
 
     const index =
         document.createElement(
@@ -1405,19 +1342,13 @@ function openImageViewer(
 
 
     index.textContent =
-        imageIndex
-            ? String(
-                imageIndex
-            ).padStart(
-                2,
-                "0"
-            )
-            : "IMG";
+        String(
+            imageIndex
+        ).padStart(
+            2,
+            "0"
+        );
 
-
-    /* =====================================================
-       TITLE
-    ====================================================== */
 
     const title =
         document.createElement(
@@ -1433,39 +1364,6 @@ function openImageViewer(
         categoryTitle ||
         "IMAGE";
 
-
-    /* =====================================================
-       META
-    ====================================================== */
-
-    const meta =
-        document.createElement(
-            "span"
-        );
-
-
-    meta.className =
-        "gallery-image-viewer-meta";
-
-
-    if (
-        categoryTotal
-    ) {
-
-        meta.textContent =
-            `${String(imageIndex).padStart(2,"0")} / ${String(categoryTotal).padStart(2,"0")}`;
-
-    } else {
-
-        meta.textContent =
-            "IMAGE";
-
-    }
-
-
-    /* =====================================================
-       CLOSE
-    ====================================================== */
 
     const close =
         document.createElement(
@@ -1491,16 +1389,28 @@ function openImageViewer(
         "×";
 
 
+    const meta =
+        document.createElement(
+            "span"
+        );
+
+
+    meta.className =
+        "gallery-image-viewer-meta";
+
+
+    meta.textContent =
+        categoryTotal
+            ? `${String(imageIndex).padStart(2, "0")} / ${String(categoryTotal).padStart(2, "0")}`
+            : "IMAGE";
+
+
     header.append(
         index,
         title,
         close
     );
 
-
-    /* =====================================================
-       CONTENT
-    ====================================================== */
 
     const content =
         document.createElement(
@@ -1511,10 +1421,6 @@ function openImageViewer(
     content.className =
         "gallery-image-viewer-content";
 
-
-    /* =====================================================
-       IMAGE
-    ====================================================== */
 
     const image =
         document.createElement(
@@ -1555,10 +1461,6 @@ function openImageViewer(
     );
 
 
-    /* =====================================================
-       IMAGE ERROR
-    ====================================================== */
-
     image.addEventListener(
         "error",
         () => {
@@ -1583,10 +1485,6 @@ function openImageViewer(
         image
     );
 
-
-    /* =====================================================
-       FOOTER
-    ====================================================== */
 
     const footer =
         document.createElement(
@@ -1615,7 +1513,7 @@ function openImageViewer(
 
 
     footerRight.textContent =
-        "IMAGE VIEW";
+        meta.textContent;
 
 
     footer.append(
@@ -1624,20 +1522,12 @@ function openImageViewer(
     );
 
 
-    /* =====================================================
-       PANEL
-    ====================================================== */
-
     panel.append(
         header,
         content,
         footer
     );
 
-
-    /* =====================================================
-       VIEWER
-    ====================================================== */
 
     viewer.append(
         backdrop,
@@ -1741,10 +1631,6 @@ function openImageViewer(
 }
 
 
-/* =========================================================
-   GALLERY ERROR
-========================================================= */
-
 function showGalleryError(
     message
 ) {
@@ -1755,8 +1641,12 @@ function showGalleryError(
         );
 
 
-    if (!gallery) {
+    if (
+        !gallery
+    ) {
+
         return;
+
     }
 
 
@@ -1807,10 +1697,6 @@ function showGalleryError(
 }
 
 
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
 async function initializeGallery() {
 
     setupGallerySidebar();
@@ -1820,13 +1706,16 @@ async function initializeGallery() {
         window.currentProject;
 
 
-    if (!project) {
+    if (
+        !project
+    ) {
 
         showGalleryError(
             "No valid project was found."
         );
 
         return;
+
     }
 
 
@@ -1843,7 +1732,9 @@ async function initializeGallery() {
             manifest
         );
 
-    } catch (error) {
+    } catch (
+        error
+    ) {
 
         console.error(
             "Gallery initialization failed:",
@@ -1861,11 +1752,18 @@ async function initializeGallery() {
 }
 
 
-/* =========================================================
-   START
-========================================================= */
+if (
+    document.readyState ===
+    "loading"
+) {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    initializeGallery
-);
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeGallery
+    );
+
+} else {
+
+    initializeGallery();
+
+}

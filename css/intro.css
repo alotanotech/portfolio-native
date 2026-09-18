@@ -18,7 +18,7 @@
     transform: translateY(0);
 
     transition:
-        transform 1s var(--ease-io);
+        transform 0.6s var(--ease-io);
 
     will-change: transform;
 }
@@ -45,7 +45,7 @@
     opacity: 0;
 
     animation:
-        intro-logo-enter 0.8s var(--ease-out) .15s forwards;
+        intro-logo-enter 0.6s var(--ease-out) .15s forwards;
 }
 
 

@@ -241,7 +241,7 @@
 
     flex-direction: column;
 
-    align-items: flex-start;
+    align-items: center;
 
     box-sizing: border-box;
 
@@ -280,7 +280,7 @@
 
     flex-direction: column;
 
-    align-items: flex-start;
+    align-items: center;
 
     box-sizing: border-box;
 
@@ -305,6 +305,8 @@
 
     overflow: visible;
 
+    text-align: center;
+
     z-index: 1;
 }
 
@@ -318,17 +320,23 @@
 .hero-title .glitch-line:first-child {
     display: block;
 
+    width: 100%;
+
     margin: 0;
     padding: 0;
 
     color: #FFFFFF;
 
     white-space: nowrap;
+
+    text-align: center;
 }
 
 
 .hero-title .glitch-line:last-child {
     display: block;
+
+    width: 100%;
 
     margin: 0;
     padding: 0;
@@ -336,6 +344,8 @@
     color: var(--accent);
 
     white-space: nowrap;
+
+    text-align: center;
 }
 
 
@@ -385,7 +395,7 @@
 
     letter-spacing: 0.015em;
 
-    text-align: left;
+    text-align: center;
 
     white-space: nowrap;
 
@@ -437,8 +447,6 @@
     align-items: flex-end;
     justify-content: center;
 
-    align-self: stretch;
-
     box-sizing: border-box;
 
     overflow: hidden;
@@ -450,6 +458,8 @@
     pointer-events: auto;
 
     --brush-size: 180px;
+
+    --hero-image-scale: 1;
 
     will-change: transform;
 }
@@ -465,32 +475,45 @@
 
 
 /* =========================================================
-   REGULAR IMAGE
+   SHARED IMAGE POSITIONING
 ========================================================= */
 
-.heroregular {
+.heroregular,
+.herocyber {
     position: absolute;
 
     left: 50%;
-
     bottom: 0;
 
     width: 100%;
     height: 100%;
 
-    transform:
-        translateX(-50%);
+    margin: 0;
+    padding: 0;
 
     object-fit: contain;
 
-    object-position: bottom center;
+    object-position: 50% 100%;
+
+    transform:
+        translateX(-50%)
+        scale(var(--hero-image-scale));
+
+    transform-origin: bottom center;
 
     z-index: 1;
 
     user-select: none;
 
     pointer-events: none;
+}
 
+
+/* =========================================================
+   REGULAR IMAGE
+========================================================= */
+
+.heroregular {
     opacity: 0;
 
     visibility: hidden;
@@ -511,7 +534,18 @@
 .cyber-layer {
     position: absolute;
 
-    inset: 0;
+    left: 50%;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    transform: translateX(-50%);
+
+    transform-origin: bottom center;
 
     z-index: 2;
 
@@ -585,27 +619,7 @@
 ========================================================= */
 
 .herocyber {
-    position: absolute;
-
-    left: 50%;
-
-    bottom: 0;
-
-    width: 100%;
-    height: 100%;
-
-    transform:
-        translateX(-50%);
-
-    object-fit: contain;
-
-    object-position: bottom center;
-
     z-index: 1;
-
-    user-select: none;
-
-    pointer-events: none;
 }
 
 
@@ -619,7 +633,11 @@
 
     position: absolute;
 
-    inset: 0;
+    left: 50%;
+    bottom: 0;
+
+    width: 100%;
+    height: 100%;
 
     z-index: 3;
 
@@ -630,14 +648,22 @@
 
     background-repeat: no-repeat;
 
-    background-position: bottom center;
+    background-position: 50% 100%;
 
     background-size: contain;
 
     opacity: 0;
 
+    scale: var(--hero-image-scale);
+
+    transform:
+        translateX(-50%);
+
+    transform-origin: bottom center;
+
     will-change:
         transform,
+        scale,
         clip-path,
         opacity;
 }
@@ -661,19 +687,13 @@
 
     0% {
         opacity: 1;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     6% {
         opacity: 0.75;
-
-        transform:
-            translate(-4px, 0);
-
+        transform: translateX(calc(-50% - 4px));
         clip-path:
             polygon(
                 0 8%, 100% 8%, 100% 15%, 0 15%,
@@ -683,10 +703,7 @@
 
     12% {
         opacity: 1;
-
-        transform:
-            translate(5px, 0);
-
+        transform: translateX(calc(-50% + 5px));
         clip-path:
             polygon(
                 0 20%, 100% 20%, 100% 24%, 0 24%,
@@ -696,10 +713,11 @@
 
     18% {
         opacity: 0.65;
-
         transform:
-            translate(-7px, 1px);
-
+            translate(
+                calc(-50% - 7px),
+                1px
+            );
         clip-path:
             polygon(
                 0 5%, 100% 5%, 100% 8%, 0 8%,
@@ -710,10 +728,11 @@
 
     24% {
         opacity: 1;
-
         transform:
-            translate(6px, -1px);
-
+            translate(
+                calc(-50% + 6px),
+                -1px
+            );
         clip-path:
             polygon(
                 0 14%, 100% 14%, 100% 17%, 0 17%,
@@ -723,10 +742,7 @@
 
     31% {
         opacity: 0.8;
-
-        transform:
-            translate(-3px, 0);
-
+        transform: translateX(calc(-50% - 3px));
         clip-path:
             polygon(
                 0 27%, 100% 27%, 100% 30%, 0 30%,
@@ -736,10 +752,7 @@
 
     38% {
         opacity: 0.55;
-
-        transform:
-            translate(8px, 0);
-
+        transform: translateX(calc(-50% + 8px));
         clip-path:
             polygon(
                 0 4%, 100% 4%, 100% 7%, 0 7%,
@@ -750,10 +763,11 @@
 
     45% {
         opacity: 1;
-
         transform:
-            translate(-6px, 1px);
-
+            translate(
+                calc(-50% - 6px),
+                1px
+            );
         clip-path:
             polygon(
                 0 18%, 100% 18%, 100% 22%, 0 22%,
@@ -763,10 +777,7 @@
 
     53% {
         opacity: 0.7;
-
-        transform:
-            translate(4px, 0);
-
+        transform: translateX(calc(-50% + 4px));
         clip-path:
             polygon(
                 0 9%, 100% 9%, 100% 13%, 0 13%,
@@ -777,10 +788,7 @@
 
     61% {
         opacity: 0.9;
-
-        transform:
-            translate(-8px, 0);
-
+        transform: translateX(calc(-50% - 8px));
         clip-path:
             polygon(
                 0 30%, 100% 30%, 100% 34%, 0 34%,
@@ -790,10 +798,11 @@
 
     69% {
         opacity: 0.6;
-
         transform:
-            translate(5px, -1px);
-
+            translate(
+                calc(-50% + 5px),
+                -1px
+            );
         clip-path:
             polygon(
                 0 11%, 100% 11%, 100% 15%, 0 15%,
@@ -803,10 +812,7 @@
 
     77% {
         opacity: 0.85;
-
-        transform:
-            translate(-4px, 0);
-
+        transform: translateX(calc(-50% - 4px));
         clip-path:
             polygon(
                 0 21%, 100% 21%, 100% 25%, 0 25%,
@@ -817,10 +823,7 @@
 
     85% {
         opacity: 0.7;
-
-        transform:
-            translate(3px, 0);
-
+        transform: translateX(calc(-50% + 3px));
         clip-path:
             polygon(
                 0 37%, 100% 37%, 100% 40%, 0 40%,
@@ -830,10 +833,7 @@
 
     93% {
         opacity: 0.9;
-
-        transform:
-            translate(-2px, 0);
-
+        transform: translateX(calc(-50% - 2px));
         clip-path:
             polygon(
                 0 16%, 100% 16%, 100% 19%, 0 19%,
@@ -843,10 +843,7 @@
 
     100% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 }
@@ -927,19 +924,13 @@
 
     0% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     8% {
         opacity: 0.8;
-
-        transform:
-            translate(-7px, 0);
-
+        transform: translateX(calc(-50% - 7px));
         clip-path:
             polygon(
                 0 6%, 100% 6%, 100% 11%, 0 11%,
@@ -949,19 +940,13 @@
 
     17% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     27% {
         opacity: 0.7;
-
-        transform:
-            translate(8px, -1px);
-
+        transform: translateX(calc(-50% + 8px));
         clip-path:
             polygon(
                 0 22%, 100% 22%, 100% 26%, 0 26%,
@@ -971,10 +956,10 @@
 
     38% {
         opacity: 0.35;
-
-        transform:
-            translate(-5px, 1px);
-
+        transform: translate(
+            calc(-50% - 5px),
+            1px
+        );
         clip-path:
             polygon(
                 0 13%, 100% 13%, 100% 17%, 0 17%,
@@ -984,10 +969,7 @@
 
     49% {
         opacity: 0.85;
-
-        transform:
-            translate(7px, 0);
-
+        transform: translateX(calc(-50% + 7px));
         clip-path:
             polygon(
                 0 35%, 100% 35%, 100% 39%, 0 39%,
@@ -997,10 +979,7 @@
 
     61% {
         opacity: 0.2;
-
-        transform:
-            translate(-4px, 0);
-
+        transform: translateX(calc(-50% - 4px));
         clip-path:
             polygon(
                 0 17%, 100% 17%, 100% 21%, 0 21%,
@@ -1010,10 +989,10 @@
 
     73% {
         opacity: 0.7;
-
-        transform:
-            translate(5px, 1px);
-
+        transform: translate(
+            calc(-50% + 5px),
+            1px
+        );
         clip-path:
             polygon(
                 0 65%, 100% 65%, 100% 70%, 0 70%
@@ -1022,10 +1001,7 @@
 
     84% {
         opacity: 0.25;
-
-        transform:
-            translate(-3px, 0);
-
+        transform: translateX(calc(-50% - 3px));
         clip-path:
             polygon(
                 0 29%, 100% 29%, 100% 33%, 0 33%,
@@ -1035,19 +1011,13 @@
 
     94% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     100% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 }
@@ -1061,19 +1031,13 @@
 
     0% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     11% {
         opacity: 0.7;
-
-        transform:
-            translate(6px, 0);
-
+        transform: translateX(calc(-50% + 6px));
         clip-path:
             polygon(
                 0 15%, 100% 15%, 100% 19%, 0 19%,
@@ -1083,19 +1047,16 @@
 
     23% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     35% {
         opacity: 0.8;
-
-        transform:
-            translate(-8px, 1px);
-
+        transform: translate(
+            calc(-50% - 8px),
+            1px
+        );
         clip-path:
             polygon(
                 0 28%, 100% 28%, 100% 32%, 0 32%,
@@ -1105,10 +1066,10 @@
 
     48% {
         opacity: 0.3;
-
-        transform:
-            translate(5px, -1px);
-
+        transform: translate(
+            calc(-50% + 5px),
+            -1px
+        );
         clip-path:
             polygon(
                 0 8%, 100% 8%, 100% 12%, 0 12%,
@@ -1118,10 +1079,7 @@
 
     62% {
         opacity: 0.75;
-
-        transform:
-            translate(-6px, 0);
-
+        transform: translateX(calc(-50% - 6px));
         clip-path:
             polygon(
                 0 23%, 100% 23%, 100% 27%, 0 27%,
@@ -1131,10 +1089,10 @@
 
     76% {
         opacity: 0.3;
-
-        transform:
-            translate(4px, 1px);
-
+        transform: translate(
+            calc(-50% + 4px),
+            1px
+        );
         clip-path:
             polygon(
                 0 63%, 100% 63%, 100% 68%, 0 68%,
@@ -1144,10 +1102,7 @@
 
     89% {
         opacity: 0.55;
-
-        transform:
-            translate(-2px, 0);
-
+        transform: translateX(calc(-50% - 2px));
         clip-path:
             polygon(
                 0 42%, 100% 42%, 100% 46%, 0 46%
@@ -1156,19 +1111,13 @@
 
     95% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     100% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 }
@@ -1262,7 +1211,6 @@
     opacity: 1;
 
     -webkit-mask-image: none;
-
     mask-image: none;
 
     animation:
@@ -1280,7 +1228,6 @@
     opacity: 1;
 
     -webkit-mask-image: none;
-
     mask-image: none;
 
     animation: none;
@@ -1303,7 +1250,6 @@
     opacity: 1;
 
     -webkit-mask-image: none;
-
     mask-image: none;
 
     animation: none;
@@ -1317,20 +1263,14 @@
 @keyframes cyber-brush-glitch {
 
     0% {
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         opacity: 1;
-
         clip-path: none;
     }
 
     6% {
-        transform:
-            translate(-4px, 0);
-
+        transform: translateX(calc(-50% - 4px));
         opacity: 0.75;
-
         clip-path:
             polygon(
                 0 8%, 100% 8%, 100% 15%, 0 15%,
@@ -1339,11 +1279,8 @@
     }
 
     12% {
-        transform:
-            translate(5px, 0);
-
+        transform: translateX(calc(-50% + 5px));
         opacity: 1;
-
         clip-path:
             polygon(
                 0 20%, 100% 20%, 100% 24%, 0 24%,
@@ -1353,10 +1290,11 @@
 
     18% {
         transform:
-            translate(-7px, 1px);
-
+            translate(
+                calc(-50% - 7px),
+                1px
+            );
         opacity: 0.65;
-
         clip-path:
             polygon(
                 0 5%, 100% 5%, 100% 8%, 0 8%,
@@ -1367,10 +1305,11 @@
 
     24% {
         transform:
-            translate(6px, -1px);
-
+            translate(
+                calc(-50% + 6px),
+                -1px
+            );
         opacity: 1;
-
         clip-path:
             polygon(
                 0 14%, 100% 14%, 100% 17%, 0 17%,
@@ -1379,11 +1318,8 @@
     }
 
     31% {
-        transform:
-            translate(-3px, 0);
-
+        transform: translateX(calc(-50% - 3px));
         opacity: 0.8;
-
         clip-path:
             polygon(
                 0 27%, 100% 27%, 100% 30%, 0 30%,
@@ -1392,11 +1328,8 @@
     }
 
     38% {
-        transform:
-            translate(8px, 0);
-
+        transform: translateX(calc(-50% + 8px));
         opacity: 0.55;
-
         clip-path:
             polygon(
                 0 4%, 100% 4%, 100% 7%, 0 7%,
@@ -1407,10 +1340,11 @@
 
     45% {
         transform:
-            translate(-6px, 1px);
-
+            translate(
+                calc(-50% - 6px),
+                1px
+            );
         opacity: 1;
-
         clip-path:
             polygon(
                 0 18%, 100% 18%, 100% 22%, 0 22%,
@@ -1419,11 +1353,8 @@
     }
 
     53% {
-        transform:
-            translate(4px, 0);
-
+        transform: translateX(calc(-50% + 4px));
         opacity: 0.7;
-
         clip-path:
             polygon(
                 0 9%, 100% 9%, 100% 13%, 0 13%,
@@ -1433,11 +1364,8 @@
     }
 
     61% {
-        transform:
-            translate(-8px, 0);
-
+        transform: translateX(calc(-50% - 8px));
         opacity: 0.9;
-
         clip-path:
             polygon(
                 0 30%, 100% 30%, 100% 34%, 0 34%,
@@ -1447,10 +1375,11 @@
 
     69% {
         transform:
-            translate(5px, -1px);
-
+            translate(
+                calc(-50% + 5px),
+                -1px
+            );
         opacity: 0.6;
-
         clip-path:
             polygon(
                 0 11%, 100% 11%, 100% 15%, 0 15%,
@@ -1459,11 +1388,8 @@
     }
 
     77% {
-        transform:
-            translate(-4px, 0);
-
+        transform: translateX(calc(-50% - 4px));
         opacity: 0.85;
-
         clip-path:
             polygon(
                 0 21%, 100% 21%, 100% 25%, 0 25%,
@@ -1473,11 +1399,8 @@
     }
 
     85% {
-        transform:
-            translate(3px, 0);
-
+        transform: translateX(calc(-50% + 3px));
         opacity: 0.7;
-
         clip-path:
             polygon(
                 0 37%, 100% 37%, 100% 40%, 0 40%,
@@ -1486,11 +1409,8 @@
     }
 
     93% {
-        transform:
-            translate(-2px, 0);
-
+        transform: translateX(calc(-50% - 2px));
         opacity: 0.9;
-
         clip-path:
             polygon(
                 0 16%, 100% 16%, 100% 19%, 0 19%,
@@ -1499,11 +1419,8 @@
     }
 
     100% {
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         opacity: 1;
-
         clip-path: none;
     }
 }
@@ -1517,19 +1434,13 @@
 
     0% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     8% {
         opacity: 0.8;
-
-        transform:
-            translate(-7px, 0);
-
+        transform: translateX(calc(-50% - 7px));
         clip-path:
             polygon(
                 0 6%, 100% 6%, 100% 11%, 0 11%,
@@ -1539,19 +1450,13 @@
 
     17% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     27% {
         opacity: 0.7;
-
-        transform:
-            translate(8px, -1px);
-
+        transform: translateX(calc(-50% + 8px));
         clip-path:
             polygon(
                 0 22%, 100% 22%, 100% 26%, 0 26%,
@@ -1561,10 +1466,10 @@
 
     38% {
         opacity: 0.35;
-
-        transform:
-            translate(-5px, 1px);
-
+        transform: translate(
+            calc(-50% - 5px),
+            1px
+        );
         clip-path:
             polygon(
                 0 13%, 100% 13%, 100% 17%, 0 17%,
@@ -1574,10 +1479,7 @@
 
     49% {
         opacity: 0.85;
-
-        transform:
-            translate(7px, 0);
-
+        transform: translateX(calc(-50% + 7px));
         clip-path:
             polygon(
                 0 35%, 100% 35%, 100% 39%, 0 39%,
@@ -1587,10 +1489,7 @@
 
     61% {
         opacity: 0.2;
-
-        transform:
-            translate(-4px, 0);
-
+        transform: translateX(calc(-50% - 4px));
         clip-path:
             polygon(
                 0 17%, 100% 17%, 100% 21%, 0 21%,
@@ -1600,10 +1499,10 @@
 
     73% {
         opacity: 0.7;
-
-        transform:
-            translate(5px, 1px);
-
+        transform: translate(
+            calc(-50% + 5px),
+            1px
+        );
         clip-path:
             polygon(
                 0 65%, 100% 65%, 100% 70%, 0 70%
@@ -1612,10 +1511,7 @@
 
     84% {
         opacity: 0.25;
-
-        transform:
-            translate(-3px, 0);
-
+        transform: translateX(calc(-50% - 3px));
         clip-path:
             polygon(
                 0 29%, 100% 29%, 100% 33%, 0 33%,
@@ -1625,19 +1521,13 @@
 
     94% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     100% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 }
@@ -1651,19 +1541,13 @@
 
     0% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     11% {
         opacity: 0.7;
-
-        transform:
-            translate(6px, 0);
-
+        transform: translateX(calc(-50% + 6px));
         clip-path:
             polygon(
                 0 15%, 100% 15%, 100% 19%, 0 19%,
@@ -1673,19 +1557,16 @@
 
     23% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     35% {
         opacity: 0.8;
-
-        transform:
-            translate(-8px, 1px);
-
+        transform: translate(
+            calc(-50% - 8px),
+            1px
+        );
         clip-path:
             polygon(
                 0 28%, 100% 28%, 100% 32%, 0 32%,
@@ -1695,10 +1576,10 @@
 
     48% {
         opacity: 0.3;
-
-        transform:
-            translate(5px, -1px);
-
+        transform: translate(
+            calc(-50% + 5px),
+            -1px
+        );
         clip-path:
             polygon(
                 0 8%, 100% 8%, 100% 12%, 0 12%,
@@ -1708,10 +1589,7 @@
 
     62% {
         opacity: 0.75;
-
-        transform:
-            translate(-6px, 0);
-
+        transform: translateX(calc(-50% - 6px));
         clip-path:
             polygon(
                 0 23%, 100% 23%, 100% 27%, 0 27%,
@@ -1721,10 +1599,10 @@
 
     76% {
         opacity: 0.3;
-
-        transform:
-            translate(4px, 1px);
-
+        transform: translate(
+            calc(-50% + 4px),
+            1px
+        );
         clip-path:
             polygon(
                 0 63%, 100% 63%, 100% 68%, 0 68%,
@@ -1734,10 +1612,7 @@
 
     89% {
         opacity: 0.55;
-
-        transform:
-            translate(-2px, 0);
-
+        transform: translateX(calc(-50% - 2px));
         clip-path:
             polygon(
                 0 42%, 100% 42%, 100% 46%, 0 46%
@@ -1746,19 +1621,13 @@
 
     95% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 
     100% {
         opacity: 0;
-
-        transform:
-            translate(0, 0);
-
+        transform: translateX(-50%);
         clip-path: none;
     }
 }
@@ -1847,16 +1716,12 @@
 @keyframes ambient-image-glitch {
 
     0% {
-        transform:
-            translateX(0);
-
+        transform: translateX(0);
         clip-path: none;
     }
 
     7% {
-        transform:
-            translateX(-3px);
-
+        transform: translateX(-3px);
         clip-path:
             polygon(
                 0 10%, 100% 10%, 100% 15%, 0 15%,
@@ -1865,9 +1730,7 @@
     }
 
     14% {
-        transform:
-            translateX(5px);
-
+        transform: translateX(5px);
         clip-path:
             polygon(
                 0 23%, 100% 23%, 100% 28%, 0 28%,
@@ -1876,9 +1739,7 @@
     }
 
     21% {
-        transform:
-            translateX(-6px);
-
+        transform: translateX(-6px);
         clip-path:
             polygon(
                 0 5%, 100% 5%, 100% 9%, 0 9%,
@@ -1888,9 +1749,7 @@
     }
 
     29% {
-        transform:
-            translateX(4px);
-
+        transform: translateX(4px);
         clip-path:
             polygon(
                 0 15%, 100% 15%, 100% 19%, 0 19%,
@@ -1899,9 +1758,7 @@
     }
 
     37% {
-        transform:
-            translateX(-7px);
-
+        transform: translateX(-7px);
         clip-path:
             polygon(
                 0 30%, 100% 30%, 100% 35%, 0 35%,
@@ -1910,9 +1767,7 @@
     }
 
     45% {
-        transform:
-            translateX(6px);
-
+        transform: translateX(6px);
         clip-path:
             polygon(
                 0 7%, 100% 7%, 100% 12%, 0 12%,
@@ -1922,9 +1777,7 @@
     }
 
     53% {
-        transform:
-            translateX(-5px);
-
+        transform: translateX(-5px);
         clip-path:
             polygon(
                 0 20%, 100% 20%, 100% 25%, 0 25%,
@@ -1933,9 +1786,7 @@
     }
 
     61% {
-        transform:
-            translateX(7px);
-
+        transform: translateX(7px);
         clip-path:
             polygon(
                 0 12%, 100% 12%, 100% 16%, 0 16%,
@@ -1945,9 +1796,7 @@
     }
 
     70% {
-        transform:
-            translateX(-4px);
-
+        transform: translateX(-4px);
         clip-path:
             polygon(
                 0 27%, 100% 27%, 100% 31%, 0 31%,
@@ -1956,9 +1805,7 @@
     }
 
     79% {
-        transform:
-            translateX(3px);
-
+        transform: translateX(3px);
         clip-path:
             polygon(
                 0 9%, 100% 9%, 100% 13%, 0 13%,
@@ -1967,9 +1814,7 @@
     }
 
     88% {
-        transform:
-            translateX(-2px);
-
+        transform: translateX(-2px);
         clip-path:
             polygon(
                 0 18%, 100% 18%, 100% 22%, 0 22%,
@@ -1978,9 +1823,7 @@
     }
 
     95% {
-        transform:
-            translateX(1px);
-
+        transform: translateX(1px);
         clip-path:
             polygon(
                 0 38%, 100% 38%, 100% 42%, 0 42%
@@ -1988,9 +1831,7 @@
     }
 
     100% {
-        transform:
-            translateX(0);
-
+        transform: translateX(0);
         clip-path: none;
     }
 }
@@ -2034,8 +1875,6 @@
 .hero:hover .hero-cursor {
     opacity: 1;
 }
-
-
 /* =========================================================
    320px - 767px
 ========================================================= */
@@ -2048,102 +1887,131 @@
         min-height: 100dvh;
     }
 
-
     .hero-title-layer {
         inset: 0;
-
         width: 100%;
         height: 100%;
     }
-
 
     .hero-panel {
         left: 50%;
-        top: 42%;
+        top: 30%;
 
-        width:
-            calc(
-                100vw - 2rem
-            );
+        width: calc(100vw - 2rem);
+        max-width: calc(100vw - 2rem);
 
-        max-width:
-            calc(
-                100vw - 2rem
-            );
+        align-items: center;
 
-        transform:
-            translate(
-                -50%,
-                -50%
-            );
+        transform: translate(-50%, -50%);
     }
-
 
     .hero-title {
-        width: max-content;
+        width: 100%;
+        max-width: calc(100vw - 2rem);
 
-        max-width:
-            calc(
-                100vw - 2rem
-            );
+        align-items: center;
 
-        font-size:
-            clamp(
-                2.35rem,
-                10.5vw,
-                4.75rem
-            );
+        font-size: clamp(
+            2.35rem,
+            10.5vw,
+            4.75rem
+        );
 
         line-height: 0.84;
+        text-align: center;
     }
 
+    .hero-title .glitch-line:first-child,
+    .hero-title .glitch-line:last-child {
+        width: 100%;
+        text-align: center;
+    }
 
     .hero-name {
         width: 100%;
+        max-width: calc(100vw - 2rem);
 
-        max-width:
-            calc(
-                100vw - 2rem
-            );
+        font-size: clamp(
+            0.64rem,
+            1.7vw,
+            0.78rem
+        );
 
-        font-size:
-            clamp(
-                0.64rem,
-                1.7vw,
-                0.78rem
-            );
-
+        text-align: center;
         white-space: normal;
     }
 
-
     .hero-image-layer {
         top: auto;
-        right: 0;
+        left: 50%;
+        right: auto;
         bottom: 0;
 
         width: 100%;
-        height: 56%;
+        height: 60%;
 
-        z-index: 3;
+        transform: translateX(-50%);
     }
 
-
     .hero-img {
+        --brush-size: 120px;
+        --hero-image-scale: 1.22;
+    }
+
+    .heroregular,
+    .herocyber,
+    .cyber-layer {
+        left: 50%;
+        bottom: 0;
+
         width: 100%;
         height: 100%;
 
-        --brush-size: 120px;
+        transform-origin: bottom center;
     }
-
 
     .heroregular,
     .herocyber {
+        transform:
+            translateX(-50%)
+            scale(var(--hero-image-scale));
+    }
+
+    .cyber-layer::before,
+    .cyber-layer::after {
+        left: 50%;
+        bottom: 0;
+
         width: 100%;
         height: 100%;
+
+        transform:
+            translateX(-50%)
+            scale(var(--hero-image-scale));
+
+        transform-origin: bottom center;
     }
 }
 
+
+/* =========================================================
+   320px - 424px
+========================================================= */
+
+@media (max-width: 424px) {
+
+    .hero-panel {
+        top: 38%;
+    }
+
+    .hero-image-layer {
+        height: 64%;
+    }
+
+    .hero-img {
+        --hero-image-scale: 1.12;
+    }
+}
 
 /* =========================================================
    768px - 1023px
@@ -2157,8 +2025,8 @@
 
 
     .hero-panel {
-        left: 50%;
-        top: 50%;
+        left: 35%;
+        top: 47%;
 
         width: max-content;
 
@@ -2166,6 +2034,8 @@
             calc(
                 100vw - 2rem
             );
+
+        align-items: center;
 
         transform:
             translate(
@@ -2176,32 +2046,60 @@
 
 
     .hero-title {
+        align-items: center;
+
         font-size:
             clamp(
                 3rem,
                 6vw,
                 5.5rem
             );
+
+        text-align: center;
+    }
+
+
+    .hero-title .glitch-line:first-child,
+    .hero-title .glitch-line:last-child {
+        text-align: center;
     }
 
 
     .hero-name {
         font-size: 0.78rem;
+
+        text-align: center;
     }
 
 
     .hero-image-layer {
         top: 0;
+        left: auto;
         right: 0;
         bottom: auto;
 
-        width: 60%;
+        width:70%;
         height: 100%;
+
+        transform: none;
     }
 
 
     .hero-img {
         --brush-size: 150px;
+
+        --hero-image-scale: 1.14;
+    }
+
+
+    .heroregular,
+    .herocyber,
+    .cyber-layer {
+        left: 50%;
+        bottom: 0;
+
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -2218,8 +2116,8 @@
 
 
     .hero-panel {
-        left: 50%;
-        top: 50%;
+        left: 36%;
+        top: 48%;
 
         width: max-content;
 
@@ -2227,6 +2125,8 @@
             calc(
                 100vw - 2rem
             );
+
+        align-items: center;
 
         transform:
             translate(
@@ -2237,12 +2137,22 @@
 
 
     .hero-title {
+        align-items: center;
+
         font-size:
             clamp(
                 3.5rem,
                 6vw,
                 6rem
             );
+
+        text-align: center;
+    }
+
+
+    .hero-title .glitch-line:first-child,
+    .hero-title .glitch-line:last-child {
+        text-align: center;
     }
 
 
@@ -2253,20 +2163,39 @@
                 0.9vw,
                 0.95rem
             );
+
+        text-align: center;
     }
 
 
     .hero-image-layer {
         top: 0;
+        left: auto;
         right: 0;
+        bottom: auto;
 
         width: 60%;
         height: 100%;
+
+        transform: none;
     }
 
 
     .hero-img {
         --brush-size: 180px;
+
+        --hero-image-scale: 1.07;
+    }
+
+
+    .heroregular,
+    .herocyber,
+    .cyber-layer {
+        left: 50%;
+        bottom: 0;
+
+        width: 100%;
+        height: 100%;
     }
 }
 
@@ -2284,7 +2213,7 @@
 
     .hero-panel {
         left: 50%;
-        top: 50%;
+        top: 48%;
 
         width: max-content;
 
@@ -2292,6 +2221,8 @@
             calc(
                 100vw - 2rem
             );
+
+        align-items: center;
 
         transform:
             translate(
@@ -2302,12 +2233,22 @@
 
 
     .hero-title {
+        align-items: center;
+
         font-size:
             clamp(
                 4rem,
                 5.8vw,
                 6.5rem
             );
+
+        text-align: center;
+    }
+
+
+    .hero-title .glitch-line:first-child,
+    .hero-title .glitch-line:last-child {
+        text-align: center;
     }
 
 
@@ -2318,20 +2259,39 @@
                 0.85vw,
                 1rem
             );
+
+        text-align: center;
     }
 
 
     .hero-image-layer {
         top: 0;
+        left: auto;
         right: 0;
+        bottom: auto;
 
         width: 60%;
         height: 100%;
+
+        transform: none;
     }
 
 
     .hero-img {
         --brush-size: 180px;
+
+        --hero-image-scale: 1;
+    }
+
+
+    .heroregular,
+    .herocyber,
+    .cyber-layer {
+        left: 50%;
+        bottom: 0;
+
+        width: 100%;
+        height: 100%;
     }
 }
 
