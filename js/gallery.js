@@ -198,15 +198,6 @@ async function loadManifest(
 
 /* =========================================================
    GET COVER PATH
-   ---------------------------------------------------------
-   Supports:
-
-   manifest.cover
-   manifest.coverImage
-   manifest.thumbnail
-   manifest.hero
-
-   If none exists, first gallery image is used.
 ========================================================= */
 
 function getCoverPath(
@@ -612,6 +603,12 @@ function createGalleryCategory(
         "gallery-category-body";
 
 
+    body.setAttribute(
+        "aria-label",
+        `${category.label} gallery`
+    );
+
+
     /* =====================================================
        TRACK
     ====================================================== */
@@ -813,7 +810,7 @@ function createGalleryItem(
 
 
     /* =====================================================
-       LIGHTBOX
+       IMAGE VIEWER
     ====================================================== */
 
     figure.addEventListener(
@@ -827,7 +824,12 @@ function createGalleryItem(
 
             openImageViewer(
                 imageURL,
-                image.alt
+                category.label,
+                imageIndex + 1,
+                imagesCountForCategory(
+                    category,
+                    project
+                )
             );
 
         }
@@ -841,6 +843,40 @@ function createGalleryItem(
 
 
     return figure;
+}
+
+
+/* =========================================================
+   CATEGORY IMAGE COUNT
+========================================================= */
+
+function imagesCountForCategory(
+    category,
+    project
+) {
+
+    const manifest =
+        window.currentProjectManifest;
+
+
+    if (!manifest) {
+        return 0;
+    }
+
+
+    const images =
+        Array.isArray(
+            manifest?.[
+                category.id
+            ]
+        )
+            ? manifest[
+                category.id
+            ]
+            : [];
+
+
+    return images.length;
 }
 
 
@@ -895,6 +931,35 @@ function setupCategoryToggle(
             expanded
                 ? "−"
                 : "+";
+
+
+        if (
+            expanded
+        ) {
+
+            requestAnimationFrame(
+                () => {
+
+                    const body =
+                        section.querySelector(
+                            ".gallery-category-body"
+                        );
+
+
+                    if (
+                        body
+                    ) {
+
+                        body.scrollTop =
+                            0;
+
+                    }
+
+                }
+            );
+
+        }
+
     }
 
 
@@ -950,6 +1015,131 @@ function setupCategoryToggle(
 
         }
     );
+
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+function setupGallerySidebar() {
+
+    const sidebar =
+        document.getElementById(
+            "gallery-sidebar"
+        );
+
+
+    const toggle =
+        document.getElementById(
+            "gallery-sidebar-toggle"
+        );
+
+
+    if (
+        !sidebar ||
+        !toggle
+    ) {
+
+        return;
+    }
+
+
+    function setSidebar(
+        open
+    ) {
+
+        sidebar.classList.toggle(
+            "is-open",
+            open
+        );
+
+
+        toggle.classList.toggle(
+            "is-open",
+            open
+        );
+
+
+        toggle.setAttribute(
+            "aria-expanded",
+            String(
+                open
+            )
+        );
+
+
+        toggle.setAttribute(
+            "aria-label",
+            open
+                ? "Close project navigation"
+                : "Open project navigation"
+        );
+
+    }
+
+
+    toggle.addEventListener(
+        "click",
+        () => {
+
+            const open =
+                sidebar.classList.contains(
+                    "is-open"
+                );
+
+
+            setSidebar(
+                !open
+            );
+
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        (event) => {
+
+            if (
+                event.key ===
+                "Escape"
+            ) {
+
+                setSidebar(
+                    false
+                );
+
+            }
+
+        }
+    );
+
+
+    const links =
+        sidebar.querySelectorAll(
+            ".gallery-sidebar-link"
+        );
+
+
+    links.forEach(
+        (link) => {
+
+            link.addEventListener(
+                "click",
+                () => {
+
+                    setSidebar(
+                        false
+                    );
+
+                }
+            );
+
+        }
+    );
+
 }
 
 
@@ -982,6 +1172,20 @@ function renderGallery(
         "";
 
 
+    window.currentProjectManifest =
+        manifest;
+
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+
+    content.className =
+        "gallery-content";
+
+
     let totalImages =
         0;
 
@@ -1001,10 +1205,6 @@ function renderGallery(
                     : [];
 
 
-            /* ============================================
-               EMPTY CATEGORIES ARE NOT RENDERED
-            ============================================= */
-
             if (
                 images.length === 0
             ) {
@@ -1017,7 +1217,7 @@ function renderGallery(
                 images.length;
 
 
-            gallery.append(
+            content.append(
 
                 createGalleryCategory(
                     category,
@@ -1028,6 +1228,11 @@ function renderGallery(
             );
 
         }
+    );
+
+
+    gallery.append(
+        content
     );
 
 
@@ -1077,10 +1282,6 @@ function renderGallery(
     }
 
 
-    /* =====================================================
-       COVER
-    ====================================================== */
-
     applyProjectCover(
         project,
         manifest
@@ -1090,17 +1291,19 @@ function renderGallery(
 
 
 /* =========================================================
-   LIGHTBOX
+   IMAGE VIEWER
 ========================================================= */
 
 function openImageViewer(
     imageURL,
-    imageAlt
+    categoryTitle,
+    imageIndex,
+    categoryTotal
 ) {
 
     const existing =
         document.querySelector(
-            ".gallery-lightbox"
+            ".gallery-image-viewer"
         );
 
 
@@ -1111,58 +1314,153 @@ function openImageViewer(
     }
 
 
-    /* =====================================================
-       LIGHTBOX
-    ====================================================== */
-
-    const lightbox =
+    const viewer =
         document.createElement(
             "div"
         );
 
 
-    lightbox.className =
-        "gallery-lightbox";
+    viewer.className =
+        "gallery-image-viewer";
 
 
-    lightbox.setAttribute(
+    viewer.setAttribute(
         "role",
         "dialog"
     );
 
 
-    lightbox.setAttribute(
+    viewer.setAttribute(
         "aria-modal",
         "true"
     );
 
 
-    lightbox.setAttribute(
+    viewer.setAttribute(
         "aria-label",
-        "Image preview"
+        `${categoryTitle || "Image"} preview`
     );
 
 
     /* =====================================================
-       IMAGE
+       BACKDROP
     ====================================================== */
 
-    const image =
+    const backdrop =
         document.createElement(
-            "img"
+            "div"
         );
 
 
-    image.className =
-        "gallery-lightbox-image";
+    backdrop.className =
+        "gallery-image-viewer-backdrop";
 
 
-    image.src =
-        imageURL;
+    backdrop.setAttribute(
+        "aria-hidden",
+        "true"
+    );
 
 
-    image.alt =
-        imageAlt || "";
+    /* =====================================================
+       PANEL
+    ====================================================== */
+
+    const panel =
+        document.createElement(
+            "div"
+        );
+
+
+    panel.className =
+        "gallery-image-viewer-panel";
+
+
+    /* =====================================================
+       HEADER
+    ====================================================== */
+
+    const header =
+        document.createElement(
+            "header"
+        );
+
+
+    header.className =
+        "gallery-image-viewer-header";
+
+
+    /* =====================================================
+       INDEX
+    ====================================================== */
+
+    const index =
+        document.createElement(
+            "span"
+        );
+
+
+    index.className =
+        "gallery-image-viewer-index";
+
+
+    index.textContent =
+        imageIndex
+            ? String(
+                imageIndex
+            ).padStart(
+                2,
+                "0"
+            )
+            : "IMG";
+
+
+    /* =====================================================
+       TITLE
+    ====================================================== */
+
+    const title =
+        document.createElement(
+            "h2"
+        );
+
+
+    title.className =
+        "gallery-image-viewer-title";
+
+
+    title.textContent =
+        categoryTitle ||
+        "IMAGE";
+
+
+    /* =====================================================
+       META
+    ====================================================== */
+
+    const meta =
+        document.createElement(
+            "span"
+        );
+
+
+    meta.className =
+        "gallery-image-viewer-meta";
+
+
+    if (
+        categoryTotal
+    ) {
+
+        meta.textContent =
+            `${String(imageIndex).padStart(2,"0")} / ${String(categoryTotal).padStart(2,"0")}`;
+
+    } else {
+
+        meta.textContent =
+            "IMAGE";
+
+    }
 
 
     /* =====================================================
@@ -1180,12 +1478,12 @@ function openImageViewer(
 
 
     close.className =
-        "gallery-lightbox-close";
+        "gallery-image-viewer-close";
 
 
     close.setAttribute(
         "aria-label",
-        "Close image preview"
+        "Close image viewer"
     );
 
 
@@ -1193,29 +1491,179 @@ function openImageViewer(
         "×";
 
 
-    lightbox.append(
-        close,
+    header.append(
+        index,
+        title,
+        close
+    );
+
+
+    /* =====================================================
+       CONTENT
+    ====================================================== */
+
+    const content =
+        document.createElement(
+            "div"
+        );
+
+
+    content.className =
+        "gallery-image-viewer-content";
+
+
+    /* =====================================================
+       IMAGE
+    ====================================================== */
+
+    const image =
+        document.createElement(
+            "img"
+        );
+
+
+    image.className =
+        "gallery-image-viewer-image";
+
+
+    image.src =
+        imageURL;
+
+
+    image.alt =
+        categoryTitle ||
+        "Project image";
+
+
+    image.decoding =
+        "async";
+
+
+    image.addEventListener(
+        "load",
+        () => {
+
+            viewer.classList.add(
+                "is-loaded"
+            );
+
+        },
+        {
+            once:
+                true
+        }
+    );
+
+
+    /* =====================================================
+       IMAGE ERROR
+    ====================================================== */
+
+    image.addEventListener(
+        "error",
+        () => {
+
+            content.classList.add(
+                "is-error"
+            );
+
+
+            image.alt =
+                "Unable to load image";
+
+        },
+        {
+            once:
+                true
+        }
+    );
+
+
+    content.append(
         image
     );
 
 
+    /* =====================================================
+       FOOTER
+    ====================================================== */
+
+    const footer =
+        document.createElement(
+            "footer"
+        );
+
+
+    footer.className =
+        "gallery-image-viewer-footer";
+
+
+    const footerLeft =
+        document.createElement(
+            "span"
+        );
+
+
+    footerLeft.textContent =
+        "PROJECT ARCHIVE";
+
+
+    const footerRight =
+        document.createElement(
+            "span"
+        );
+
+
+    footerRight.textContent =
+        "IMAGE VIEW";
+
+
+    footer.append(
+        footerLeft,
+        footerRight
+    );
+
+
+    /* =====================================================
+       PANEL
+    ====================================================== */
+
+    panel.append(
+        header,
+        content,
+        footer
+    );
+
+
+    /* =====================================================
+       VIEWER
+    ====================================================== */
+
+    viewer.append(
+        backdrop,
+        panel
+    );
+
+
     document.body.append(
-        lightbox
+        viewer
     );
 
 
     document.body.classList.add(
-        "gallery-lightbox-open"
+        "gallery-viewer-open"
     );
 
 
     function closeViewer() {
 
-        lightbox.remove();
+        viewer.classList.remove(
+            "is-open"
+        );
 
 
         document.body.classList.remove(
-            "gallery-lightbox-open"
+            "gallery-viewer-open"
         );
 
 
@@ -1224,30 +1672,23 @@ function openImageViewer(
             handleKeyboard
         );
 
+
+        window.setTimeout(
+            () => {
+
+                if (
+                    viewer.parentNode
+                ) {
+
+                    viewer.remove();
+
+                }
+
+            },
+            450
+        );
+
     }
-
-
-    close.addEventListener(
-        "click",
-        closeViewer
-    );
-
-
-    lightbox.addEventListener(
-        "click",
-        (event) => {
-
-            if (
-                event.target ===
-                lightbox
-            ) {
-
-                closeViewer();
-
-            }
-
-        }
-    );
 
 
     function handleKeyboard(
@@ -1266,9 +1707,32 @@ function openImageViewer(
     }
 
 
+    close.addEventListener(
+        "click",
+        closeViewer
+    );
+
+
+    backdrop.addEventListener(
+        "click",
+        closeViewer
+    );
+
+
     document.addEventListener(
         "keydown",
         handleKeyboard
+    );
+
+
+    requestAnimationFrame(
+        () => {
+
+            viewer.classList.add(
+                "is-open"
+            );
+
+        }
     );
 
 
@@ -1339,6 +1803,7 @@ function showGalleryError(
     gallery.append(
         error
     );
+
 }
 
 
@@ -1347,6 +1812,9 @@ function showGalleryError(
 ========================================================= */
 
 async function initializeGallery() {
+
+    setupGallerySidebar();
+
 
     const project =
         window.currentProject;

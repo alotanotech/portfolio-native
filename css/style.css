@@ -1,44 +1,20 @@
-
 :root {
-    /* ---------- Colors ---------- */
-
     --bg-main: #000000;
-    /* 60% — Black */
-
     --text-main: #FFFFFF;
-    /* 30% — White */
-
     --accent: #ffe601;
-    /* 10% — Cyber Yellow */
-
-
-    /* ---------- Borders ---------- */
 
     --edge: rgba(255, 255, 255, 0.25);
-
-
-    /* ---------- Animation ---------- */
 
     --ease-out: cubic-bezier(.16, 1, .3, 1);
     --ease-io: cubic-bezier(.86, 0, .07, 1);
 
-
-    /* ---------- Layout ---------- */
-
     --container-width: 80dvw;
     --section-space: clamp(6rem, 12vw, 12rem);
-
-
-    /* ---------- Typography ---------- */
 
     --font-body: 'JetBrains Mono', monospace;
     --font-display: 'Syne', sans-serif;
 }
 
-
-/* =========================================================
-   RESET
-========================================================= */
 
 *,
 *::before,
@@ -49,15 +25,12 @@
 }
 
 
-/* =========================================================
-   DOCUMENT
-========================================================= */
-
 html {
     scroll-behavior: smooth;
-      scroll-padding-top: 5rem;
+    scroll-padding-top: 5rem;
     background: var(--bg-main);
 }
+
 
 body {
     min-height: 100vh;
@@ -74,10 +47,6 @@ body {
 }
 
 
-/* =========================================================
-   TYPOGRAPHY
-========================================================= */
-
 h1,
 h2,
 h3,
@@ -91,14 +60,17 @@ h6,
     letter-spacing: -.02em;
 }
 
+
 p {
     line-height: 1.6;
 }
+
 
 a {
     color: inherit;
     text-decoration: none;
 }
+
 
 button,
 input,
@@ -108,19 +80,11 @@ select {
 }
 
 
-/* =========================================================
-   IMAGES
-========================================================= */
-
 img {
     display: block;
     max-width: 100%;
 }
 
-
-/* =========================================================
-   CONTAINER
-========================================================= */
 
 .container {
     width: var(--container-width);
@@ -129,51 +93,13 @@ img {
 }
 
 
-/* =========================================================
-   SECTIONS
-========================================================= */
-
 section {
     position: relative;
 }
 
 
 /* =========================================================
-   CSS SCROLL-DRIVEN SECTION REVEAL
-=========================================================
-
-   VIEW TIMELINE
-   ---------------------------------------------------------
-
-   The animation follows the element's visibility inside
-   the viewport.
-
-   The animation starts when the section begins entering:
-
-       entry 0%
-
-   The animation finishes when the section reaches:
-
-       cover 40%
-
-   Once the animation reaches 100% of its keyframes, the
-   section is completely resolved and remains stable for the
-   rest of its time in the viewport.
-
-   IMPORTANT:
-
-       animation-range:
-           entry 0%
-           cover 40%;
-
-   means:
-
-       KEYFRAME 0%   = entry 0%
-       KEYFRAME 100% = cover 40%
-
-   Therefore the keyframes themselves describe the entire
-   reveal from beginning to final state.
-
+   GLOBAL SECTION REVEAL
 ========================================================= */
 
 .reveal-section {
@@ -191,11 +117,6 @@ section {
     --reveal-clip-top: 5%;
     --reveal-clip-bottom: 20%;
 
-
-    /* -----------------------------------------------------
-       Scroll-driven animation
-    ----------------------------------------------------- */
-
     animation-name: section-reveal;
     animation-duration: 1ms;
     animation-timing-function: linear;
@@ -203,26 +124,9 @@ section {
 
     animation-timeline: view();
 
-
-    /* -----------------------------------------------------
-       REVEAL RANGE
-       -----------------------------------------------------
-
-       START:
-       The moment the section begins entering the viewport.
-
-       END:
-       When the section reaches 40% of the COVER range.
-
-       At this point the keyframe animation has reached 100%
-       and the section stays completely stable.
-
-    ----------------------------------------------------- */
-
     animation-range:
-        entry 0%
+        entry 30%
         cover 40%;
-
 
     will-change:
         opacity,
@@ -232,28 +136,7 @@ section {
 }
 
 
-/* =========================================================
-   SECTION REVEAL ANIMATION
-========================================================= */
-
 @keyframes section-reveal {
-
-    /* -----------------------------------------------------
-       0%
-       -----------------------------------------------------
-
-       ENTRY START
-
-       The section has just started entering the viewport.
-
-       It is:
-       - invisible
-       - dark
-       - blurred
-       - slightly smaller
-       - displaced
-       - partially clipped
-    */
 
     0% {
         opacity: 0;
@@ -281,16 +164,6 @@ section {
     }
 
 
-    /* -----------------------------------------------------
-       15%
-       -----------------------------------------------------
-
-       INITIAL RECONSTRUCTION
-
-       The section becomes visible and starts moving toward
-       its natural position.
-    */
-
     15% {
         opacity: .20;
 
@@ -313,16 +186,6 @@ section {
             blur(5px);
     }
 
-
-    /* -----------------------------------------------------
-       35%
-       -----------------------------------------------------
-
-       MAIN RECONSTRUCTION
-
-       Most of the movement and visual resolution happens
-       here.
-    */
 
     35% {
         opacity: .50;
@@ -347,16 +210,6 @@ section {
     }
 
 
-    /* -----------------------------------------------------
-       60%
-       -----------------------------------------------------
-
-       RESOLUTION
-
-       The section is now mostly visible and nearly in its
-       final position.
-    */
-
     60% {
         opacity: .78;
 
@@ -379,13 +232,6 @@ section {
             blur(1px);
     }
 
-
-    /* -----------------------------------------------------
-       80%
-       -----------------------------------------------------
-
-       ALMOST RESOLVED
-    */
 
     80% {
         opacity: .94;
@@ -410,28 +256,6 @@ section {
     }
 
 
-    /* -----------------------------------------------------
-       100%
-       -----------------------------------------------------
-
-       FINAL RESTING STATE
-
-       THIS IS WHERE THE ANIMATION STOPS.
-
-       Once the section reaches the end of the animation
-       range:
-
-           opacity: 1
-           transform: normal
-           scale: 1
-           rotation: 0
-           brightness: 1
-           blur: 0
-           clip-path: none
-
-       The section remains stable after this point.
-    */
-
     100% {
         opacity: 1;
 
@@ -454,11 +278,6 @@ section {
    SECTION REVEAL VARIANTS
 ========================================================= */
 
-
-/* ---------------------------------------------------------
-   Default upward reveal
---------------------------------------------------------- */
-
 .reveal-section--up {
     --reveal-x: 0rem;
     --reveal-y: 10rem;
@@ -475,10 +294,6 @@ section {
     --reveal-clip-bottom: 20%;
 }
 
-
-/* ---------------------------------------------------------
-   Left-side reveal
---------------------------------------------------------- */
 
 .reveal-section--left {
     --reveal-x: -10rem;
@@ -497,10 +312,6 @@ section {
 }
 
 
-/* ---------------------------------------------------------
-   Right-side reveal
---------------------------------------------------------- */
-
 .reveal-section--right {
     --reveal-x: 10rem;
     --reveal-y: 6rem;
@@ -517,10 +328,6 @@ section {
     --reveal-clip-bottom: 20%;
 }
 
-
-/* ---------------------------------------------------------
-   Stronger cyberpunk reveal
---------------------------------------------------------- */
 
 .reveal-section--cyber {
     --reveal-x: 0rem;
@@ -540,236 +347,7 @@ section {
 
 
 /* =========================================================
-   HERO SCROLL REVEAL
-=========================================================
-
-   The Hero uses the same VIEW timeline concept.
-
-   START:
-       entry 0%
-
-   FINISH:
-       cover 40%
-
-   The Hero is therefore fully resolved at the end of the
-   defined animation range.
-
-========================================================= */
-
-.hero {
-    --hero-reveal-x: 0rem;
-    --hero-reveal-y: 8rem;
-
-    --hero-reveal-scale: .91;
-    --hero-reveal-rotate: 0deg;
-
-
-    animation-name: hero-reveal;
-    animation-duration: 1ms;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-
-    animation-timeline: view();
-
-
-    /* -----------------------------------------------------
-       HERO REVEAL RANGE
-    ----------------------------------------------------- */
-
-    animation-range:
-        entry 0%
-        cover 40%;
-
-
-    will-change:
-        opacity,
-        transform,
-        filter,
-        clip-path;
-}
-
-
-/* =========================================================
-   HERO REVEAL ANIMATION
-========================================================= */
-
-@keyframes hero-reveal {
-
-    /* -----------------------------------------------------
-       0%
-       ----------------------------------------------------- */
-
-    0% {
-        opacity: 0;
-
-        transform:
-            translate3d(
-                var(--hero-reveal-x),
-                var(--hero-reveal-y),
-                0
-            )
-            scale(var(--hero-reveal-scale))
-            rotate(var(--hero-reveal-rotate));
-
-        filter:
-            brightness(.20)
-            blur(6px);
-
-        clip-path:
-            inset(6% 0 20% 0);
-    }
-
-
-    /* -----------------------------------------------------
-       15%
-       ----------------------------------------------------- */
-
-    15% {
-        opacity: .20;
-
-        transform:
-            translate3d(
-                calc(var(--hero-reveal-x) * .78),
-                calc(var(--hero-reveal-y) * .78),
-                0
-            )
-            scale(.925)
-            rotate(
-                calc(var(--hero-reveal-rotate) * .78)
-            );
-
-        filter:
-            brightness(.34)
-            blur(5px);
-
-        clip-path:
-            inset(4% 0 15% 0);
-    }
-
-
-    /* -----------------------------------------------------
-       35%
-       ----------------------------------------------------- */
-
-    35% {
-        opacity: .50;
-
-        transform:
-            translate3d(
-                calc(var(--hero-reveal-x) * .42),
-                calc(var(--hero-reveal-y) * .42),
-                0
-            )
-            scale(.955)
-            rotate(
-                calc(var(--hero-reveal-rotate) * .42)
-            );
-
-        filter:
-            brightness(.58)
-            blur(2.5px);
-
-        clip-path:
-            inset(2% 0 8% 0);
-    }
-
-
-    /* -----------------------------------------------------
-       60%
-       ----------------------------------------------------- */
-
-    60% {
-        opacity: .78;
-
-        transform:
-            translate3d(
-                calc(var(--hero-reveal-x) * .16),
-                calc(var(--hero-reveal-y) * .16),
-                0
-            )
-            scale(.985)
-            rotate(
-                calc(var(--hero-reveal-rotate) * .16)
-            );
-
-        filter:
-            brightness(.82)
-            blur(1px);
-
-        clip-path:
-            inset(.75% 0 3% 0);
-    }
-
-
-    /* -----------------------------------------------------
-       80%
-       ----------------------------------------------------- */
-
-    80% {
-        opacity: .94;
-
-        transform:
-            translate3d(
-                calc(var(--hero-reveal-x) * .04),
-                calc(var(--hero-reveal-y) * .04),
-                0
-            )
-            scale(.998)
-            rotate(
-                calc(var(--hero-reveal-rotate) * .04)
-            );
-
-        filter:
-            brightness(.97)
-            blur(0);
-
-        clip-path:
-            inset(.15% 0 .5% 0);
-    }
-
-
-    /* -----------------------------------------------------
-       100%
-       -----------------------------------------------------
-
-       FINAL RESTING STATE
-    */
-
-    100% {
-        opacity: 1;
-
-        transform:
-            translate3d(0, 0, 0)
-            scale(1)
-            rotate(0deg);
-
-        filter:
-            brightness(1)
-            blur(0);
-
-        clip-path:
-            inset(0);
-    }
-}
-
-
-/* =========================================================
-   REVEAL SCAN LINE
-=========================================================
-
-   The scan line uses the exact same viewport range.
-
-   It begins with the section:
-
-       entry 0%
-
-   and completes with the section:
-
-       cover 40%
-
-   The scan itself disappears before the main reveal reaches
-   its final resting state.
-
+   SECTION SCAN
 ========================================================= */
 
 .reveal-section::before {
@@ -797,7 +375,6 @@ section {
 
     z-index: 10;
 
-
     animation-name: section-scan;
     animation-duration: 1ms;
     animation-timing-function: linear;
@@ -805,26 +382,13 @@ section {
 
     animation-timeline: view();
 
-
-    /* -----------------------------------------------------
-       SAME VIEWPORT RANGE
-    ----------------------------------------------------- */
-
     animation-range:
         entry 0%
         cover 40%;
 }
 
 
-/* =========================================================
-   SCAN LINE ANIMATION
-========================================================= */
-
 @keyframes section-scan {
-
-    /* -----------------------------------------------------
-       START
-    ----------------------------------------------------- */
 
     0% {
         opacity: 0;
@@ -835,10 +399,6 @@ section {
     }
 
 
-    /* -----------------------------------------------------
-       INITIAL SIGNAL
-    ----------------------------------------------------- */
-
     10% {
         opacity: 1;
 
@@ -847,10 +407,6 @@ section {
             translateZ(0);
     }
 
-
-    /* -----------------------------------------------------
-       EARLY SCAN
-    ----------------------------------------------------- */
 
     25% {
         opacity: 1;
@@ -861,10 +417,6 @@ section {
     }
 
 
-    /* -----------------------------------------------------
-       MAIN SCAN
-    ----------------------------------------------------- */
-
     45% {
         opacity: .65;
 
@@ -874,10 +426,6 @@ section {
     }
 
 
-    /* -----------------------------------------------------
-       COMPLETE
-    ----------------------------------------------------- */
-
     65% {
         opacity: .20;
 
@@ -886,10 +434,6 @@ section {
             translateZ(0);
     }
 
-
-    /* -----------------------------------------------------
-       GONE
-    ----------------------------------------------------- */
 
     100% {
         opacity: 0;
@@ -929,13 +473,16 @@ section {
     width: 8px;
 }
 
+
 ::-webkit-scrollbar-track {
     background: var(--bg-main);
 }
 
+
 ::-webkit-scrollbar-thumb {
     background: var(--edge);
 }
+
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--accent);
@@ -970,8 +517,7 @@ section {
     }
 
 
-    .reveal-section,
-    .hero {
+    .reveal-section {
         animation: none !important;
 
         opacity: 1;
@@ -989,46 +535,4 @@ section {
     .reveal-section::before {
         display: none;
     }
-}
-```
-
-### The important part now
-
-This:
-
-```css
-animation-timeline: view();
-
-animation-range:
-    entry 0%
-    cover 40%;
-```
-
-means the animation's **100% keyframe occurs at the end of that range**.
-
-And now the keyframes are structured accordingly:
-
-```css
-0% {
-    /* starting state */
-}
-
-15% {
-    /* beginning to appear */
-}
-
-35% {
-    /* major reconstruction */
-}
-
-60% {
-    /* mostly resolved */
-}
-
-80% {
-    /* almost finished */
-}
-
-100% {
-    /* FINAL STATE */
 }

@@ -1,25 +1,5 @@
 /* =========================================================
    HERO
-   ---------------------------------------------------------
-   MINIMAL CYBERPUNK TITLE SCREEN
-
-   LAYER 0 = HERO BACKGROUND
-   LAYER 2 = TITLE + NAME
-   LAYER 3 = CHARACTER IMAGE
-
-   TITLE + NAME
-   = TRUE CENTER OF WHOLE HERO
-
-   CHARACTER IMAGE
-   = RIGHT SIDE
-
-   IMPORTANT:
-   .hero-img + ALL IMAGE / GLITCH SYSTEMS PRESERVED
-========================================================= */
-
-
-/* =========================================================
-   HERO ROOT
 ========================================================= */
 
 .hero {
@@ -118,12 +98,6 @@
 
 /* =========================================================
    TITLE LAYER
-   ---------------------------------------------------------
-   FULL HERO SIZE
-
-   THIS IS THE ENTIRE HERO AS THE REFERENCE FRAME.
-
-   Nothing inside here is tied to a 40% column.
 ========================================================= */
 
 .hero-title-layer {
@@ -169,10 +143,6 @@
     z-index: 1;
 }
 
-
-/* =========================================================
-   TITLE LAYER GRID
-========================================================= */
 
 .hero-header::before {
     content: "";
@@ -243,8 +213,6 @@
 
 /* =========================================================
    TITLE GROUP
-   ---------------------------------------------------------
-   TRUE CENTER OF HERO
 ========================================================= */
 
 .hero-panel {
@@ -341,19 +309,11 @@
 }
 
 
-/* =========================================================
-   REMOVE OLD TITLE DECORATION
-========================================================= */
-
 .hero-title::before,
 .hero-title::after {
     content: none;
 }
 
-
-/* =========================================================
-   CREATIVE
-========================================================= */
 
 .hero-title .glitch-line:first-child {
     display: block;
@@ -366,10 +326,6 @@
     white-space: nowrap;
 }
 
-
-/* =========================================================
-   PORTFOLIO
-========================================================= */
 
 .hero-title .glitch-line:last-child {
     display: block;
@@ -441,9 +397,6 @@
 
 /* =========================================================
    IMAGE LAYER
-   ---------------------------------------------------------
-   FULL HEIGHT
-   RIGHT SIDE DESKTOP
 ========================================================= */
 
 .hero-image-layer {
@@ -468,8 +421,6 @@
 
 /* =========================================================
    CHARACTER IMAGE PANEL
-   ---------------------------------------------------------
-   IMAGE SYSTEM PRESERVED
 ========================================================= */
 
 .hero-img {
@@ -513,6 +464,10 @@
 }
 
 
+/* =========================================================
+   REGULAR IMAGE
+========================================================= */
+
 .heroregular {
     position: absolute;
 
@@ -535,6 +490,17 @@
     user-select: none;
 
     pointer-events: none;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    animation:
+        hero-regular-intro
+        2.2s
+        steps(19, end)
+        0.4s
+        forwards;
 }
 
 
@@ -559,7 +525,17 @@
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
 
-    will-change: opacity;
+    will-change:
+        opacity,
+        transform,
+        clip-path;
+
+    animation:
+        hero-cyber-intro
+        1.8s
+        steps(19, end)
+        0.65s
+        forwards;
 }
 
 
@@ -678,6 +654,527 @@
 
 
 /* =========================================================
+   INITIAL CYBER INTRO
+========================================================= */
+
+@keyframes hero-cyber-intro {
+
+    0% {
+        opacity: 1;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    6% {
+        opacity: 0.75;
+
+        transform:
+            translate(-4px, 0);
+
+        clip-path:
+            polygon(
+                0 8%, 100% 8%, 100% 15%, 0 15%,
+                0 42%, 100% 42%, 100% 46%, 0 46%
+            );
+    }
+
+    12% {
+        opacity: 1;
+
+        transform:
+            translate(5px, 0);
+
+        clip-path:
+            polygon(
+                0 20%, 100% 20%, 100% 24%, 0 24%,
+                0 68%, 100% 68%, 100% 73%, 0 73%
+            );
+    }
+
+    18% {
+        opacity: 0.65;
+
+        transform:
+            translate(-7px, 1px);
+
+        clip-path:
+            polygon(
+                0 5%, 100% 5%, 100% 8%, 0 8%,
+                0 34%, 100% 34%, 100% 38%, 0 38%,
+                0 81%, 100% 81%, 100% 86%, 0 86%
+            );
+    }
+
+    24% {
+        opacity: 1;
+
+        transform:
+            translate(6px, -1px);
+
+        clip-path:
+            polygon(
+                0 14%, 100% 14%, 100% 17%, 0 17%,
+                0 52%, 100% 52%, 100% 57%, 0 57%
+            );
+    }
+
+    31% {
+        opacity: 0.8;
+
+        transform:
+            translate(-3px, 0);
+
+        clip-path:
+            polygon(
+                0 27%, 100% 27%, 100% 30%, 0 30%,
+                0 74%, 100% 74%, 100% 78%, 0 78%
+            );
+    }
+
+    38% {
+        opacity: 0.55;
+
+        transform:
+            translate(8px, 0);
+
+        clip-path:
+            polygon(
+                0 4%, 100% 4%, 100% 7%, 0 7%,
+                0 39%, 100% 39%, 100% 43%, 0 43%,
+                0 91%, 100% 91%, 100% 95%, 0 95%
+            );
+    }
+
+    45% {
+        opacity: 1;
+
+        transform:
+            translate(-6px, 1px);
+
+        clip-path:
+            polygon(
+                0 18%, 100% 18%, 100% 22%, 0 22%,
+                0 61%, 100% 61%, 100% 66%, 0 66%
+            );
+    }
+
+    53% {
+        opacity: 0.7;
+
+        transform:
+            translate(4px, 0);
+
+        clip-path:
+            polygon(
+                0 9%, 100% 9%, 100% 13%, 0 13%,
+                0 47%, 100% 47%, 100% 51%, 0 51%,
+                0 83%, 100% 83%, 100% 87%, 0 87%
+            );
+    }
+
+    61% {
+        opacity: 0.9;
+
+        transform:
+            translate(-8px, 0);
+
+        clip-path:
+            polygon(
+                0 30%, 100% 30%, 100% 34%, 0 34%,
+                0 70%, 100% 70%, 100% 75%, 0 75%
+            );
+    }
+
+    69% {
+        opacity: 0.6;
+
+        transform:
+            translate(5px, -1px);
+
+        clip-path:
+            polygon(
+                0 11%, 100% 11%, 100% 15%, 0 15%,
+                0 55%, 100% 55%, 100% 59%, 0 59%
+            );
+    }
+
+    77% {
+        opacity: 0.85;
+
+        transform:
+            translate(-4px, 0);
+
+        clip-path:
+            polygon(
+                0 21%, 100% 21%, 100% 25%, 0 25%,
+                0 64%, 100% 64%, 100% 68%, 0 68%,
+                0 90%, 100% 90%, 100% 94%, 0 94%
+            );
+    }
+
+    85% {
+        opacity: 0.7;
+
+        transform:
+            translate(3px, 0);
+
+        clip-path:
+            polygon(
+                0 37%, 100% 37%, 100% 40%, 0 40%,
+                0 78%, 100% 78%, 100% 82%, 0 82%
+            );
+    }
+
+    93% {
+        opacity: 0.9;
+
+        transform:
+            translate(-2px, 0);
+
+        clip-path:
+            polygon(
+                0 16%, 100% 16%, 100% 19%, 0 19%,
+                0 58%, 100% 58%, 100% 61%, 0 61%
+            );
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+}
+
+
+/* =========================================================
+   INITIAL REGULAR IMAGE REVEAL
+========================================================= */
+
+@keyframes hero-regular-intro {
+
+    0% {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    72% {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    78% {
+        opacity: 0.15;
+        visibility: visible;
+    }
+
+    84% {
+        opacity: 0.35;
+        visibility: visible;
+    }
+
+    89% {
+        opacity: 0.6;
+        visibility: visible;
+    }
+
+    94% {
+        opacity: 0.82;
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+
+/* =========================================================
+   INITIAL GLITCH DUPLICATES
+========================================================= */
+
+.hero-img:not(.glitch) .cyber-layer::before {
+    animation:
+        hero-intro-glitch-before
+        0.95s
+        steps(18, end)
+        0.65s
+        forwards;
+}
+
+
+.hero-img:not(.glitch) .cyber-layer::after {
+    animation:
+        hero-intro-glitch-after
+        0.95s
+        steps(18, end)
+        0.65s
+        forwards;
+}
+
+
+/* =========================================================
+   INITIAL GLITCH OFFSET 1
+========================================================= */
+
+@keyframes hero-intro-glitch-before {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    8% {
+        opacity: 0.8;
+
+        transform:
+            translate(-7px, 0);
+
+        clip-path:
+            polygon(
+                0 6%, 100% 6%, 100% 11%, 0 11%,
+                0 44%, 100% 44%, 100% 48%, 0 48%
+            );
+    }
+
+    17% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    27% {
+        opacity: 0.7;
+
+        transform:
+            translate(8px, -1px);
+
+        clip-path:
+            polygon(
+                0 22%, 100% 22%, 100% 26%, 0 26%,
+                0 67%, 100% 67%, 100% 71%, 0 71%
+            );
+    }
+
+    38% {
+        opacity: 0.35;
+
+        transform:
+            translate(-5px, 1px);
+
+        clip-path:
+            polygon(
+                0 13%, 100% 13%, 100% 17%, 0 17%,
+                0 77%, 100% 77%, 100% 81%, 0 81%
+            );
+    }
+
+    49% {
+        opacity: 0.85;
+
+        transform:
+            translate(7px, 0);
+
+        clip-path:
+            polygon(
+                0 35%, 100% 35%, 100% 39%, 0 39%,
+                0 87%, 100% 87%, 100% 91%, 0 91%
+            );
+    }
+
+    61% {
+        opacity: 0.2;
+
+        transform:
+            translate(-4px, 0);
+
+        clip-path:
+            polygon(
+                0 17%, 100% 17%, 100% 21%, 0 21%,
+                0 53%, 100% 53%, 100% 57%, 0 57%
+            );
+    }
+
+    73% {
+        opacity: 0.7;
+
+        transform:
+            translate(5px, 1px);
+
+        clip-path:
+            polygon(
+                0 65%, 100% 65%, 100% 70%, 0 70%
+            );
+    }
+
+    84% {
+        opacity: 0.25;
+
+        transform:
+            translate(-3px, 0);
+
+        clip-path:
+            polygon(
+                0 29%, 100% 29%, 100% 33%, 0 33%,
+                0 72%, 100% 72%, 100% 76%, 0 76%
+            );
+    }
+
+    94% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+}
+
+
+/* =========================================================
+   INITIAL GLITCH OFFSET 2
+========================================================= */
+
+@keyframes hero-intro-glitch-after {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    11% {
+        opacity: 0.7;
+
+        transform:
+            translate(6px, 0);
+
+        clip-path:
+            polygon(
+                0 15%, 100% 15%, 100% 19%, 0 19%,
+                0 58%, 100% 58%, 100% 62%, 0 62%
+            );
+    }
+
+    23% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    35% {
+        opacity: 0.8;
+
+        transform:
+            translate(-8px, 1px);
+
+        clip-path:
+            polygon(
+                0 28%, 100% 28%, 100% 32%, 0 32%,
+                0 71%, 100% 71%, 100% 75%, 0 75%
+            );
+    }
+
+    48% {
+        opacity: 0.3;
+
+        transform:
+            translate(5px, -1px);
+
+        clip-path:
+            polygon(
+                0 8%, 100% 8%, 100% 12%, 0 12%,
+                0 82%, 100% 82%, 100% 86%, 0 86%
+            );
+    }
+
+    62% {
+        opacity: 0.75;
+
+        transform:
+            translate(-6px, 0);
+
+        clip-path:
+            polygon(
+                0 23%, 100% 23%, 100% 27%, 0 27%,
+                0 50%, 100% 50%, 100% 54%, 0 54%
+            );
+    }
+
+    76% {
+        opacity: 0.3;
+
+        transform:
+            translate(4px, 1px);
+
+        clip-path:
+            polygon(
+                0 63%, 100% 63%, 100% 68%, 0 68%,
+                0 89%, 100% 89%, 100% 93%, 0 93%
+            );
+    }
+
+    89% {
+        opacity: 0.55;
+
+        transform:
+            translate(-2px, 0);
+
+        clip-path:
+            polygon(
+                0 42%, 100% 42%, 100% 46%, 0 46%
+            );
+    }
+
+    95% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(0, 0);
+
+        clip-path: none;
+    }
+}
+
+
+/* =========================================================
    HOVER GLITCH
 ========================================================= */
 
@@ -751,9 +1248,9 @@
 .hero-img.ambient-glitch .heroregular,
 .hero-img.ambient-cyber .heroregular,
 .hero-img.ambient-exit .heroregular {
-    opacity: 0;
+    opacity: 0 !important;
 
-    visibility: hidden;
+    visibility: hidden !important;
 }
 
 
@@ -762,6 +1259,8 @@
 ========================================================= */
 
 .hero-img.ambient-glitch .cyber-layer {
+    opacity: 1;
+
     -webkit-mask-image: none;
 
     mask-image: none;
@@ -1539,9 +2038,6 @@
 
 /* =========================================================
    320px - 767px
-   ---------------------------------------------------------
-   TITLE = FULL HERO
-   IMAGE = LOWER FULL-WIDTH LAYER
 ========================================================= */
 
 @media (max-width: 767px) {
@@ -1552,10 +2048,6 @@
         min-height: 100dvh;
     }
 
-
-    /* ---------------------------------------------
-       TITLE
-    --------------------------------------------- */
 
     .hero-title-layer {
         inset: 0;
@@ -1625,10 +2117,6 @@
     }
 
 
-    /* ---------------------------------------------
-       IMAGE LAYER
-    --------------------------------------------- */
-
     .hero-image-layer {
         top: auto;
         right: 0;
@@ -1659,8 +2147,6 @@
 
 /* =========================================================
    768px - 1023px
-   ---------------------------------------------------------
-   DESKTOP-STYLE SIDE COMPOSITION
 ========================================================= */
 
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -1862,8 +2348,33 @@
     .hero-img.glitch .cyber-layer::after,
     .hero-img.ambient-glitch,
     .hero-img.ambient-glitch .cyber-layer,
-    .hero-img.ambient-exit {
+    .hero-img.ambient-exit,
+    .heroregular,
+    .cyber-layer,
+    .hero-img:not(.glitch) .cyber-layer::before,
+    .hero-img:not(.glitch) .cyber-layer::after {
 
         animation: none !important;
+    }
+
+
+    .heroregular {
+        opacity: 1;
+
+        visibility: visible;
+    }
+
+
+    .cyber-layer {
+        opacity: 0;
+    }
+
+
+    .hero-img.ambient-glitch .heroregular,
+    .hero-img.ambient-cyber .heroregular,
+    .hero-img.ambient-exit .heroregular {
+        opacity: 0 !important;
+
+        visibility: hidden !important;
     }
 }
