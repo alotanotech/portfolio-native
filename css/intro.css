@@ -1,6 +1,3 @@
-/* =========================================================
-   INTRO
-   ========================================================= */
 
 .intro {
     position: fixed;
@@ -8,20 +5,16 @@
 
     z-index: 9999;
 
-    display: grid;
-    place-items: center;
-
     width: 100%;
     height: 100dvh;
+    min-height: 100dvh;
+
+    display: block;
 
     background: var(--bg-main);
 
     overflow: hidden;
 
-    /*
-        The intro starts covering the entire website.
-        JS later adds .intro-hidden.
-    */
     transform: translateY(0);
 
     transition:
@@ -31,23 +24,21 @@
 }
 
 
-/* =========================================================
-   INTRO LOGO WRAPPER
-   ========================================================= */
-
 .intro-logo {
-    position: relative;
+    position: absolute;
 
-    width: clamp(6rem, 12vw, 20rem);
+    top: 50%;
+    left: 50%;
+
+    width: clamp(7rem, min(18vw, 24dvh), 12rem);
+
     aspect-ratio: 1;
 
     display: grid;
     place-items: center;
 
-    /*
-        Keeps both logo versions perfectly stacked.
-    */
     transform:
+        translate(-50%, -50%)
         scale(.5)
         rotate(-20deg);
 
@@ -58,66 +49,55 @@
 }
 
 
-/* =========================================================
-   LOGO IMAGES
-   ========================================================= */
-
 .intro-logo img {
     position: absolute;
     inset: 0;
 
     width: 100%;
     height: 100%;
+
     border-radius: 100%;
+
     object-fit: contain;
 
     user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
     pointer-events: none;
+
+    -webkit-user-drag: none;
+    user-drag: none;
 }
 
-
-/* =========================================================
-   STATIC PNG
-   ========================================================= */
 
 .intro-static {
     opacity: 1;
 
     transform:
+        translate(-50%, -50%)
         scaleX(-1)
         rotate(0deg);
 
-    /*
-        PNG stays visible initially.
-    */
     animation:
         intro-static-out .35s var(--ease-out) 1.25s forwards;
 }
 
 
-/* =========================================================
-   GIF
-   ========================================================= */
-
 .intro-gif {
     opacity: 0;
 
     transform:
+        translate(-50%, -50%)
         scaleX(-1)
         scale(.85)
         rotate(-8deg);
 
-    /*
-        GIF appears after the logo has entered.
-    */
     animation:
         intro-gif-in .45s var(--ease-out) 1.2s forwards;
 }
 
-
-/* =========================================================
-   LOGO ENTRY
-   ========================================================= */
 
 @keyframes intro-logo-enter {
 
@@ -125,6 +105,7 @@
         opacity: 0;
 
         transform:
+            translate(-50%, -50%)
             scale(.35)
             rotate(-35deg);
     }
@@ -133,18 +114,21 @@
         opacity: 1;
 
         transform:
+            translate(-50%, -50%)
             scale(1.18)
             rotate(12deg);
     }
 
     55% {
         transform:
+            translate(-50%, -50%)
             scale(.92)
             rotate(-6deg);
     }
 
     75% {
         transform:
+            translate(-50%, -50%)
             scale(1.06)
             rotate(3deg);
     }
@@ -153,15 +137,12 @@
         opacity: 1;
 
         transform:
+            translate(-50%, -50%)
             scale(1)
             rotate(0deg);
     }
 }
 
-
-/* =========================================================
-   STATIC LOGO EXIT
-   ========================================================= */
 
 @keyframes intro-static-out {
 
@@ -169,6 +150,7 @@
         opacity: 1;
 
         transform:
+            translate(-50%, -50%)
             scaleX(-1)
             scale(1);
     }
@@ -177,6 +159,7 @@
         opacity: 0;
 
         transform:
+            translate(-50%, -50%)
             scaleX(-1)
             scale(.85)
             rotate(-8deg);
@@ -184,16 +167,13 @@
 }
 
 
-/* =========================================================
-   GIF ENTRY
-   ========================================================= */
-
 @keyframes intro-gif-in {
 
     0% {
         opacity: 0;
 
         transform:
+            translate(-50%, -50%)
             scaleX(-1)
             scale(.8)
             rotate(-10deg);
@@ -203,6 +183,7 @@
         opacity: 1;
 
         transform:
+            translate(-50%, -50%)
             scaleX(-1)
             scale(1.08)
             rotate(5deg);
@@ -212,6 +193,7 @@
         opacity: 1;
 
         transform:
+            translate(-50%, -50%)
             scaleX(-1)
             scale(1)
             rotate(0deg);
@@ -219,25 +201,11 @@
 }
 
 
-/* =========================================================
-   INTRO EXIT
-   ========================================================= */
-
 .intro-hidden {
     transform: translateY(-100%);
     pointer-events: none;
 }
 
-
-/* =========================================================
-   OPTIONAL EXIT ACCENT
-   ========================================================= */
-
-/*
-    This creates a tiny yellow edge during the screen reveal.
-    It is subtle enough not to turn your portfolio into
-    a PowerPoint transition from 2007.
-*/
 
 .intro::after {
     content: "";
@@ -248,7 +216,7 @@
     bottom: 0;
 
     width: 100%;
-    height: 20px;
+    height: clamp(4px, 0.35dvh, 8px);
 
     background: var(--accent);
 
@@ -260,6 +228,7 @@
 
     pointer-events: none;
 }
+
 
 @keyframes intro-edge {
 
@@ -277,9 +246,70 @@
 }
 
 
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
+@media (max-width: 320px) {
+
+    .intro-logo {
+        width: min(52vw, 25dvh);
+    }
+}
+
+
+@media (min-width: 321px) and (max-width: 767px) {
+
+    .intro-logo {
+        width: min(48vw, 27dvh);
+    }
+}
+
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    .intro-logo {
+        width: min(32vw, 30dvh);
+    }
+}
+
+
+@media (min-width: 1024px) and (max-width: 1439px) {
+
+    .intro-logo {
+        width: min(25vw, 32dvh);
+    }
+}
+
+
+@media (min-width: 1440px) {
+
+    .intro-logo {
+        width: min(20vw, 34dvh);
+        max-width: 16rem;
+    }
+}
+
+
+@media (max-height: 600px) {
+
+    .intro-logo {
+        width: min(38vw, 35dvh);
+    }
+}
+
+
+@media (max-height: 450px) {
+
+    .intro-logo {
+        width: min(32vw, 32dvh);
+    }
+}
+
+
+@media (min-width: 768px) and (orientation: landscape) and (max-height: 700px) {
+
+    .intro-logo {
+        width: min(28vw, 34dvh);
+    }
+}
+
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -290,18 +320,29 @@
     .intro-logo {
         opacity: 1;
 
-        transform: none;
-
+        transform:
+            translate(-50%, -50%);
+        
         animation: none;
     }
 
     .intro-static {
         opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            scaleX(-1);
+        
         animation: none;
     }
 
     .intro-gif {
         opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            scaleX(-1);
+
         animation: none;
     }
 
@@ -314,3 +355,4 @@
         transform: translateY(-100%);
     }
 }
+

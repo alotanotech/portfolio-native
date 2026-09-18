@@ -22,8 +22,6 @@ if (topbar && navToggle) {
     });
 
 
-    /* Close menu when a navigation link is clicked */
-
     topbar
         .querySelectorAll(".nav-links a, .contact-button")
         .forEach(link => {

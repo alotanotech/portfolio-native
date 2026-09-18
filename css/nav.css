@@ -1,52 +1,55 @@
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+:root {
+    --topbar-height: 5rem;
+    --topbar-content-width: 80dvw;
+}
+
 
 /* =========================================================
-   MAIN LOGO
+   LOGO
 ========================================================= */
 
 .main-logo {
-
     position: relative;
 
     display: block;
 
     width: 5rem;
-
     height: 5rem;
+
+    flex: 0 0 5rem;
 
     --logo-hover-transform:
         scaleX(-1)
         scale(1.1)
         rotate(-15deg)
         translateY(6px);
-
-    flex-shrink: 0;
 }
 
-.main-logo img {
 
+.main-logo img {
     position: absolute;
 
     inset: 0;
 
     width: 100%;
-
     height: 100%;
 
     object-fit: contain;
+
+    pointer-events: none;
 }
 
 
-/* =========================================================
-   LOGO NORMAL STATE
-========================================================= */
-
 .main-logo-static {
-
     opacity: 1;
 }
 
-.main-logo-gif {
 
+.main-logo-gif {
     opacity: 0;
 
     transform: scaleX(-1);
@@ -59,17 +62,12 @@
 }
 
 
-/* =========================================================
-   LOGO HOVER
-========================================================= */
-
 .main-logo:hover .main-logo-static {
-
     opacity: 0;
 }
 
-.main-logo:hover .main-logo-gif {
 
+.main-logo:hover .main-logo-gif {
     opacity: 1;
 
     transform: var(--logo-hover-transform);
@@ -77,97 +75,66 @@
 
 
 /* =========================================================
-   TOPBAR VARIABLES
-========================================================= */
-
-:root {
-
-    --topbar-height: 5rem;
-
-    --topbar-content-width: 80dvw;
-}
-
-
-/* =========================================================
    TOPBAR
-   ---------------------------------------------------------
-   80dvw CONTENT AREA
-
-   The navbar waits for the intro sequence to finish,
-   then enters from the right side of the screen.
 ========================================================= */
 
 .topbar {
-
     position: fixed;
 
     top: 0;
+    left: 0;
 
-    left: 50%;
-
-    width: var(--topbar-content-width);
-
+    width: 100%;
     height: var(--topbar-height);
 
-    z-index: 60;
+    z-index: 9999;
 
     display: flex;
 
     align-items: center;
 
-    justify-content: space-between;
-
-    padding: 0;
-
     box-sizing: border-box;
+
+    padding:
+        0
+        max(
+            1rem,
+            calc(
+                (
+                    100dvw
+                    - min(
+                        var(--topbar-content-width),
+                        1280px
+                    )
+                )
+                / 2
+            )
+        );
 
     background: transparent;
 
-    /*
-        The intro occupies the screen first.
+    isolation: isolate;
 
-        The navbar waits before entering so its animation
-        is actually visible after the intro is gone.
-    */
+    transform: translateX(0);
+
     animation:
-        topbar-enter-right
+        topbar-enter
         1s
         cubic-bezier(.16, 1, .3, 1)
         1.5s
         both;
-
-    /*
-        Keeps the pseudo-element background inside the
-        navbar stacking context.
-    */
-    isolation: isolate;
 }
 
 
-/* =========================================================
-   FULL-WIDTH BLACK BACKGROUND
-   ---------------------------------------------------------
-   The navbar content stays 80dvw.
-
-   This pseudo-element stretches the black background
-   to the entire viewport width.
-========================================================= */
-
 .topbar::before {
-
     content: "";
 
     position: absolute;
 
-    top: 0;
+    inset: 0;
 
-    left: 50%;
-
-    width: 100dvw;
-
+    width: 100%;
     height: 100%;
-
-    transform: translateX(-50%);
 
     background: #000;
 
@@ -178,42 +145,36 @@
 
 
 /* =========================================================
-   TOPBAR ENTRANCE ANIMATION
-   ---------------------------------------------------------
-   The intro plays first.
-
-   After the 1.85s delay, the navbar slides in from
-   the right side and settles into its normal position.
+   TOPBAR ENTRY
 ========================================================= */
 
-@keyframes topbar-enter-right {
+@keyframes topbar-enter {
 
     from {
-
         opacity: 0;
 
         transform:
-            translate(
-                calc(-50% + 120px),
-                0
-            );
+            translateX(120px);
     }
 
     to {
-
         opacity: 1;
 
         transform:
-            translate(-50%, 0);
+            translateX(0);
     }
 }
 
 
 /* =========================================================
    NAV INDEX
+   ---------------------------------------------------------
+   DESKTOP:
+   normal flex item containing nav links + contact
 ========================================================= */
 
 .nav-index {
+    width: 100%;
 
     display: flex;
 
@@ -223,16 +184,11 @@
 
     gap: 6px;
 
-    flex-wrap: wrap;
+    min-width: 0;
 }
 
 
-/* =========================================================
-   NAV LINKS
-========================================================= */
-
 .nav-links {
-
     display: flex;
 
     align-items: center;
@@ -240,24 +196,35 @@
     gap: 6px;
 
     margin: 0;
-
     padding: 0;
 
     list-style: none;
 }
 
 
+.nav-index .nav-links li {
+    margin: 0;
+    padding: 0;
+
+    min-width: 0;
+}
+
+
 /* =========================================================
-   NAV LINK
+   NAV LINKS
 ========================================================= */
 
 .nav-index .nav-links a {
-
     position: relative;
 
-    display: inline-block;
+    display: inline-flex;
 
-    padding: 8px 12px;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        8px
+        12px;
 
     font-size: 0.9rem;
 
@@ -265,11 +232,11 @@
 
     letter-spacing: 0.18em;
 
-    text-transform: uppercase;
-
     color: var(--text-main);
 
     text-decoration: none;
+
+    white-space: nowrap;
 
     overflow: hidden;
 
@@ -279,12 +246,7 @@
 }
 
 
-/* =========================================================
-   NAV REAL TEXT
-========================================================= */
-
 .nav-index .nav-links a span {
-
     position: relative;
 
     display: inline-block;
@@ -304,11 +266,10 @@
 
 
 /* =========================================================
-   NAV YELLOW PARALLELOGRAM
+   NAV LINK HOVER
 ========================================================= */
 
 .nav-index .nav-links a::before {
-
     content: "";
 
     position: absolute;
@@ -332,21 +293,23 @@
 }
 
 
-/* =========================================================
-   NAV CYAN GLITCH
-========================================================= */
-
 .nav-index .nav-links a::after {
-
     content: attr(data-text);
 
     position: absolute;
 
     inset: 0;
 
-    padding: 8px 12px;
+    padding:
+        8px
+        12px;
 
     z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
 
     color: #1bc7fb;
 
@@ -367,48 +330,38 @@
 
 
 /* =========================================================
-   NAV GLITCH OFFSETS
-
-   Home    = 0s
-   About   = -1.75s
-   Work    = -3.5s
-   Contact = -5.25s
+   GLITCH DELAYS
 ========================================================= */
 
 .nav-index .nav-links li:nth-child(1) a span,
 .nav-index .nav-links li:nth-child(1) a::after {
-
     animation-delay: 0s;
 }
 
+
 .nav-index .nav-links li:nth-child(2) a span,
 .nav-index .nav-links li:nth-child(2) a::after {
-
     animation-delay: -1.75s;
 }
 
+
 .nav-index .nav-links li:nth-child(3) a span,
 .nav-index .nav-links li:nth-child(3) a::after {
-
     animation-delay: -3.5s;
 }
 
+
 .contact-button span,
 .contact-button::after {
-
     animation-delay: -5.25s;
 }
 
 
 /* =========================================================
-   NAV CYAN GLITCH ANIMATION
+   CYAN GLITCH
 ========================================================= */
 
 @keyframes nav-glitch-cyan {
-
-    /* -----------------------------------------------------
-       NORMAL
-    ----------------------------------------------------- */
 
     0%,
     41%,
@@ -427,10 +380,6 @@
     }
 
 
-    /* -----------------------------------------------------
-       GLITCH FRAME 1
-    ----------------------------------------------------- */
-
     42% {
 
         opacity: 0.8;
@@ -444,10 +393,6 @@
             translateX(-5px);
     }
 
-
-    /* -----------------------------------------------------
-       GLITCH FRAME 2
-    ----------------------------------------------------- */
 
     42.5% {
 
@@ -463,10 +408,6 @@
     }
 
 
-    /* -----------------------------------------------------
-       GLITCH FRAME 3
-    ----------------------------------------------------- */
-
     43% {
 
         opacity: 0.75;
@@ -481,10 +422,6 @@
     }
 
 
-    /* -----------------------------------------------------
-       RETURN TO NORMAL
-    ----------------------------------------------------- */
-
     44% {
 
         opacity: 0;
@@ -498,14 +435,10 @@
 
 
 /* =========================================================
-   NAV MAGENTA GLITCH ANIMATION
+   MAGENTA GLITCH
 ========================================================= */
 
 @keyframes nav-glitch-magenta {
-
-    /* -----------------------------------------------------
-       NORMAL
-    ----------------------------------------------------- */
 
     0%,
     41%,
@@ -526,10 +459,6 @@
     }
 
 
-    /* -----------------------------------------------------
-       GLITCH FRAME 1
-    ----------------------------------------------------- */
-
     42% {
 
         color: var(--glitch-color);
@@ -541,14 +470,8 @@
             inset(
                 70% 0 10% 0
             );
-
-        filter: none;
     }
 
-
-    /* -----------------------------------------------------
-       GLITCH FRAME 2
-    ----------------------------------------------------- */
 
     42.5% {
 
@@ -567,10 +490,6 @@
     }
 
 
-    /* -----------------------------------------------------
-       GLITCH FRAME 3
-    ----------------------------------------------------- */
-
     43% {
 
         color: var(--glitch-color);
@@ -582,14 +501,8 @@
             inset(
                 45% 0 30% 0
             );
-
-        filter: none;
     }
 
-
-    /* -----------------------------------------------------
-       RETURN TO NORMAL
-    ----------------------------------------------------- */
 
     44% {
 
@@ -606,30 +519,29 @@
 
 
 /* =========================================================
-   NAV HOVER
+   NAV LINK HOVER STATE
 ========================================================= */
 
 .nav-index .nav-links a:hover {
-
     color: #000;
 }
 
-.nav-index .nav-links a:hover::before {
 
+.nav-index .nav-links a:hover::before {
     transform:
         translateY(0)
         skewX(-12deg);
 }
 
-.nav-index .nav-links a:hover::after {
 
+.nav-index .nav-links a:hover::after {
     animation: none;
 
     opacity: 0;
 }
 
-.nav-index .nav-links a:hover span {
 
+.nav-index .nav-links a:hover span {
     animation: none;
 
     color: #000;
@@ -647,12 +559,16 @@
 ========================================================= */
 
 .contact-button {
-
     position: relative;
 
-    display: inline-block;
+    display: inline-flex;
 
-    padding: 10px 16px;
+    align-items: center;
+    justify-content: center;
+
+    padding:
+        10px
+        16px;
 
     font-size: 0.95rem;
 
@@ -660,11 +576,11 @@
 
     letter-spacing: 0.16em;
 
-    text-transform: uppercase;
-
     color: var(--text-main);
 
     text-decoration: none;
+
+    white-space: nowrap;
 
     overflow: hidden;
 
@@ -674,12 +590,7 @@
 }
 
 
-/* =========================================================
-   CONTACT BUTTON REAL TEXT
-========================================================= */
-
 .contact-button span {
-
     position: relative;
 
     display: inline-block;
@@ -698,12 +609,7 @@
 }
 
 
-/* =========================================================
-   CONTACT BUTTON YELLOW PARALLELOGRAM
-========================================================= */
-
 .contact-button::before {
-
     content: "";
 
     position: absolute;
@@ -727,26 +633,22 @@
 }
 
 
-/* =========================================================
-   CONTACT BUTTON CYAN GLITCH
-========================================================= */
-
 .contact-button::after {
-
     content: attr(data-text);
 
     position: absolute;
 
     inset: 0;
 
-    padding: 10px 16px;
+    padding:
+        10px
+        16px;
 
     z-index: 2;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     color: #1bc7fb;
@@ -767,31 +669,26 @@
 }
 
 
-/* =========================================================
-   CONTACT BUTTON HOVER
-========================================================= */
-
 .contact-button:hover {
-
     color: #000;
 }
 
-.contact-button:hover::before {
 
+.contact-button:hover::before {
     transform:
         translateY(0)
         skewX(-12deg);
 }
 
-.contact-button:hover::after {
 
+.contact-button:hover::after {
     animation: none;
 
     opacity: 0;
 }
 
-.contact-button:hover span {
 
+.contact-button:hover span {
     animation: none;
 
     color: #000;
@@ -805,50 +702,60 @@
 
 
 /* =========================================================
-   MOBILE NAV TOGGLE
+   MOBILE TOGGLE
 ========================================================= */
 
 .nav-toggle {
-
     display: none;
 
     position: relative;
 
     width: 42px;
-
     height: 42px;
+
+    flex:
+        0
+        0
+        42px;
+
+    margin: 0;
 
     padding: 0;
 
-    border: 1px solid var(--accent);
+    border:
+        1px
+        solid
+        var(--accent);
 
     background: transparent;
 
     cursor: pointer;
 
     align-items: center;
-
     justify-content: center;
 
     flex-direction: column;
 
     gap: 5px;
 
-    z-index: 70;
+    z-index: 10000;
+
+    box-sizing: border-box;
+
+    -webkit-tap-highlight-color: transparent;
 }
 
 
-/* =========================================================
-   HAMBURGER LINES
-========================================================= */
-
 .nav-toggle span {
-
     display: block;
 
     width: 20px;
-
     height: 2px;
+
+    flex:
+        0
+        0
+        2px;
 
     background: var(--text-main);
 
@@ -856,137 +763,211 @@
         transform 0.3s ease,
         opacity 0.2s ease,
         background 0.3s ease;
+
+    pointer-events: none;
 }
 
 
-/* =========================================================
-   HAMBURGER HOVER
-========================================================= */
-
 .nav-toggle:hover {
-
     background: var(--accent);
 }
 
-.nav-toggle:hover span {
 
+.nav-toggle:hover span {
     background: #000;
 }
 
 
 /* =========================================================
-   REDUCED MOTION
+   DESKTOP
 ========================================================= */
 
-@media (prefers-reduced-motion: reduce) {
+@media (min-width: 1024px) {
 
     .topbar {
+        padding-left:
+            max(
+                1rem,
+                calc(
+                    (
+                        100dvw
+                        - min(80dvw, 1200px)
+                    )
+                    / 2
+                )
+            );
 
-        animation: none;
-
-        opacity: 1;
-
-        transform:
-            translate(-50%, 0);
+        padding-right:
+            max(
+                1rem,
+                calc(
+                    (
+                        100dvw
+                        - min(80dvw, 1200px)
+                    )
+                    / 2
+                )
+            );
     }
 
-    .nav-index .nav-links a::after,
-    .nav-index .nav-links a span,
-    .contact-button::after,
-    .contact-button span {
 
-        animation: none;
+    .nav-index {
+        display: flex;
     }
 
-    .nav-index .nav-links a::before,
-    .contact-button::before {
 
-        transition: none;
-    }
-
-    .main-logo-gif {
-
-        transition: none;
-    }
-
-    .nav-toggle span {
-
-        transition: none;
+    .nav-toggle {
+        display: none;
     }
 }
 
 
 /* =========================================================
-   MOBILE NAVIGATION
-   ---------------------------------------------------------
-   Active below 768px
+   LARGE DESKTOP
 ========================================================= */
 
-@media (max-width: 767px) {
-
-    /* =====================================================
-       MOBILE TOPBAR
-       -----------------------------------------------------
-       The content area becomes viewport width minus
-       2rem, while the black background still reaches
-       the entire viewport.
-    ===================================================== */
+@media (min-width: 1440px) {
 
     .topbar {
+        padding-left:
+            max(
+                1rem,
+                calc(
+                    (
+                        100dvw
+                        - 1280px
+                    )
+                    / 2
+                )
+            );
 
-        width: calc(100dvw - 2rem);
-
-        height: 4.5rem;
-
-        left: 50%;
+        padding-right:
+            max(
+                1rem,
+                calc(
+                    (
+                        100dvw
+                        - 1280px
+                    )
+                    / 2
+                )
+            );
     }
 
 
-    /* =====================================================
-       MOBILE FULL-WIDTH BACKGROUND
-    ===================================================== */
+    .nav-index .nav-links a {
+        padding:
+            8px
+            14px;
 
-    .topbar::before {
-
-        width: 100dvw;
+        font-size: 0.9rem;
     }
 
 
-    /* =====================================================
-       LOGO
-    ===================================================== */
+    .contact-button {
+        padding:
+            10px
+            18px;
 
-    .main-logo {
+        font-size: 0.95rem;
+    }
+}
 
-        width: 3.5rem;
 
-        height: 3.5rem;
+/* =========================================================
+   TABLET
+   768px - 1023px
+========================================================= */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    :root {
+        --topbar-height: 4.75rem;
     }
 
 
-    /* =====================================================
-       HAMBURGER
-    ===================================================== */
+    .topbar {
+        width: 100%;
 
-    .nav-toggle {
-
-        display: flex;
-    }
-
-
-    /* =====================================================
-       MOBILE NAV CONTAINER
-    ===================================================== */
-
-    .nav-index {
-
-        position: absolute;
-
-        top: calc(100% + 0.75rem);
+        height: var(--topbar-height);
 
         left: 0;
+        right: 0;
 
-        width: 100%;
+        padding:
+            0
+            clamp(1rem, 3vw, 2rem);
+
+        transform: translateX(0);
+
+        animation:
+            topbar-enter-tablet
+            1s
+            cubic-bezier(.16, 1, .3, 1)
+            1.5s
+            both;
+    }
+
+
+    @keyframes topbar-enter-tablet {
+
+        from {
+            opacity: 0;
+
+            transform:
+                translateX(120px);
+        }
+
+        to {
+            opacity: 1;
+
+            transform:
+                translateX(0);
+        }
+    }
+
+
+    .main-logo {
+        width: 4rem;
+        height: 4rem;
+
+        flex-basis: 4rem;
+    }
+
+
+    /*
+     * IMPORTANT:
+     *
+     * The nav-index is removed from the
+     * normal flex layout.
+     *
+     * The toggle is therefore pushed
+     * directly to the right edge.
+     */
+
+    .nav-index {
+        position: absolute;
+
+        top:
+            calc(
+                100% + 0.75rem
+            );
+
+        left:
+            clamp(
+                1rem,
+                3vw,
+                2rem
+            );
+
+        right:
+            clamp(
+                1rem,
+                3vw,
+                2rem
+            );
+
+        width: auto;
 
         display: flex;
 
@@ -996,11 +977,17 @@
 
         gap: 0;
 
-        padding: 0.5rem;
+        padding:
+            0.5rem;
+
+        margin: 0;
 
         background: var(--bg-main);
 
-        border: 1px solid var(--accent);
+        border:
+            1px
+            solid
+            var(--accent);
 
         box-sizing: border-box;
 
@@ -1008,45 +995,48 @@
 
         visibility: hidden;
 
-        transform:
-            translateY(-10px)
-            skewX(0deg);
-
         pointer-events: none;
+
+        transform:
+            translateY(-10px);
 
         transition:
             opacity 0.25s ease,
             transform 0.3s ease,
             visibility 0.3s ease;
 
-        z-index: 65;
+        z-index: 9998;
     }
 
 
-    /* =====================================================
+    .nav-toggle {
+        display: flex;
+
+        margin-left: auto;
+    }
+
+
+    /* -----------------------------------------------------
        OPEN MENU
-    ===================================================== */
+    ----------------------------------------------------- */
 
     .topbar.menu-open .nav-index {
-
         opacity: 1;
 
         visibility: visible;
 
-        transform:
-            translateY(0)
-            skewX(0deg);
-
         pointer-events: auto;
+
+        transform:
+            translateY(0);
     }
 
 
-    /* =====================================================
-       LINK LIST
-    ===================================================== */
+    /* -----------------------------------------------------
+       MOBILE LINK LIST
+    ----------------------------------------------------- */
 
     .nav-links {
-
         width: 100%;
 
         display: flex;
@@ -1057,35 +1047,29 @@
     }
 
 
-    /* =====================================================
-       LINK ITEMS
-    ===================================================== */
-
     .nav-index .nav-links li {
-
         width: 100%;
     }
 
 
-    /* =====================================================
-       MOBILE LINKS
-    ===================================================== */
-
     .nav-index .nav-links a {
-
         display: flex;
 
         width: 100%;
 
-        min-height: 3.25rem;
+        min-height: 3.5rem;
 
-        padding: 0 1rem;
+        padding:
+            0
+            1rem;
 
         box-sizing: border-box;
 
         align-items: center;
 
-        font-size: 0.8rem;
+        justify-content: flex-start;
+
+        font-size: 0.85rem;
 
         letter-spacing: 0.16em;
 
@@ -1099,55 +1083,46 @@
     }
 
 
-    /* =====================================================
-       LAST LINK
-    ===================================================== */
-
     .nav-index .nav-links li:last-child a {
-
         border-bottom: none;
     }
 
 
-    /* =====================================================
-       CYAN GLITCH LAYER
-    ===================================================== */
-
     .nav-index .nav-links a::after {
-
-        padding: 0 1rem;
+        padding:
+            0
+            1rem;
 
         display: flex;
 
         align-items: center;
+
+        justify-content: flex-start;
     }
 
 
-    /* =====================================================
-       CONTACT BUTTON
-    ===================================================== */
-
     .contact-button {
-
         display: flex;
 
         width: 100%;
 
-        min-height: 3.25rem;
+        min-height: 3.5rem;
+
+        padding:
+            0
+            1rem;
+
+        margin-top: 0.5rem;
 
         box-sizing: border-box;
-
-        padding: 0 1rem;
 
         align-items: center;
 
         justify-content: flex-start;
 
-        font-size: 0.8rem;
+        font-size: 0.85rem;
 
         letter-spacing: 0.16em;
-
-        margin-top: 0.5rem;
 
         border-top:
             1px solid
@@ -1159,13 +1134,10 @@
     }
 
 
-    /* =====================================================
-       CONTACT GLITCH LAYER
-    ===================================================== */
-
     .contact-button::after {
-
-        padding: 0 1rem;
+        padding:
+            0
+            1rem;
 
         align-items: center;
 
@@ -1173,24 +1145,23 @@
     }
 
 
-    /* =====================================================
+    /* -----------------------------------------------------
        HAMBURGER → X
-    ===================================================== */
+    ----------------------------------------------------- */
 
     .topbar.menu-open .nav-toggle span:nth-child(1) {
-
         transform:
             translateY(7px)
             rotate(45deg);
     }
 
-    .topbar.menu-open .nav-toggle span:nth-child(2) {
 
+    .topbar.menu-open .nav-toggle span:nth-child(2) {
         opacity: 0;
     }
 
-    .topbar.menu-open .nav-toggle span:nth-child(3) {
 
+    .topbar.menu-open .nav-toggle span:nth-child(3) {
         transform:
             translateY(-7px)
             rotate(-45deg);
@@ -1199,382 +1170,569 @@
 
 
 /* =========================================================
-   INTRO
+   MOBILE
+   0px - 767px
 ========================================================= */
 
-.intro {
+@media (max-width: 767px) {
 
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 9999;
-
-    display: grid;
-
-    place-items: center;
-
-    width: 100%;
-
-    height: 100dvh;
-
-    background: var(--bg-main);
-
-    overflow: hidden;
-
-    /*
-        The intro starts covering the entire website.
-        JS later adds .intro-hidden.
-    */
-
-    transform: translateY(0);
-
-    transition:
-        transform 1s var(--ease-io);
-
-    will-change: transform;
-}
+    :root {
+        --topbar-height: 4.5rem;
+    }
 
 
-/* =========================================================
-   INTRO LOGO WRAPPER
-========================================================= */
+    /* -----------------------------------------------------
+       TOPBAR
+    ----------------------------------------------------- */
 
-.intro-logo {
+    .topbar {
+        position: fixed;
 
-    position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
 
-    width: clamp(6rem, 12vw, 20rem);
+        width: 100%;
 
-    aspect-ratio: 1;
+        height: var(--topbar-height);
 
-    display: grid;
+        padding:
+            0
+            clamp(
+                0.75rem,
+                4vw,
+                1.25rem
+            );
 
-    place-items: center;
+        display: flex;
 
-    /*
-        Keeps both logo versions perfectly stacked.
-    */
+        align-items: center;
 
-    transform:
-        scale(.5)
-        rotate(-20deg);
+        box-sizing: border-box;
 
-    opacity: 0;
+        transform: translateX(0);
 
-    animation:
-        intro-logo-enter
-        0.8s
-        var(--ease-out)
-        .15s
-        forwards;
-}
-
-
-/* =========================================================
-   LOGO IMAGES
-========================================================= */
-
-.intro-logo img {
-
-    position: absolute;
-
-    inset: 0;
-
-    width: 100%;
-
-    height: 100%;
-
-    border-radius: 100%;
-
-    object-fit: contain;
-
-    user-select: none;
-
-    pointer-events: none;
-}
+        animation:
+            topbar-enter-mobile
+            1s
+            cubic-bezier(.16, 1, .3, 1)
+            1.5s
+            both;
+    }
 
 
-/* =========================================================
-   STATIC PNG
-========================================================= */
+    @keyframes topbar-enter-mobile {
 
-.intro-static {
+        from {
+            opacity: 0;
 
-    opacity: 1;
+            transform:
+                translateX(120px);
+        }
 
-    transform:
-        scaleX(-1)
-        rotate(0deg);
+        to {
+            opacity: 1;
 
-    /*
-        PNG stays visible initially.
-    */
-
-    animation:
-        intro-static-out
-        .35s
-        var(--ease-out)
-        1.25s
-        forwards;
-}
+            transform:
+                translateX(0);
+        }
+    }
 
 
-/* =========================================================
-   GIF
-========================================================= */
+    /* -----------------------------------------------------
+       LOGO
+    ----------------------------------------------------- */
 
-.intro-gif {
+    .main-logo {
+        width:
+            clamp(
+                3.25rem,
+                12vw,
+                3.75rem
+            );
 
-    opacity: 0;
+        height:
+            clamp(
+                3.25rem,
+                12vw,
+                3.75rem
+            );
 
-    transform:
-        scaleX(-1)
-        scale(.85)
-        rotate(-8deg);
-
-    /*
-        GIF appears after the logo has entered.
-    */
-
-    animation:
-        intro-gif-in
-        .45s
-        var(--ease-out)
-        1.2s
-        forwards;
-}
+        flex:
+            0
+            0
+            clamp(
+                3.25rem,
+                12vw,
+                3.75rem
+            );
+    }
 
 
-/* =========================================================
-   LOGO ENTRY
-========================================================= */
+    /* -----------------------------------------------------
+       MOBILE NAV INDEX
+       -----------------------------------------------
+       This is the dropdown only.
+       It does NOT occupy horizontal
+       space beside the logo.
+    ----------------------------------------------------- */
 
-@keyframes intro-logo-enter {
+    .nav-index {
+        position: absolute;
 
-    0% {
+        top:
+            calc(
+                100% + 0.75rem
+            );
+
+        left:
+            clamp(
+                0.75rem,
+                4vw,
+                1.25rem
+            );
+
+        right:
+            clamp(
+                0.75rem,
+                4vw,
+                1.25rem
+            );
+
+        width: auto;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+        gap: 0;
+
+        padding:
+            0.5rem;
+
+        margin: 0;
+
+        background: var(--bg-main);
+
+        border:
+            1px
+            solid
+            var(--accent);
+
+        box-sizing: border-box;
 
         opacity: 0;
 
+        visibility: hidden;
+
+        pointer-events: none;
+
         transform:
-            scale(.35)
-            rotate(-35deg);
+            translateY(-10px);
+
+        transition:
+            opacity 0.25s ease,
+            transform 0.3s ease,
+            visibility 0.3s ease;
+
+        z-index: 9998;
     }
 
-    35% {
 
+    /* -----------------------------------------------------
+       HAMBURGER
+    ----------------------------------------------------- */
+
+    .nav-toggle {
+        display: flex;
+
+        margin-left: auto;
+
+        width:
+            clamp(
+                40px,
+                11vw,
+                42px
+            );
+
+        height:
+            clamp(
+                40px,
+                11vw,
+                42px
+            );
+
+        flex:
+            0
+            0
+            clamp(
+                40px,
+                11vw,
+                42px
+            );
+    }
+
+
+    /* -----------------------------------------------------
+       OPEN MENU
+    ----------------------------------------------------- */
+
+    .topbar.menu-open .nav-index {
         opacity: 1;
 
+        visibility: visible;
+
+        pointer-events: auto;
+
         transform:
-            scale(1.18)
-            rotate(12deg);
+            translateY(0);
     }
 
-    55% {
 
-        transform:
-            scale(.92)
-            rotate(-6deg);
+    /* -----------------------------------------------------
+       NAV LINKS
+    ----------------------------------------------------- */
+
+    .nav-links {
+        width: 100%;
+
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 0;
     }
 
-    75% {
 
-        transform:
-            scale(1.06)
-            rotate(3deg);
+    .nav-index .nav-links li {
+        width: 100%;
+
+        min-width: 0;
     }
 
-    100% {
 
-        opacity: 1;
+    .nav-index .nav-links a {
+        display: flex;
 
+        width: 100%;
+
+        min-height: 3.25rem;
+
+        padding:
+            0
+            1rem;
+
+        box-sizing: border-box;
+
+        align-items: center;
+
+        justify-content: flex-start;
+
+        font-size:
+            clamp(
+                0.72rem,
+                2.5vw,
+                0.8rem
+            );
+
+        letter-spacing:
+            clamp(
+                0.11em,
+                0.6vw,
+                0.16em
+            );
+
+        border-bottom:
+            1px solid
+            color-mix(
+                in srgb,
+                var(--text-main) 12%,
+                transparent
+            );
+    }
+
+
+    .nav-index .nav-links li:last-child a {
+        border-bottom: none;
+    }
+
+
+    .nav-index .nav-links a::before {
         transform:
-            scale(1)
-            rotate(0deg);
+            translateY(100%)
+            skewX(-8deg);
+    }
+
+
+    .nav-index .nav-links a::after {
+        padding:
+            0
+            1rem;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: flex-start;
+    }
+
+
+    /* -----------------------------------------------------
+       CONTACT
+    ----------------------------------------------------- */
+
+    .contact-button {
+        display: flex;
+
+        width: 100%;
+
+        min-height: 3.25rem;
+
+        padding:
+            0
+            1rem;
+
+        margin-top: 0.5rem;
+
+        box-sizing: border-box;
+
+        align-items: center;
+
+        justify-content: flex-start;
+
+        font-size:
+            clamp(
+                0.72rem,
+                2.5vw,
+                0.8rem
+            );
+
+        letter-spacing:
+            clamp(
+                0.11em,
+                0.6vw,
+                0.16em
+            );
+
+        border-top:
+            1px solid
+            color-mix(
+                in srgb,
+                var(--text-main) 12%,
+                transparent
+            );
+    }
+
+
+    .contact-button::after {
+        padding:
+            0
+            1rem;
+
+        align-items: center;
+
+        justify-content: flex-start;
+    }
+
+
+    /* -----------------------------------------------------
+       HAMBURGER → X
+    ----------------------------------------------------- */
+
+    .topbar.menu-open .nav-toggle span:nth-child(1) {
+        transform:
+            translateY(7px)
+            rotate(45deg);
+    }
+
+
+    .topbar.menu-open .nav-toggle span:nth-child(2) {
+        opacity: 0;
+    }
+
+
+    .topbar.menu-open .nav-toggle span:nth-child(3) {
+        transform:
+            translateY(-7px)
+            rotate(-45deg);
     }
 }
 
 
 /* =========================================================
-   STATIC LOGO EXIT
+   VERY SMALL PHONES
 ========================================================= */
 
-@keyframes intro-static-out {
+@media (max-width: 380px) {
 
-    0% {
-
-        opacity: 1;
-
-        transform:
-            scaleX(-1)
-            scale(1);
+    .topbar {
+        padding:
+            0
+            0.75rem;
     }
 
-    100% {
+
+    .main-logo {
+        width: 3.25rem;
+        height: 3.25rem;
+
+        flex:
+            0
+            0
+            3.25rem;
+    }
+
+
+    .nav-toggle {
+        width: 40px;
+        height: 40px;
+
+        flex:
+            0
+            0
+            40px;
+    }
+
+
+    .nav-index {
+        left: 0.75rem;
+        right: 0.75rem;
+    }
+
+
+    .nav-index .nav-links a,
+    .contact-button {
+        min-height: 3rem;
+    }
+
+
+    .nav-index .nav-links a,
+    .contact-button {
+        font-size: 0.75rem;
+
+        letter-spacing: 0.13em;
+    }
+}
+
+
+/* =========================================================
+   TOUCH DEVICES
+========================================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+    .nav-index .nav-links a:hover {
+        color: var(--text-main);
+    }
+
+
+    .nav-index .nav-links a:hover::before {
+        transform:
+            translateY(100%)
+            skewX(-8deg);
+    }
+
+
+    .nav-index .nav-links a:hover::after {
+        animation:
+            nav-glitch-cyan
+            7s
+            step-end
+            infinite;
 
         opacity: 0;
-
-        transform:
-            scaleX(-1)
-            scale(.85)
-            rotate(-8deg);
     }
-}
 
 
-/* =========================================================
-   GIF ENTRY
-========================================================= */
+    .nav-index .nav-links a:hover span {
+        animation:
+            nav-glitch-magenta
+            7s
+            step-end
+            infinite;
 
-@keyframes intro-gif-in {
+        color: var(--text-main);
+    }
 
-    0% {
+
+    .contact-button:hover {
+        color: var(--text-main);
+    }
+
+
+    .contact-button:hover::before {
+        transform:
+            translateY(100%)
+            skewX(-8deg);
+    }
+
+
+    .contact-button:hover::after {
+        animation:
+            nav-glitch-cyan
+            7s
+            step-end
+            infinite;
 
         opacity: 0;
-
-        transform:
-            scaleX(-1)
-            scale(.8)
-            rotate(-10deg);
     }
 
-    55% {
 
-        opacity: 1;
+    .contact-button:hover span {
+        animation:
+            nav-glitch-magenta
+            7s
+            step-end
+            infinite;
 
-        transform:
-            scaleX(-1)
-            scale(1.08)
-            rotate(5deg);
-    }
-
-    100% {
-
-        opacity: 1;
-
-        transform:
-            scaleX(-1)
-            scale(1)
-            rotate(0deg);
+        color: var(--text-main);
     }
 }
 
 
 /* =========================================================
-   INTRO EXIT
-========================================================= */
-
-.intro-hidden {
-
-    transform: translateY(-100%);
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   OPTIONAL EXIT ACCENT
-========================================================= */
-
-/*
-    This creates a tiny yellow edge during the screen reveal.
-    It is subtle enough not to turn your portfolio into
-    a PowerPoint transition from 2007.
-*/
-
-.intro::after {
-
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-
-    bottom: 0;
-
-    width: 100%;
-
-    height: 20px;
-
-    background: var(--accent);
-
-    transform: scaleX(0);
-
-    transform-origin: left;
-
-    animation:
-        intro-edge
-        1.8s
-        var(--ease-out)
-        forwards;
-
-    pointer-events: none;
-}
-
-
-@keyframes intro-edge {
-
-    0% {
-
-        transform: scaleX(0);
-    }
-
-    55% {
-
-        transform: scaleX(1);
-    }
-
-    100% {
-
-        transform: scaleX(1);
-    }
-}
-
-
-/* =========================================================
-   INTRO REDUCED MOTION
+   REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
-    .intro {
+    .topbar {
+        animation: none;
 
+        opacity: 1;
+
+        transform:
+            translateX(0);
+    }
+
+
+    .nav-index .nav-links a::after,
+    .nav-index .nav-links a span,
+    .contact-button::after,
+    .contact-button span {
+        animation: none;
+    }
+
+
+    .nav-index .nav-links a::before,
+    .contact-button::before {
         transition: none;
     }
 
-    .intro-logo {
 
-        opacity: 1;
-
-        transform: none;
-
-        animation: none;
+    .main-logo-gif {
+        transition: none;
     }
 
-    .intro-static {
 
-        opacity: 1;
-
-        animation: none;
+    .nav-toggle span {
+        transition: none;
     }
 
-    .intro-gif {
 
-        opacity: 0;
-
-        animation: none;
-    }
-
-    .intro::after {
-
-        animation: none;
-
-        transform: scaleX(1);
-    }
-
-    .intro-hidden {
-
-        transform: translateY(-100%);
+    .nav-index {
+        transition: none;
     }
 }
-
