@@ -317,7 +317,13 @@
 }
 
 
-.hero-title .glitch-line:first-child {
+/* =========================================================
+   HERO TEXT GLITCH
+========================================================= */
+
+.hero-title .glitch-line {
+    position: relative;
+
     display: block;
 
     width: 100%;
@@ -325,27 +331,548 @@
     margin: 0;
     padding: 0;
 
-    color: #FFFFFF;
+    white-space: nowrap;
+
+    text-align: center;
+
+    overflow: visible;
+
+    isolation: isolate;
+
+    z-index: 1;
+
+    will-change:
+        opacity,
+        transform,
+        clip-path,
+        filter;
+
+    animation:
+        hero-text-entry
+        1.15s
+        steps(16, end)
+        both,
+        hero-text-glitch-magenta
+        7s
+        step-end
+        1.15s
+        infinite;
+}
+
+
+.hero-title .glitch-line::after {
+    content: attr(data-text);
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    color: #1bc7fb;
+
+    pointer-events: none;
 
     white-space: nowrap;
 
     text-align: center;
+
+    opacity: 0;
+
+    mix-blend-mode: screen;
+
+    z-index: 2;
+
+    will-change:
+        opacity,
+        transform,
+        clip-path;
+
+    animation:
+        hero-text-entry-cyan
+        1.15s
+        steps(16, end)
+        both,
+        hero-text-glitch-cyan
+        7s
+        step-end
+        1.15s
+        infinite;
+}
+
+
+/* =========================================================
+   HERO TEXT COLORS
+========================================================= */
+
+.hero-title .glitch-line:first-child {
+    color: #FFFFFF;
 }
 
 
 .hero-title .glitch-line:last-child {
-    display: block;
-
-    width: 100%;
-
-    margin: 0;
-    padding: 0;
-
     color: var(--accent);
+}
 
-    white-space: nowrap;
 
-    text-align: center;
+/* =========================================================
+   HERO TEXT ENTRY DELAYS
+========================================================= */
+
+.hero-title .glitch-line:first-child {
+    animation-delay:
+        0s,
+        1.15s;
+}
+
+
+.hero-title .glitch-line:first-child::after {
+    animation-delay:
+        0s,
+        1.15s;
+}
+
+
+.hero-title .glitch-line:last-child {
+    animation-delay:
+        0.14s,
+        -0.60s;
+}
+
+
+.hero-title .glitch-line:last-child::after {
+    animation-delay:
+        0.14s,
+        -0.60s;
+}
+
+
+/* =========================================================
+   HERO TEXT INITIAL ENTRY
+========================================================= */
+
+@keyframes hero-text-entry {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateX(42px);
+
+        clip-path:
+            inset(
+                0 100% 0 0
+            );
+
+        filter:
+            blur(1px);
+    }
+
+    12% {
+        opacity: 0.15;
+
+        transform:
+            translateX(31px);
+
+        clip-path:
+            inset(
+                8% 76% 8% 0
+            );
+
+        filter:
+            blur(0.8px);
+    }
+
+    20% {
+        opacity: 0.8;
+
+        transform:
+            translateX(18px);
+
+        clip-path:
+            inset(
+                0 62% 0 0
+            );
+
+        filter:
+            blur(0);
+    }
+
+    29% {
+        opacity: 0.25;
+
+        transform:
+            translateX(-7px);
+
+        clip-path:
+            inset(
+                24% 48% 18% 0
+            );
+    }
+
+    38% {
+        opacity: 0.95;
+
+        transform:
+            translateX(11px);
+
+        clip-path:
+            inset(
+                0 34% 0 0
+            );
+    }
+
+    47% {
+        opacity: 0.4;
+
+        transform:
+            translateX(-5px);
+
+        clip-path:
+            inset(
+                12% 22% 10% 0
+            );
+    }
+
+    57% {
+        opacity: 1;
+
+        transform:
+            translateX(4px);
+
+        clip-path:
+            inset(
+                0 10% 0 0
+            );
+    }
+
+    68% {
+        opacity: 0.7;
+
+        transform:
+            translateX(-2px);
+
+        clip-path:
+            inset(
+                0 4% 0 0
+            );
+    }
+
+    79% {
+        opacity: 1;
+
+        transform:
+            translateX(2px);
+
+        clip-path:
+            inset(0);
+    }
+
+    88% {
+        opacity: 0.9;
+
+        transform:
+            translateX(-1px);
+
+        clip-path: none;
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateX(0);
+
+        clip-path: none;
+
+        filter: none;
+    }
+}
+
+
+/* =========================================================
+   HERO TEXT INITIAL CYAN ENTRY
+========================================================= */
+
+@keyframes hero-text-entry-cyan {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateX(42px);
+
+        clip-path:
+            inset(
+                0 100% 0 0
+            );
+    }
+
+    13% {
+        opacity: 0.8;
+
+        transform:
+            translateX(28px);
+
+        clip-path:
+            inset(
+                12% 72% 18% 0
+            );
+    }
+
+    23% {
+        opacity: 0;
+
+        transform:
+            translateX(-9px);
+
+        clip-path:
+            inset(
+                60% 52% 10% 0
+            );
+    }
+
+    34% {
+        opacity: 0.7;
+
+        transform:
+            translateX(12px);
+
+        clip-path:
+            inset(
+                8% 38% 55% 0
+            );
+    }
+
+    46% {
+        opacity: 0.25;
+
+        transform:
+            translateX(-6px);
+
+        clip-path:
+            inset(
+                62% 24% 14% 0
+            );
+    }
+
+    58% {
+        opacity: 0.75;
+
+        transform:
+            translateX(5px);
+
+        clip-path:
+            inset(
+                18% 9% 48% 0
+            );
+    }
+
+    70% {
+        opacity: 0;
+
+        transform:
+            translateX(-3px);
+
+        clip-path:
+            inset(
+                70% 0 8% 0
+            );
+    }
+
+    82% {
+        opacity: 0.35;
+
+        transform:
+            translateX(2px);
+
+        clip-path:
+            inset(
+                0 4% 0 0
+            );
+    }
+
+    92% {
+        opacity: 0;
+
+        transform:
+            translateX(0);
+
+        clip-path: none;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translateX(0);
+
+        clip-path: none;
+    }
+}
+
+
+/* =========================================================
+   HERO CYAN TEXT GLITCH
+========================================================= */
+
+@keyframes hero-text-glitch-cyan {
+
+    0%,
+    41%,
+    42%,
+    42.5%,
+    43%,
+    44%,
+    100% {
+
+        opacity: 0;
+
+        clip-path: none;
+
+        transform:
+            translateX(0);
+    }
+
+
+    42% {
+
+        opacity: 0.8;
+
+        clip-path:
+            inset(
+                10% 0 70% 0
+            );
+
+        transform:
+            translateX(-5px);
+    }
+
+
+    42.5% {
+
+        opacity: 0.55;
+
+        clip-path:
+            inset(
+                65% 0 15% 0
+            );
+
+        transform:
+            translateX(4px);
+    }
+
+
+    43% {
+
+        opacity: 0.75;
+
+        clip-path:
+            inset(
+                30% 0 45% 0
+            );
+
+        transform:
+            translateX(-6px);
+    }
+
+
+    44% {
+
+        opacity: 0;
+
+        clip-path: none;
+
+        transform:
+            translateX(0);
+    }
+}
+
+
+/* =========================================================
+   HERO MAGENTA TEXT GLITCH
+========================================================= */
+
+@keyframes hero-text-glitch-magenta {
+
+    0%,
+    41%,
+    42%,
+    42.5%,
+    43%,
+    44%,
+    100% {
+
+        color: inherit;
+
+        transform:
+            translateX(0);
+
+        clip-path: none;
+
+        filter: none;
+    }
+
+
+    42% {
+
+        color: #e0287d;
+
+        transform:
+            translateX(5px);
+
+        clip-path:
+            inset(
+                70% 0 10% 0
+            );
+    }
+
+
+    42.5% {
+
+        color: #e0287d;
+
+        transform:
+            translateX(-4px);
+
+        clip-path:
+            inset(
+                20% 0 60% 0
+            );
+
+        filter:
+            blur(0.5px);
+    }
+
+
+    43% {
+
+        color: #e0287d;
+
+        transform:
+            translateX(6px);
+
+        clip-path:
+            inset(
+                45% 0 30% 0
+            );
+    }
+
+
+    44% {
+
+        color: inherit;
+
+        transform:
+            translateX(0);
+
+        clip-path: none;
+
+        filter: none;
+    }
 }
 
 
@@ -354,6 +881,8 @@
 ========================================================= */
 
 .hero-name {
+    position: relative;
+
     display: block;
 
     width: max-content;
@@ -375,12 +904,7 @@
     padding: 0;
 
     color:
-        rgba(
-            255,
-            255,
-            255,
-            0.62
-        );
+        rgba(255, 255, 255, 1);
 
     font-size:
         clamp(
@@ -402,6 +926,457 @@
     box-sizing: border-box;
 
     z-index: 1;
+
+    isolation: isolate;
+
+    will-change:
+        opacity,
+        transform,
+        clip-path,
+        filter;
+
+    animation:
+        hero-name-entry
+        1s
+        steps(14, end)
+        0.28s
+        both,
+        hero-name-glitch-magenta
+        7s
+        step-end
+        1.28s
+        infinite;
+}
+
+
+.hero-name::after {
+    content: attr(data-text);
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    color: #1bc7fb;
+
+    pointer-events: none;
+
+    white-space: nowrap;
+
+    text-align: center;
+
+    opacity: 0;
+
+    mix-blend-mode: screen;
+
+    z-index: 2;
+
+    will-change:
+        opacity,
+        transform,
+        clip-path;
+
+    animation:
+        hero-name-entry-cyan
+        1s
+        steps(14, end)
+        0.28s
+        both,
+        hero-name-glitch-cyan
+        7s
+        step-end
+        1.28s
+        infinite;
+}
+
+
+/* =========================================================
+   NAME INITIAL ENTRY
+========================================================= */
+
+@keyframes hero-name-entry {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateX(24px);
+
+        clip-path:
+            inset(
+                0 100% 0 0
+            );
+
+        filter:
+            blur(0.8px);
+    }
+
+    15% {
+        opacity: 0.2;
+
+        transform:
+            translateX(17px);
+
+        clip-path:
+            inset(
+                15% 72% 15% 0
+            );
+    }
+
+    27% {
+        opacity: 0.75;
+
+        transform:
+            translateX(-5px);
+
+        clip-path:
+            inset(
+                0 55% 0 0
+            );
+    }
+
+    40% {
+        opacity: 0.25;
+
+        transform:
+            translateX(6px);
+
+        clip-path:
+            inset(
+                30% 38% 20% 0
+            );
+    }
+
+    54% {
+        opacity: 0.9;
+
+        transform:
+            translateX(-3px);
+
+        clip-path:
+            inset(
+                0 20% 0 0
+            );
+    }
+
+    68% {
+        opacity: 0.5;
+
+        transform:
+            translateX(2px);
+
+        clip-path:
+            inset(
+                15% 8% 15% 0
+            );
+    }
+
+    82% {
+        opacity: 1;
+
+        transform:
+            translateX(-1px);
+
+        clip-path: inset(0);
+    }
+
+    100% {
+        opacity: 0.62;
+
+        transform:
+            translateX(0);
+
+        clip-path: none;
+
+        filter: none;
+    }
+}
+
+
+/* =========================================================
+   NAME INITIAL CYAN ENTRY
+========================================================= */
+
+@keyframes hero-name-entry-cyan {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateX(24px);
+
+        clip-path:
+            inset(
+                0 100% 0 0
+            );
+    }
+
+    17% {
+        opacity: 0.7;
+
+        transform:
+            translateX(16px);
+
+        clip-path:
+            inset(
+                10% 70% 20% 0
+            );
+    }
+
+    31% {
+        opacity: 0;
+
+        transform:
+            translateX(-5px);
+
+        clip-path:
+            inset(
+                60% 48% 10% 0
+            );
+    }
+
+    44% {
+        opacity: 0.6;
+
+        transform:
+            translateX(5px);
+
+        clip-path:
+            inset(
+                12% 30% 50% 0
+            );
+    }
+
+    59% {
+        opacity: 0.2;
+
+        transform:
+            translateX(-4px);
+
+        clip-path:
+            inset(
+                55% 12% 10% 0
+            );
+    }
+
+    74% {
+        opacity: 0.55;
+
+        transform:
+            translateX(2px);
+
+        clip-path:
+            inset(
+                0 5% 0 0
+            );
+    }
+
+    89% {
+        opacity: 0;
+
+        transform:
+            translateX(0);
+
+        clip-path: none;
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translateX(0);
+
+        clip-path: none;
+    }
+}
+
+
+/* =========================================================
+   NAME GLITCH DELAY
+========================================================= */
+
+.hero-name,
+.hero-name::after {
+    animation-delay:
+        0.28s,
+        -3.5s;
+}
+
+
+/* =========================================================
+   NAME CYAN GLITCH
+========================================================= */
+
+@keyframes hero-name-glitch-cyan {
+
+    0%,
+    41%,
+    42%,
+    42.5%,
+    43%,
+    44%,
+    100% {
+
+        opacity: 0;
+
+        clip-path: none;
+
+        transform:
+            translateX(0);
+    }
+
+
+    42% {
+
+        opacity: 0.7;
+
+        clip-path:
+            inset(
+                10% 0 70% 0
+            );
+
+        transform:
+            translateX(-3px);
+    }
+
+
+    42.5% {
+
+        opacity: 0.5;
+
+        clip-path:
+            inset(
+                65% 0 15% 0
+            );
+
+        transform:
+            translateX(3px);
+    }
+
+
+    43% {
+
+        opacity: 0.65;
+
+        clip-path:
+            inset(
+                30% 0 45% 0
+            );
+
+        transform:
+            translateX(-4px);
+    }
+
+
+    44% {
+
+        opacity: 0;
+
+        clip-path: none;
+
+        transform:
+            translateX(0);
+    }
+}
+
+
+/* =========================================================
+   NAME MAGENTA GLITCH
+========================================================= */
+
+@keyframes hero-name-glitch-magenta {
+
+    0%,
+    41%,
+    42%,
+    42.5%,
+    43%,
+    44%,
+    100% {
+
+        color:
+            rgba(
+                255,
+                255,
+                255,
+                0.62
+            );
+
+        transform:
+            translateX(0);
+
+        clip-path: none;
+
+        filter: none;
+    }
+
+
+    42% {
+
+        color: #e0287d;
+
+        transform:
+            translateX(3px);
+
+        clip-path:
+            inset(
+                70% 0 10% 0
+            );
+    }
+
+
+    42.5% {
+
+        color: #e0287d;
+
+        transform:
+            translateX(-3px);
+
+        clip-path:
+            inset(
+                20% 0 60% 0
+            );
+
+        filter:
+            blur(0.35px);
+    }
+
+
+    43% {
+
+        color: #e0287d;
+
+        transform:
+            translateX(4px);
+
+        clip-path:
+            inset(
+                45% 0 30% 0
+            );
+    }
+
+
+    44% {
+
+        color:
+            rgba(
+                255,
+                255,
+                255,
+                0.62
+            );
+
+        transform:
+            translateX(0);
+
+        clip-path: none;
+
+        filter: none;
+    }
 }
 
 
@@ -1875,6 +2850,8 @@
 .hero:hover .hero-cursor {
     opacity: 1;
 }
+
+
 /* =========================================================
    320px - 767px
 ========================================================= */
@@ -1991,6 +2968,16 @@
 
         transform-origin: bottom center;
     }
+
+    .hero-title .glitch-line::after {
+        width: 100%;
+        height: 100%;
+    }
+
+    .hero-name::after {
+        width: 100%;
+        height: 100%;
+    }
 }
 
 
@@ -2013,6 +3000,7 @@
     }
 }
 
+
 /* =========================================================
    768px - 1023px
 ========================================================= */
@@ -2022,7 +3010,6 @@
     .hero-title-layer {
         inset: 0;
     }
-
 
     .hero-panel {
         left: 35%;
@@ -2044,7 +3031,6 @@
             );
     }
 
-
     .hero-title {
         align-items: center;
 
@@ -2058,12 +3044,10 @@
         text-align: center;
     }
 
-
     .hero-title .glitch-line:first-child,
     .hero-title .glitch-line:last-child {
         text-align: center;
     }
-
 
     .hero-name {
         font-size: 0.78rem;
@@ -2071,26 +3055,23 @@
         text-align: center;
     }
 
-
     .hero-image-layer {
         top: 0;
         left: auto;
         right: 0;
         bottom: auto;
 
-        width:70%;
+        width: 70%;
         height: 100%;
 
         transform: none;
     }
-
 
     .hero-img {
         --brush-size: 150px;
 
         --hero-image-scale: 1.14;
     }
-
 
     .heroregular,
     .herocyber,
@@ -2114,7 +3095,6 @@
         inset: 0;
     }
 
-
     .hero-panel {
         left: 36%;
         top: 48%;
@@ -2135,7 +3115,6 @@
             );
     }
 
-
     .hero-title {
         align-items: center;
 
@@ -2149,12 +3128,10 @@
         text-align: center;
     }
 
-
     .hero-title .glitch-line:first-child,
     .hero-title .glitch-line:last-child {
         text-align: center;
     }
-
 
     .hero-name {
         font-size:
@@ -2166,7 +3143,6 @@
 
         text-align: center;
     }
-
 
     .hero-image-layer {
         top: 0;
@@ -2180,13 +3156,11 @@
         transform: none;
     }
 
-
     .hero-img {
         --brush-size: 180px;
 
         --hero-image-scale: 1.07;
     }
-
 
     .heroregular,
     .herocyber,
@@ -2210,9 +3184,8 @@
         inset: 0;
     }
 
-
     .hero-panel {
-        left: 50%;
+        left: 44%;
         top: 48%;
 
         width: max-content;
@@ -2231,7 +3204,6 @@
             );
     }
 
-
     .hero-title {
         align-items: center;
 
@@ -2245,12 +3217,10 @@
         text-align: center;
     }
 
-
     .hero-title .glitch-line:first-child,
     .hero-title .glitch-line:last-child {
         text-align: center;
     }
-
 
     .hero-name {
         font-size:
@@ -2262,7 +3232,6 @@
 
         text-align: center;
     }
-
 
     .hero-image-layer {
         top: 0;
@@ -2276,13 +3245,11 @@
         transform: none;
     }
 
-
     .hero-img {
         --brush-size: 180px;
 
         --hero-image-scale: 1;
     }
-
 
     .heroregular,
     .herocyber,
@@ -2302,6 +3269,36 @@
 
 @media (prefers-reduced-motion: reduce) {
 
+    .hero-title .glitch-line,
+    .hero-title .glitch-line::after,
+    .hero-name,
+    .hero-name::after {
+
+        animation: none !important;
+
+        opacity: 1 !important;
+
+        transform: none !important;
+
+        clip-path: none !important;
+
+        filter: none !important;
+    }
+
+    .hero-title .glitch-line {
+        color: inherit;
+    }
+
+    .hero-name {
+        color:
+            rgba(
+                255,
+                255,
+                255,
+                0.62
+            );
+    }
+
     .hero-img,
     .hero-img.glitch .cyber-layer,
     .hero-img.glitch .cyber-layer::before,
@@ -2317,22 +3314,20 @@
         animation: none !important;
     }
 
-
     .heroregular {
         opacity: 1;
 
         visibility: visible;
     }
 
-
     .cyber-layer {
         opacity: 0;
     }
 
-
     .hero-img.ambient-glitch .heroregular,
     .hero-img.ambient-cyber .heroregular,
     .hero-img.ambient-exit .heroregular {
+
         opacity: 0 !important;
 
         visibility: hidden !important;

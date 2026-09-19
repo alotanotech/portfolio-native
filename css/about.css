@@ -328,7 +328,7 @@
 
 
 .database-card-header span:last-child {
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--text-main);
 
     font-size: clamp(
         0.5rem,
@@ -839,7 +839,7 @@
 
     background: rgba(8, 8, 10, 0.8);
 
-    color: rgba(255, 255, 255, 0.55);
+    color: var(--text-main);
 
     font-size: 0.46rem;
 
@@ -902,7 +902,7 @@
 ========================================================= */
 
 .identity-label {
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--text-main);
 
     font-size: clamp(
         0.5rem,
@@ -989,7 +989,7 @@
 
 
 .identity-status-label {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-main);
 
     font-size: 0.48rem;
 
@@ -1260,7 +1260,7 @@
 .skill-description {
     margin: 0.15rem 0 0;
 
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-main);
 
     font-size: clamp(
         0.58rem,
@@ -1383,7 +1383,7 @@
 .description-text p {
     margin: 0;
 
-    color: rgba(239, 239, 239, 0.8);
+    color: var(--text-main);
 
     font-size: clamp(
         0.75rem,
@@ -1436,7 +1436,7 @@
 
 
 .description-data-label {
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-main);
 
     font-size: 0.48rem;
 
@@ -1479,7 +1479,7 @@
     border-top:
         1px solid rgba(255, 255, 255, 0.1);
 
-    color: rgba(255, 255, 255, 0.3);
+    color:var(--text-main);
 
     font-size: 0.48rem;
 
@@ -1535,7 +1535,7 @@
     border-top:
         1px solid rgba(255, 255, 255, 0.12);
 
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-main);
 
     font-size: 0.48rem;
 

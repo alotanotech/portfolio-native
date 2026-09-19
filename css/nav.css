@@ -7,19 +7,15 @@
     --topbar-content-width: 80dvw;
 }
 
-
 /* =========================================================
    LOGO
 ========================================================= */
 
 .main-logo {
     position: relative;
-
     display: block;
-
     width: 5rem;
     height: 5rem;
-
     flex: 0 0 5rem;
 
     --logo-hover-transform:
@@ -29,31 +25,22 @@
         translateY(6px);
 }
 
-
 .main-logo img {
     position: absolute;
-
     inset: 0;
-
     width: 100%;
     height: 100%;
-
     object-fit: contain;
-
     pointer-events: none;
 }
-
 
 .main-logo-static {
     opacity: 1;
 }
 
-
 .main-logo-gif {
     opacity: 0;
-
     transform: scaleX(-1);
-
     border-radius: 100%;
 
     transition:
@@ -61,18 +48,14 @@
         transform 0.4s ease-in-out;
 }
 
-
 .main-logo:hover .main-logo-static {
     opacity: 0;
 }
 
-
 .main-logo:hover .main-logo-gif {
     opacity: 1;
-
     transform: var(--logo-hover-transform);
 }
-
 
 /* =========================================================
    TOPBAR
@@ -80,7 +63,6 @@
 
 .topbar {
     position: fixed;
-
     top: 0;
     left: 0;
 
@@ -90,7 +72,6 @@
     z-index: 9999;
 
     display: flex;
-
     align-items: center;
 
     box-sizing: border-box;
@@ -125,12 +106,10 @@
         both;
 }
 
-
 .topbar::before {
     content: "";
 
     position: absolute;
-
     inset: 0;
 
     width: 100%;
@@ -143,43 +122,33 @@
     pointer-events: none;
 }
 
-
 /* =========================================================
    TOPBAR ENTRY
 ========================================================= */
 
 @keyframes topbar-enter {
-
     from {
         opacity: 0;
-
         transform:
             translateX(120px);
     }
 
     to {
         opacity: 1;
-
         transform:
             translateX(0);
     }
 }
 
-
 /* =========================================================
    NAV INDEX
-   ---------------------------------------------------------
-   DESKTOP:
-   normal flex item containing nav links + contact
 ========================================================= */
 
 .nav-index {
     width: 100%;
 
     display: flex;
-
     align-items: center;
-
     justify-content: flex-end;
 
     gap: 6px;
@@ -187,10 +156,8 @@
     min-width: 0;
 }
 
-
 .nav-links {
     display: flex;
-
     align-items: center;
 
     gap: 6px;
@@ -201,14 +168,12 @@
     list-style: none;
 }
 
-
 .nav-index .nav-links li {
     margin: 0;
     padding: 0;
 
     min-width: 0;
 }
-
 
 /* =========================================================
    NAV LINKS
@@ -218,7 +183,6 @@
     position: relative;
 
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
 
@@ -227,24 +191,20 @@
         12px;
 
     font-size: 0.9rem;
-
     line-height: 1.2;
-
     letter-spacing: 0.18em;
 
     color: var(--text-main);
 
     text-decoration: none;
+    text-decoration-line: none;
 
     white-space: nowrap;
-
     overflow: hidden;
 
     isolation: isolate;
-
     z-index: 0;
 }
-
 
 .nav-index .nav-links a span {
     position: relative;
@@ -264,7 +224,6 @@
         infinite;
 }
 
-
 /* =========================================================
    NAV LINK HOVER
 ========================================================= */
@@ -273,7 +232,6 @@
     content: "";
 
     position: absolute;
-
     inset: 0;
 
     z-index: 1;
@@ -284,20 +242,23 @@
         translateY(100%)
         skewX(-12deg);
 
+    opacity: 0;
+
     transition:
         transform
         0.45s
-        cubic-bezier(.16, 1, .3, 1);
+        cubic-bezier(.16, 1, .3, 1),
+        opacity
+        0.05s
+        linear;
 
     pointer-events: none;
 }
-
 
 .nav-index .nav-links a::after {
     content: attr(data-text);
 
     position: absolute;
-
     inset: 0;
 
     padding:
@@ -307,7 +268,6 @@
     z-index: 2;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -328,7 +288,6 @@
         infinite;
 }
 
-
 /* =========================================================
    GLITCH DELAYS
 ========================================================= */
@@ -338,31 +297,26 @@
     animation-delay: 0s;
 }
 
-
 .nav-index .nav-links li:nth-child(2) a span,
 .nav-index .nav-links li:nth-child(2) a::after {
     animation-delay: -1.75s;
 }
-
 
 .nav-index .nav-links li:nth-child(3) a span,
 .nav-index .nav-links li:nth-child(3) a::after {
     animation-delay: -3.5s;
 }
 
-
 .contact-button span,
 .contact-button::after {
     animation-delay: -5.25s;
 }
-
 
 /* =========================================================
    CYAN GLITCH
 ========================================================= */
 
 @keyframes nav-glitch-cyan {
-
     0%,
     41%,
     42%,
@@ -370,7 +324,6 @@
     43%,
     44%,
     100% {
-
         opacity: 0;
 
         clip-path: none;
@@ -379,9 +332,7 @@
             translateX(0);
     }
 
-
     42% {
-
         opacity: 0.8;
 
         clip-path:
@@ -393,9 +344,7 @@
             translateX(-5px);
     }
 
-
     42.5% {
-
         opacity: 0.55;
 
         clip-path:
@@ -407,9 +356,7 @@
             translateX(4px);
     }
 
-
     43% {
-
         opacity: 0.75;
 
         clip-path:
@@ -421,9 +368,7 @@
             translateX(-6px);
     }
 
-
     44% {
-
         opacity: 0;
 
         clip-path: none;
@@ -433,13 +378,11 @@
     }
 }
 
-
 /* =========================================================
    MAGENTA GLITCH
 ========================================================= */
 
 @keyframes nav-glitch-magenta {
-
     0%,
     41%,
     42%,
@@ -447,7 +390,6 @@
     43%,
     44%,
     100% {
-
         color: var(--text-main);
 
         transform:
@@ -458,9 +400,7 @@
         filter: none;
     }
 
-
     42% {
-
         color: var(--glitch-color);
 
         transform:
@@ -472,9 +412,7 @@
             );
     }
 
-
     42.5% {
-
         color: var(--glitch-color);
 
         transform:
@@ -489,9 +427,7 @@
             blur(0.5px);
     }
 
-
     43% {
-
         color: var(--glitch-color);
 
         transform:
@@ -503,9 +439,7 @@
             );
     }
 
-
     44% {
-
         color: var(--text-main);
 
         transform:
@@ -517,7 +451,6 @@
     }
 }
 
-
 /* =========================================================
    NAV LINK HOVER STATE
 ========================================================= */
@@ -526,20 +459,18 @@
     color: #000;
 }
 
-
 .nav-index .nav-links a:hover::before {
     transform:
         translateY(0)
         skewX(-12deg);
-}
 
+    opacity: 1;
+}
 
 .nav-index .nav-links a:hover::after {
     animation: none;
-
     opacity: 0;
 }
-
 
 .nav-index .nav-links a:hover span {
     animation: none;
@@ -553,7 +484,6 @@
     filter: none;
 }
 
-
 /* =========================================================
    CONTACT BUTTON
 ========================================================= */
@@ -562,7 +492,6 @@
     position: relative;
 
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
 
@@ -571,24 +500,20 @@
         16px;
 
     font-size: 0.95rem;
-
     line-height: 1.2;
-
     letter-spacing: 0.16em;
 
     color: var(--text-main);
 
     text-decoration: none;
+    text-decoration-line: none;
 
     white-space: nowrap;
-
     overflow: hidden;
 
     isolation: isolate;
-
     z-index: 0;
 }
-
 
 .contact-button span {
     position: relative;
@@ -608,12 +533,10 @@
         infinite;
 }
 
-
 .contact-button::before {
     content: "";
 
     position: absolute;
-
     inset: 0;
 
     z-index: 1;
@@ -624,20 +547,23 @@
         translateY(100%)
         skewX(-12deg);
 
+    opacity: 0;
+
     transition:
         transform
         0.45s
-        cubic-bezier(.16, 1, .3, 1);
+        cubic-bezier(.16, 1, .3, 1),
+        opacity
+        0.05s
+        linear;
 
     pointer-events: none;
 }
-
 
 .contact-button::after {
     content: attr(data-text);
 
     position: absolute;
-
     inset: 0;
 
     padding:
@@ -647,7 +573,6 @@
     z-index: 2;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -668,25 +593,22 @@
         infinite;
 }
 
-
 .contact-button:hover {
     color: #000;
 }
-
 
 .contact-button:hover::before {
     transform:
         translateY(0)
         skewX(-12deg);
-}
 
+    opacity: 1;
+}
 
 .contact-button:hover::after {
     animation: none;
-
     opacity: 0;
 }
-
 
 .contact-button:hover span {
     animation: none;
@@ -699,7 +621,6 @@
 
     filter: none;
 }
-
 
 /* =========================================================
    MOBILE TOGGLE
@@ -719,7 +640,6 @@
         42px;
 
     margin: 0;
-
     padding: 0;
 
     border:
@@ -745,7 +665,6 @@
     -webkit-tap-highlight-color: transparent;
 }
 
-
 .nav-toggle span {
     display: block;
 
@@ -767,16 +686,13 @@
     pointer-events: none;
 }
 
-
 .nav-toggle:hover {
     background: var(--accent);
 }
 
-
 .nav-toggle:hover span {
     background: #000;
 }
-
 
 /* =========================================================
    DESKTOP
@@ -810,17 +726,14 @@
             );
     }
 
-
     .nav-index {
         display: flex;
     }
-
 
     .nav-toggle {
         display: none;
     }
 }
-
 
 /* =========================================================
    LARGE DESKTOP
@@ -854,7 +767,6 @@
             );
     }
 
-
     .nav-index .nav-links a {
         padding:
             8px
@@ -862,7 +774,6 @@
 
         font-size: 0.9rem;
     }
-
 
     .contact-button {
         padding:
@@ -872,7 +783,6 @@
         font-size: 0.95rem;
     }
 }
-
 
 /* =========================================================
    TABLET
@@ -885,10 +795,8 @@
         --topbar-height: 4.75rem;
     }
 
-
     .topbar {
         width: 100%;
-
         height: var(--topbar-height);
 
         left: 0;
@@ -908,7 +816,6 @@
             both;
     }
 
-
     @keyframes topbar-enter-tablet {
 
         from {
@@ -926,24 +833,12 @@
         }
     }
 
-
     .main-logo {
         width: 4rem;
         height: 4rem;
 
         flex-basis: 4rem;
     }
-
-
-    /*
-     * IMPORTANT:
-     *
-     * The nav-index is removed from the
-     * normal flex layout.
-     *
-     * The toggle is therefore pushed
-     * directly to the right edge.
-     */
 
     .nav-index {
         position: absolute;
@@ -972,7 +867,6 @@
         display: flex;
 
         flex-direction: column;
-
         align-items: stretch;
 
         gap: 0;
@@ -1008,17 +902,11 @@
         z-index: 9998;
     }
 
-
     .nav-toggle {
         display: flex;
 
         margin-left: auto;
     }
-
-
-    /* -----------------------------------------------------
-       OPEN MENU
-    ----------------------------------------------------- */
 
     .topbar.menu-open .nav-index {
         opacity: 1;
@@ -1031,11 +919,6 @@
             translateY(0);
     }
 
-
-    /* -----------------------------------------------------
-       MOBILE LINK LIST
-    ----------------------------------------------------- */
-
     .nav-links {
         width: 100%;
 
@@ -1046,11 +929,9 @@
         gap: 0;
     }
 
-
     .nav-index .nav-links li {
         width: 100%;
     }
-
 
     .nav-index .nav-links a {
         display: flex;
@@ -1066,7 +947,6 @@
         box-sizing: border-box;
 
         align-items: center;
-
         justify-content: flex-start;
 
         font-size: 0.85rem;
@@ -1082,11 +962,9 @@
             );
     }
 
-
     .nav-index .nav-links li:last-child a {
         border-bottom: none;
     }
-
 
     .nav-index .nav-links a::after {
         padding:
@@ -1096,10 +974,8 @@
         display: flex;
 
         align-items: center;
-
         justify-content: flex-start;
     }
-
 
     .contact-button {
         display: flex;
@@ -1117,7 +993,6 @@
         box-sizing: border-box;
 
         align-items: center;
-
         justify-content: flex-start;
 
         font-size: 0.85rem;
@@ -1133,21 +1008,14 @@
             );
     }
 
-
     .contact-button::after {
         padding:
             0
             1rem;
 
         align-items: center;
-
         justify-content: flex-start;
     }
-
-
-    /* -----------------------------------------------------
-       HAMBURGER → X
-    ----------------------------------------------------- */
 
     .topbar.menu-open .nav-toggle span:nth-child(1) {
         transform:
@@ -1155,11 +1023,9 @@
             rotate(45deg);
     }
 
-
     .topbar.menu-open .nav-toggle span:nth-child(2) {
         opacity: 0;
     }
-
 
     .topbar.menu-open .nav-toggle span:nth-child(3) {
         transform:
@@ -1167,7 +1033,6 @@
             rotate(-45deg);
     }
 }
-
 
 /* =========================================================
    MOBILE
@@ -1180,11 +1045,6 @@
         --topbar-height: 4.5rem;
     }
 
-
-    /* -----------------------------------------------------
-       TOPBAR
-    ----------------------------------------------------- */
-
     .topbar {
         position: fixed;
 
@@ -1193,7 +1053,6 @@
         right: 0;
 
         width: 100%;
-
         height: var(--topbar-height);
 
         padding:
@@ -1205,7 +1064,6 @@
             );
 
         display: flex;
-
         align-items: center;
 
         box-sizing: border-box;
@@ -1219,7 +1077,6 @@
             1.5s
             both;
     }
-
 
     @keyframes topbar-enter-mobile {
 
@@ -1238,11 +1095,6 @@
         }
     }
 
-
-    /* -----------------------------------------------------
-       LOGO
-    ----------------------------------------------------- */
-
     .main-logo {
         width:
             clamp(
@@ -1267,15 +1119,6 @@
                 3.75rem
             );
     }
-
-
-    /* -----------------------------------------------------
-       MOBILE NAV INDEX
-       -----------------------------------------------
-       This is the dropdown only.
-       It does NOT occupy horizontal
-       space beside the logo.
-    ----------------------------------------------------- */
 
     .nav-index {
         position: absolute;
@@ -1304,7 +1147,6 @@
         display: flex;
 
         flex-direction: column;
-
         align-items: stretch;
 
         gap: 0;
@@ -1340,11 +1182,6 @@
         z-index: 9998;
     }
 
-
-    /* -----------------------------------------------------
-       HAMBURGER
-    ----------------------------------------------------- */
-
     .nav-toggle {
         display: flex;
 
@@ -1374,11 +1211,6 @@
             );
     }
 
-
-    /* -----------------------------------------------------
-       OPEN MENU
-    ----------------------------------------------------- */
-
     .topbar.menu-open .nav-index {
         opacity: 1;
 
@@ -1390,11 +1222,6 @@
             translateY(0);
     }
 
-
-    /* -----------------------------------------------------
-       NAV LINKS
-    ----------------------------------------------------- */
-
     .nav-links {
         width: 100%;
 
@@ -1405,13 +1232,11 @@
         gap: 0;
     }
 
-
     .nav-index .nav-links li {
         width: 100%;
 
         min-width: 0;
     }
-
 
     .nav-index .nav-links a {
         display: flex;
@@ -1427,7 +1252,6 @@
         box-sizing: border-box;
 
         align-items: center;
-
         justify-content: flex-start;
 
         font-size:
@@ -1453,18 +1277,17 @@
             );
     }
 
-
     .nav-index .nav-links li:last-child a {
         border-bottom: none;
     }
-
 
     .nav-index .nav-links a::before {
         transform:
             translateY(100%)
             skewX(-8deg);
-    }
 
+        opacity: 0;
+    }
 
     .nav-index .nav-links a::after {
         padding:
@@ -1474,14 +1297,8 @@
         display: flex;
 
         align-items: center;
-
         justify-content: flex-start;
     }
-
-
-    /* -----------------------------------------------------
-       CONTACT
-    ----------------------------------------------------- */
 
     .contact-button {
         display: flex;
@@ -1499,7 +1316,6 @@
         box-sizing: border-box;
 
         align-items: center;
-
         justify-content: flex-start;
 
         font-size:
@@ -1525,6 +1341,13 @@
             );
     }
 
+    .contact-button::before {
+        transform:
+            translateY(100%)
+            skewX(-8deg);
+
+        opacity: 0;
+    }
 
     .contact-button::after {
         padding:
@@ -1532,14 +1355,8 @@
             1rem;
 
         align-items: center;
-
         justify-content: flex-start;
     }
-
-
-    /* -----------------------------------------------------
-       HAMBURGER → X
-    ----------------------------------------------------- */
 
     .topbar.menu-open .nav-toggle span:nth-child(1) {
         transform:
@@ -1547,11 +1364,9 @@
             rotate(45deg);
     }
 
-
     .topbar.menu-open .nav-toggle span:nth-child(2) {
         opacity: 0;
     }
-
 
     .topbar.menu-open .nav-toggle span:nth-child(3) {
         transform:
@@ -1559,7 +1374,6 @@
             rotate(-45deg);
     }
 }
-
 
 /* =========================================================
    VERY SMALL PHONES
@@ -1573,7 +1387,6 @@
             0.75rem;
     }
 
-
     .main-logo {
         width: 3.25rem;
         height: 3.25rem;
@@ -1583,7 +1396,6 @@
             0
             3.25rem;
     }
-
 
     .nav-toggle {
         width: 40px;
@@ -1595,18 +1407,15 @@
             40px;
     }
 
-
     .nav-index {
         left: 0.75rem;
         right: 0.75rem;
     }
 
-
     .nav-index .nav-links a,
     .contact-button {
         min-height: 3rem;
     }
-
 
     .nav-index .nav-links a,
     .contact-button {
@@ -1615,7 +1424,6 @@
         letter-spacing: 0.13em;
     }
 }
-
 
 /* =========================================================
    TOUCH DEVICES
@@ -1627,13 +1435,13 @@
         color: var(--text-main);
     }
 
-
     .nav-index .nav-links a:hover::before {
         transform:
             translateY(100%)
             skewX(-8deg);
-    }
 
+        opacity: 0;
+    }
 
     .nav-index .nav-links a:hover::after {
         animation:
@@ -1645,7 +1453,6 @@
         opacity: 0;
     }
 
-
     .nav-index .nav-links a:hover span {
         animation:
             nav-glitch-magenta
@@ -1656,18 +1463,17 @@
         color: var(--text-main);
     }
 
-
     .contact-button:hover {
         color: var(--text-main);
     }
-
 
     .contact-button:hover::before {
         transform:
             translateY(100%)
             skewX(-8deg);
-    }
 
+        opacity: 0;
+    }
 
     .contact-button:hover::after {
         animation:
@@ -1679,7 +1485,6 @@
         opacity: 0;
     }
 
-
     .contact-button:hover span {
         animation:
             nav-glitch-magenta
@@ -1690,7 +1495,6 @@
         color: var(--text-main);
     }
 }
-
 
 /* =========================================================
    REDUCED MOTION
@@ -1707,7 +1511,6 @@
             translateX(0);
     }
 
-
     .nav-index .nav-links a::after,
     .nav-index .nav-links a span,
     .contact-button::after,
@@ -1715,22 +1518,25 @@
         animation: none;
     }
 
-
     .nav-index .nav-links a::before,
     .contact-button::before {
         transition: none;
+
+        opacity: 0;
     }
 
+    .nav-index .nav-links a:hover::before,
+    .contact-button:hover::before {
+        opacity: 1;
+    }
 
     .main-logo-gif {
         transition: none;
     }
 
-
     .nav-toggle span {
         transition: none;
     }
-
 
     .nav-index {
         transition: none;

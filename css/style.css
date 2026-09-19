@@ -1,4 +1,3 @@
-
 :root {
     --bg-main: #000000;
     --text-main: #FFFFFF;
@@ -19,7 +18,7 @@
 
 /* =========================================================
    RESET
-========================================================= */
+   ========================================================= */
 
 *,
 *::before,
@@ -29,6 +28,10 @@
     box-sizing: border-box;
 }
 
+
+/* =========================================================
+   HTML
+   ========================================================= */
 
 html {
     width: 100%;
@@ -45,6 +48,10 @@ html {
     scrollbar-width: thin;
 }
 
+
+/* =========================================================
+   BODY
+   ========================================================= */
 
 body {
     width: 100%;
@@ -78,7 +85,7 @@ body {
 
 /* =========================================================
    TYPOGRAPHY
-========================================================= */
+   ========================================================= */
 
 h1,
 h2,
@@ -86,7 +93,7 @@ h3,
 h4,
 h5,
 h6,
-.syne {
+.sy​ne {
     font-family: var(--font-body);
     font-weight: 800;
 
@@ -120,7 +127,7 @@ select {
 
 /* =========================================================
    MEDIA
-========================================================= */
+   ========================================================= */
 
 img,
 picture,
@@ -139,7 +146,7 @@ img {
 
 /* =========================================================
    GLOBAL LAYOUT
-========================================================= */
+   ========================================================= */
 
 .container {
     width: var(--container-width);
@@ -161,22 +168,18 @@ section {
 
 /* =========================================================
    GLOBAL SECTION REVEAL
-========================================================= */
+   ========================================================= */
 
 .reveal-section {
     --reveal-x: 0rem;
-    --reveal-y: 8rem;
+    --reveal-y: 12rem;
 
-    --reveal-scale: .90;
+    --reveal-scale: .88;
 
     --reveal-rotate: 0deg;
 
-    --reveal-brightness: .20;
-
-    --reveal-blur: 8px;
-
-    --reveal-clip-top: 5%;
-    --reveal-clip-bottom: 20%;
+    --reveal-clip-top: 14%;
+    --reveal-clip-bottom: 14%;
 
     position: relative;
 
@@ -189,12 +192,13 @@ section {
 
 /* =========================================================
    SCROLL-DRIVEN REVEAL
-========================================================= */
+   ========================================================= */
 
 @supports (animation-timeline: view()) {
 
     .reveal-section {
         animation-name: section-reveal;
+
         animation-duration: 1ms;
         animation-timing-function: linear;
         animation-fill-mode: both;
@@ -203,18 +207,17 @@ section {
 
         animation-range:
             entry 30%
-            cover 40%;
+            cover 45%;
 
         will-change:
-            opacity,
             transform,
-            clip-path,
-            filter;
+            clip-path;
     }
 
 
     .reveal-section::before {
         animation-name: section-scan;
+
         animation-duration: 1ms;
         animation-timing-function: linear;
         animation-fill-mode: both;
@@ -222,24 +225,21 @@ section {
         animation-timeline: view();
 
         animation-range:
-            entry 0%
-            cover 40%;
+            entry 30%
+            cover 45%;
     }
 }
 
 
 /* =========================================================
-   FALLBACK FOR BROWSERS WITHOUT SCROLL TIMELINE
-========================================================= */
+   FALLBACK
+   ========================================================= */
 
 @supports not (animation-timeline: view()) {
 
     .reveal-section {
-        opacity: 1;
-
         transform: none;
         clip-path: none;
-        filter: none;
 
         will-change: auto;
     }
@@ -253,13 +253,11 @@ section {
 
 /* =========================================================
    SECTION REVEAL KEYFRAMES
-========================================================= */
+   ========================================================= */
 
 @keyframes section-reveal {
 
     0% {
-        opacity: 0;
-
         transform:
             translate3d(
                 var(--reveal-x),
@@ -276,198 +274,167 @@ section {
                 var(--reveal-clip-bottom)
                 0
             );
-
-        filter:
-            brightness(var(--reveal-brightness))
-            blur(var(--reveal-blur));
     }
 
 
-    15% {
-        opacity: .20;
-
+    18% {
         transform:
             translate3d(
-                calc(var(--reveal-x) * .78),
-                calc(var(--reveal-y) * .78),
+                calc(var(--reveal-x) * .72),
+                calc(var(--reveal-y) * .72),
                 0
             )
-            scale(.92)
+            scale(.91)
             rotate(
-                calc(var(--reveal-rotate) * .78)
+                calc(var(--reveal-rotate) * .72)
             );
 
         clip-path:
-            inset(4% 0 16% 0);
-
-        filter:
-            brightness(.34)
-            blur(5px);
+            inset(
+                8%
+                0
+                8%
+                0
+            );
     }
 
 
-    35% {
-        opacity: .50;
-
+    38% {
         transform:
             translate3d(
-                calc(var(--reveal-x) * .42),
-                calc(var(--reveal-y) * .42),
+                calc(var(--reveal-x) * .38),
+                calc(var(--reveal-y) * .38),
                 0
             )
-            scale(.955)
+            scale(.965)
             rotate(
-                calc(var(--reveal-rotate) * .42)
+                calc(var(--reveal-rotate) * .38)
             );
 
         clip-path:
-            inset(2% 0 8% 0);
-
-        filter:
-            brightness(.58)
-            blur(2.5px);
+            inset(
+                3%
+                0
+                3%
+                0
+            );
     }
 
 
-    60% {
-        opacity: .78;
-
+    58% {
         transform:
             translate3d(
-                calc(var(--reveal-x) * .16),
-                calc(var(--reveal-y) * .16),
+                calc(var(--reveal-x) * .12),
+                calc(var(--reveal-y) * .12),
                 0
             )
-            scale(.985)
+            scale(1.015)
             rotate(
-                calc(var(--reveal-rotate) * .16)
+                calc(var(--reveal-rotate) * .12)
             );
 
         clip-path:
-            inset(.75% 0 3% 0);
-
-        filter:
-            brightness(.82)
-            blur(1px);
+            inset(
+                .8%
+                0
+                .8%
+                0
+            );
     }
 
 
-    80% {
-        opacity: .94;
-
+    72% {
         transform:
             translate3d(
-                calc(var(--reveal-x) * .04),
-                calc(var(--reveal-y) * .04),
+                calc(var(--reveal-x) * .035),
+                calc(var(--reveal-y) * .035),
                 0
             )
-            scale(.998)
+            scale(.995)
             rotate(
-                calc(var(--reveal-rotate) * .04)
+                calc(var(--reveal-rotate) * .035)
             );
 
         clip-path:
-            inset(.15% 0 .5% 0);
-
-        filter:
-            brightness(.97)
-            blur(0);
+            inset(
+                .2%
+                0
+                .2%
+                0
+            );
     }
 
 
     100% {
-        opacity: 1;
-
         transform:
             translate3d(0, 0, 0)
             scale(1)
             rotate(0deg);
 
-        clip-path:
-            inset(0);
-
-        filter:
-            brightness(1)
-            blur(0);
+        clip-path: inset(0);
     }
 }
 
 
 /* =========================================================
    SECTION REVEAL VARIANTS
-========================================================= */
+   ========================================================= */
 
 .reveal-section--up {
     --reveal-x: 0rem;
-    --reveal-y: 10rem;
+    --reveal-y: 14rem;
 
-    --reveal-scale: .90;
+    --reveal-scale: .86;
 
     --reveal-rotate: 0deg;
 
-    --reveal-brightness: .20;
-
-    --reveal-blur: 8px;
-
-    --reveal-clip-top: 5%;
-    --reveal-clip-bottom: 20%;
+    --reveal-clip-top: 16%;
+    --reveal-clip-bottom: 12%;
 }
 
 
 .reveal-section--left {
-    --reveal-x: -10rem;
-    --reveal-y: 6rem;
+    --reveal-x: -14rem;
+    --reveal-y: 5rem;
 
-    --reveal-scale: .90;
+    --reveal-scale: .88;
 
     --reveal-rotate: -2deg;
 
-    --reveal-brightness: .20;
-
-    --reveal-blur: 8px;
-
-    --reveal-clip-top: 5%;
-    --reveal-clip-bottom: 20%;
+    --reveal-clip-top: 12%;
+    --reveal-clip-bottom: 12%;
 }
 
 
 .reveal-section--right {
-    --reveal-x: 10rem;
-    --reveal-y: 6rem;
+    --reveal-x: 14rem;
+    --reveal-y: 5rem;
 
-    --reveal-scale: .90;
+    --reveal-scale: .88;
 
     --reveal-rotate: 2deg;
 
-    --reveal-brightness: .20;
-
-    --reveal-blur: 8px;
-
-    --reveal-clip-top: 5%;
-    --reveal-clip-bottom: 20%;
+    --reveal-clip-top: 12%;
+    --reveal-clip-bottom: 12%;
 }
 
 
 .reveal-section--cyber {
     --reveal-x: 0rem;
-    --reveal-y: 10rem;
+    --reveal-y: 16rem;
 
-    --reveal-scale: .86;
+    --reveal-scale: .82;
 
-    --reveal-rotate: 1deg;
+    --reveal-rotate: 1.5deg;
 
-    --reveal-brightness: .12;
-
-    --reveal-blur: 10px;
-
-    --reveal-clip-top: 8%;
-    --reveal-clip-bottom: 24%;
+    --reveal-clip-top: 18%;
+    --reveal-clip-bottom: 18%;
 }
 
 
 /* =========================================================
    SECTION SCAN
-========================================================= */
+   ========================================================= */
 
 .reveal-section::before {
     content: "";
@@ -507,35 +474,35 @@ section {
     }
 
 
-    10% {
+    8% {
         opacity: 1;
 
         transform:
-            scaleX(.18)
+            scaleX(.12)
             translateZ(0);
     }
 
 
-    25% {
+    22% {
         opacity: 1;
 
         transform:
-            scaleX(.42)
+            scaleX(.38)
             translateZ(0);
     }
 
 
-    45% {
-        opacity: .65;
+    42% {
+        opacity: .8;
 
         transform:
-            scaleX(.78)
+            scaleX(.72)
             translateZ(0);
     }
 
 
-    65% {
-        opacity: .20;
+    62% {
+        opacity: .35;
 
         transform:
             scaleX(1)
@@ -555,7 +522,7 @@ section {
 
 /* =========================================================
    CONTACT SELECTION
-========================================================= */
+   ========================================================= */
 
 #contact,
 #contact * {
@@ -567,7 +534,7 @@ section {
 
 /* =========================================================
    SELECTION
-========================================================= */
+   ========================================================= */
 
 ::selection {
     background: var(--accent);
@@ -577,7 +544,7 @@ section {
 
 /* =========================================================
    FOCUS
-========================================================= */
+   ========================================================= */
 
 :focus-visible {
     outline: 2px solid var(--accent);
@@ -587,7 +554,7 @@ section {
 
 /* =========================================================
    SCROLLBAR
-========================================================= */
+   ========================================================= */
 
 ::-webkit-scrollbar {
     width: 8px;
@@ -611,7 +578,7 @@ section {
 
 /* =========================================================
    UTILITY
-========================================================= */
+   ========================================================= */
 
 .no-scroll {
     overflow: hidden;
@@ -620,7 +587,7 @@ section {
 
 /* =========================================================
    REDUCED MOTION
-========================================================= */
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -642,11 +609,8 @@ section {
     .reveal-section {
         animation: none !important;
 
-        opacity: 1;
-
         transform: none;
         clip-path: none;
-        filter: none;
 
         will-change: auto;
     }
@@ -654,5 +618,129 @@ section {
 
     .reveal-section::before {
         display: none;
+    }
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1024px) {
+
+    .reveal-section {
+        --reveal-y: 10rem;
+    }
+
+
+    .reveal-section--left {
+        --reveal-x: -10rem;
+        --reveal-y: 4rem;
+    }
+
+
+    .reveal-section--right {
+        --reveal-x: 10rem;
+        --reveal-y: 4rem;
+    }
+
+
+    .reveal-section--cyber {
+        --reveal-y: 12rem;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .reveal-section {
+        --reveal-y: 8rem;
+        --reveal-scale: .92;
+    }
+
+
+    .reveal-section--left {
+        --reveal-x: -6rem;
+        --reveal-y: 3rem;
+        --reveal-scale: .92;
+    }
+
+
+    .reveal-section--right {
+        --reveal-x: 6rem;
+        --reveal-y: 3rem;
+        --reveal-scale: .92;
+    }
+
+
+    .reveal-section--cyber {
+        --reveal-y: 9rem;
+        --reveal-scale: .88;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 425px) {
+
+    .reveal-section {
+        --reveal-y: 6rem;
+        --reveal-scale: .94;
+    }
+
+
+    .reveal-section--left {
+        --reveal-x: -4rem;
+        --reveal-y: 2rem;
+    }
+
+
+    .reveal-section--right {
+        --reveal-x: 4rem;
+        --reveal-y: 2rem;
+    }
+
+
+    .reveal-section--cyber {
+        --reveal-y: 7rem;
+        --reveal-scale: .90;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 320px) {
+
+    .reveal-section {
+        --reveal-y: 5rem;
+        --reveal-scale: .95;
+    }
+
+
+    .reveal-section--left {
+        --reveal-x: -3rem;
+        --reveal-y: 1.5rem;
+    }
+
+
+    .reveal-section--right {
+        --reveal-x: 3rem;
+        --reveal-y: 1.5rem;
+    }
+
+
+    .reveal-section--cyber {
+        --reveal-y: 6rem;
+        --reveal-scale: .92;
     }
 }

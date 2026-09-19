@@ -1,4 +1,3 @@
-
 .ad-break {
     position: relative;
 
@@ -20,6 +19,8 @@
     -ms-user-select: none;
 
     overflow: hidden;
+
+    pointer-events: none;
 }
 
 
@@ -115,6 +116,7 @@
 
 .ad-break__track {
     position: relative;
+
     z-index: 1;
 
     display: flex;
@@ -124,13 +126,21 @@
 
     white-space: nowrap;
 
-    animation: ad-break-marquee 32s linear infinite;
+    animation:
+        ad-break-marquee
+        32s
+        linear
+        infinite;
 
     will-change: transform;
+
+    pointer-events: none;
 }
 
 
 .ad-break__item {
+    position: relative;
+
     display: inline-flex;
     align-items: center;
 
@@ -138,7 +148,11 @@
 
     flex-shrink: 0;
 
-    padding: 0.2rem 1.25rem 0.2rem 0.55rem;
+    padding:
+        0.2rem
+        1.25rem
+        0.2rem
+        0.55rem;
 
     font-family: var(--font-display);
 
@@ -166,6 +180,8 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.025);
 
     isolation: isolate;
+
+    pointer-events: none;
 }
 
 
@@ -217,6 +233,7 @@
 
     -webkit-user-drag: none;
     user-drag: none;
+
     pointer-events: none;
 }
 
@@ -232,6 +249,8 @@
 
     -webkit-font-smoothing: none;
     text-rendering: geometricPrecision;
+
+    pointer-events: none;
 }
 
 
@@ -247,18 +266,24 @@
 
     -webkit-font-smoothing: none;
     text-rendering: geometricPrecision;
+
+    pointer-events: none;
 }
 
 
 .ad-break__outline {
     color: transparent;
 
-    -webkit-text-stroke: 0.55px rgba(255, 255, 255, 0.65);
+    -webkit-text-stroke:
+        0.55px
+        rgba(255, 255, 255, 0.65);
 
     text-shadow:
         0 0 2px rgba(255, 255, 255, 0.1);
 
     -webkit-font-smoothing: none;
+
+    pointer-events: none;
 }
 
 
@@ -274,17 +299,21 @@
 
     box-shadow:
         0 0 4px rgba(255, 230, 1, 0.45);
+
+    pointer-events: none;
 }
 
 
 @keyframes ad-break-marquee {
 
     from {
-        transform: translate3d(0, 0, 0);
+        transform:
+            translate3d(0, 0, 0);
     }
 
     to {
-        transform: translate3d(-50%, 0, 0);
+        transform:
+            translate3d(-50%, 0, 0);
     }
 }
 
@@ -298,10 +327,12 @@
     z-index: 5;
 
     font-family: var(--font-body);
+
     font-size: 0.3rem;
     font-weight: 700;
 
     letter-spacing: 0.08em;
+
     text-transform: uppercase;
 
     color: rgba(255, 255, 255, 0.24);
@@ -324,9 +355,11 @@
     gap: 0.25rem;
 
     font-family: var(--font-body);
+
     font-size: 0.3rem;
 
     letter-spacing: 0.06em;
+
     text-transform: uppercase;
 
     color: rgba(255, 255, 255, 0.24);
@@ -350,7 +383,13 @@
     box-shadow:
         0 0 4px rgba(255, 230, 1, 0.55);
 
-    animation: ad-status-blink 1.8s ease-in-out infinite;
+    animation:
+        ad-status-blink
+        1.8s
+        ease-in-out
+        infinite;
+
+    pointer-events: none;
 }
 
 
@@ -367,17 +406,9 @@
 }
 
 
-.ad-break:hover .ad-break__track {
-    animation-duration: 20s;
-}
-
-
-.ad-break:hover .ad-break__frame::after {
-    box-shadow:
-        0 0 8px rgba(255, 230, 1, 0.75),
-        0 0 18px rgba(255, 230, 1, 0.2);
-}
-
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -391,6 +422,10 @@
 }
 
 
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
 @media (min-width: 1440px) {
 
     .ad-break {
@@ -400,7 +435,11 @@
     .ad-break__item {
         gap: 0.6rem;
 
-        padding: 0.22rem 1.4rem 0.22rem 0.6rem;
+        padding:
+            0.22rem
+            1.4rem
+            0.22rem
+            0.6rem;
 
         font-size: 0.76rem;
     }
@@ -417,6 +456,11 @@
 }
 
 
+/* =========================================================
+   DESKTOP
+   1024px - 1439px
+========================================================= */
+
 @media (min-width: 1024px) and (max-width: 1439px) {
 
     .ad-break {
@@ -426,7 +470,11 @@
     .ad-break__item {
         gap: 0.55rem;
 
-        padding: 0.2rem 1.25rem 0.2rem 0.55rem;
+        padding:
+            0.2rem
+            1.25rem
+            0.2rem
+            0.55rem;
 
         font-size: 0.72rem;
     }
@@ -443,6 +491,11 @@
 }
 
 
+/* =========================================================
+   TABLET
+   768px - 1023px
+========================================================= */
+
 @media (min-width: 768px) and (max-width: 1023px) {
 
     .ad-break {
@@ -452,7 +505,11 @@
     .ad-break__item {
         gap: 0.5rem;
 
-        padding: 0.18rem 1.1rem 0.18rem 0.5rem;
+        padding:
+            0.18rem
+            1.1rem
+            0.18rem
+            0.5rem;
 
         font-size: 0.68rem;
 
@@ -481,6 +538,11 @@
 }
 
 
+/* =========================================================
+   MOBILE
+   321px - 767px
+========================================================= */
+
 @media (min-width: 321px) and (max-width: 767px) {
 
     .ad-break {
@@ -490,7 +552,11 @@
     .ad-break__item {
         gap: 0.45rem;
 
-        padding: 0.15rem 0.9rem 0.15rem 0.45rem;
+        padding:
+            0.15rem
+            0.9rem
+            0.15rem
+            0.45rem;
 
         font-size: 0.62rem;
 
@@ -533,6 +599,11 @@
 }
 
 
+/* =========================================================
+   VERY SMALL PHONES
+   0px - 320px
+========================================================= */
+
 @media (max-width: 320px) {
 
     .ad-break {
@@ -542,7 +613,11 @@
     .ad-break__item {
         gap: 0.4rem;
 
-        padding: 0.13rem 0.75rem 0.13rem 0.4rem;
+        padding:
+            0.13rem
+            0.75rem
+            0.13rem
+            0.4rem;
 
         font-size: 0.57rem;
 
@@ -583,4 +658,3 @@
         height: 0.16rem;
     }
 }
-
