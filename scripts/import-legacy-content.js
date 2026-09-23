@@ -65,21 +65,27 @@ async function readToken() {
     return new Promise((resolve, reject) => {
         let value = "";
         const onData = (chunk) => {
-            const character = chunk.toString("utf8");
-            if (character === "\u0003") {
-                process.stdin.setRawMode(false);
-                process.stdin.pause();
-                reject(new Error("Cancelled."));
-            } else if (character === "\r" || character === "\n") {
-                process.stdin.off("data", onData);
-                process.stdin.setRawMode(false);
-                process.stdin.pause();
-                process.stdout.write("\n");
-                resolve(value.trim());
-            } else if (character === "\u007f") {
-                value = value.slice(0, -1);
-            } else {
-                value += character;
+            for (const character of chunk.toString("utf8")) {
+                if (character === "\u0003") {
+                    process.stdin.off("data", onData);
+                    process.stdin.setRawMode(false);
+                    process.stdin.pause();
+                    reject(new Error("Cancelled."));
+                    return;
+                }
+                if (character === "\r" || character === "\n") {
+                    process.stdin.off("data", onData);
+                    process.stdin.setRawMode(false);
+                    process.stdin.pause();
+                    process.stdout.write("\n");
+                    resolve(value.trim());
+                    return;
+                }
+                if (character === "\u007f") {
+                    value = value.slice(0, -1);
+                } else {
+                    value += character;
+                }
             }
         };
         process.stdin.on("data", onData);
