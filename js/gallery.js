@@ -454,6 +454,34 @@ function applyProjectCover(
 }
 
 
+function layoutGalleryTrack(track) {
+
+    if (!track) return;
+
+    const styles = window.getComputedStyle(track);
+    const rowSize = parseFloat(styles.gridAutoRows) || 4;
+    const rowGap = parseFloat(styles.rowGap) || 0;
+
+    track.querySelectorAll(".gallery-item").forEach((figure) => {
+
+        const image = figure.querySelector(".gallery-image");
+
+        if (!image?.naturalWidth || !image?.naturalHeight) return;
+
+        const renderedWidth = figure.getBoundingClientRect().width;
+
+        if (!renderedWidth) return;
+
+        const imageHeight = renderedWidth * image.naturalHeight / image.naturalWidth;
+        const rowSpan = Math.ceil((imageHeight + rowGap) / (rowSize + rowGap));
+
+        figure.style.gridRowEnd = `span ${rowSpan}`;
+
+    });
+
+}
+
+
 function createGalleryItem(
     project,
     category,
@@ -523,6 +551,13 @@ function createGalleryItem(
 
     image.decoding =
         "async";
+
+
+    image.addEventListener(
+        "load",
+        () => layoutGalleryTrack(figure.closest(".gallery-category-track")),
+        { once: true }
+    );
 
 
     const index =
@@ -1216,6 +1251,36 @@ function renderGallery(
     gallery.append(
         content
     );
+
+
+    const layoutTracks = () => {
+
+        content.querySelectorAll(".gallery-category-track").forEach(layoutGalleryTrack);
+
+    };
+
+
+    requestAnimationFrame(layoutTracks);
+
+
+    if (!window.galleryLayoutResizeHandler) {
+
+        let resizeFrame = 0;
+
+        window.galleryLayoutResizeHandler = () => {
+
+            cancelAnimationFrame(resizeFrame);
+            resizeFrame = requestAnimationFrame(() => {
+
+                document.querySelectorAll(".gallery-category-track").forEach(layoutGalleryTrack);
+
+            });
+
+        };
+
+        window.addEventListener("resize", window.galleryLayoutResizeHandler, { passive: true });
+
+    }
 
 
     const projectCount =

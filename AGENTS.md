@@ -27,6 +27,8 @@ Maintain this creative portfolio without changing its visual direction or breaki
 - Never commit the `ADMIN_TOKEN` or delete legacy content without explicit approval.
 - Do not create a separate HTML page for each project; use the existing shared gallery page.
 - Prefer small, local CSS and JavaScript edits. Do not introduce a framework or dependency for a small interaction.
+- Keep the admin visual style restrained and aligned: white background, black text, the portfolio wordmark on the left, and only a “View portfolio” link on the right of its header. Use normal sans-serif body text, a modestly larger page heading, thin square black borders, generous whitespace, and consistent content alignment. Avoid oversized type, gradients, heavy decoration, rounded cards, and strong shadows.
+- Keep admin forms, project list, and gallery thumbnails aligned to the same content grid. Use the black button treatment sparingly and retain clear focus states, readable labels, and responsive stacking on small screens.
 - Keep animations transform/opacity based when possible. Avoid scroll-linked `filter`, large `clip-path` animation, or layout-changing animation.
 - Respect `prefers-reduced-motion` whenever adding motion.
 - Keep content legible at 320px, 768px, 1024px, and 1440px.

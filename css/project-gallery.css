@@ -1074,6 +1074,8 @@
 
     display: grid;
 
+    grid-auto-rows: 4px;
+
     grid-template-columns:
         repeat(
             5,
@@ -1113,6 +1115,8 @@
     -webkit-column-break-inside: avoid;
 
     page-break-inside: avoid;
+
+    align-self: start;
 
     animation:
         gallery-image-reveal

@@ -24,13 +24,13 @@
 </head>
 
 <script>
-    window.addEventListener("load", () => {
+    window.addEventListener("DOMContentLoaded", () => {
 
         const intro = document.getElementById("intro");
 
         if (!intro) return;
 
-        const INTRO_DURATION = 1000;
+        const INTRO_DURATION = 700;
 
         setTimeout(() => {
             intro.classList.add("intro-hidden");
