@@ -761,6 +761,11 @@ async function initializeProjectAsync(
                 project =
                     await response.json();
 
+            } else if (response.headers.get("content-type")?.includes("application/json")) {
+
+                /* A deployed API 404 means this project is not published. */
+                project = null;
+
             }
 
         } catch (error) {

@@ -9,6 +9,8 @@ const workProjectCount =
         ".work-project-count"
     );
 
+let workCounterObserver = null;
+
 
 function getWorkCards() {
 
@@ -52,17 +54,19 @@ function updateWorkProjectCount(
 
 
     workProjectCount.textContent =
-        String(
+        `${String(
             index
         ).padStart(
             2,
             "0"
-        );
+        )} / ${String(cards.length).padStart(2, "0")}`;
 
 }
 
 
 function initializeWorkCounter() {
+
+    workCounterObserver?.disconnect();
 
     if (
         !workScroll ||
@@ -128,6 +132,8 @@ function initializeWorkCounter() {
             }
 
         );
+
+    workCounterObserver = observer;
 
 
     cards.forEach(
@@ -278,3 +284,5 @@ if (
     initializeWork();
 
 }
+
+document.addEventListener("portfolio:work-updated", initializeWorkCounter);

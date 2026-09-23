@@ -2,7 +2,7 @@
 
 ## Local workflow
 
-Run `npm run dev` to serve the static files locally. Run `npm run check` after JavaScript or gallery changes. `npm run gallery` scans every project folder and updates manifests.
+Run `npm run dev` to serve the static fallback locally. Run `npm run cf:dev` to exercise the Worker with configured local D1/R2 bindings. Run `npm run check` after JavaScript or gallery changes. `npm run content:plan` validates import inputs without uploading anything.
 
 ## Code navigation
 
@@ -15,16 +15,20 @@ css/style.css              shared reset, tokens, scroll and accessibility
 css/<section>.css          visual styles per homepage section
 js/hero.js                 hero brush/cursor/glitch lifecycle
 js/about.js                identity-photo interaction lifecycle
-js/work.js                 work-card interaction and filtering
-js/project.js              project metadata and page setup
-js/gallery.js              manifest loading, gallery and image viewer
+js/work.js                 work scrolling and counter
+js/work-data.js            live homepage cards from the API
+js/project.js              project page setup and legacy fallback
+js/gallery.js              API/manifest gallery and image viewer
+src/worker.mjs             D1/R2 API and media delivery
+admin/                     protected content editor
 scripts/generate-gallery-manifests.js  generated gallery data
+scripts/import-legacy-content.js       resumable D1/R2 import
 ```
 
 ## Folder conventions
 
 - `asset/` means shared interface or branding media. Do not mix project archives into it.
-- `assets/projects/<slug>/` means media owned by one gallery project.
+- `assets/projects/<slug>/` is preserved legacy gallery content and import input; new live uploads go to R2.
 - `css/` and `js/` are organised by page area, not by component framework.
 - `docs/` explains workflows; it is not served as portfolio content.
 

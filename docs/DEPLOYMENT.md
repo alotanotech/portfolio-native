@@ -1,4 +1,14 @@
-# Deployment and future content system
+# Deployment and content system
+
+## Current live setup
+
+The live portfolio is the Cloudflare Worker `lyanluportfolio` on `lyanluna.com`. GitHub `main` deploys it automatically. The Worker has D1 `portfolio-db` bound as `DB`, R2 `portfolio-media` bound as `MEDIA`, and an `ADMIN_TOKEN` secret. Cloudflare Access protects `/admin/`; the admin API also checks the bearer token. `wrangler.jsonc` must keep the same Worker name and bindings.
+
+For code changes, run `npm run check`, commit the intended files, and push to `main`. Verify Cloudflare reports a successful deployment. For the legacy content move, run `npm run content:plan`, then `npm run content:import` in an interactive terminal after the new Worker code is live. Do not place the token in source or shell command history. Verify `/api/projects`, a sample `/api/projects/<slug>`, media URLs, homepage and gallery after import. Keep original files until verified.
+
+R2 has a free allowance but requires billing details; the configured $2 billing alert is a notification, not a hard cap. Review current [R2 pricing](https://developers.cloudflare.com/r2/pricing/) and [Workers pricing](https://developers.cloudflare.com/workers/platform/pricing/) if usage grows. Export D1 metadata before destructive changes.
+
+## Historical hosting research (not the current deployment)
 
 ## Vercel: personal, non-commercial deployment
 
