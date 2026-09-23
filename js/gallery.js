@@ -513,6 +513,7 @@ function createGalleryItem(
 
 
     image.alt =
+        (typeof imagePath === "object" && imagePath?.alt) ||
         `${project.name} ${category.label.toLowerCase()} ${imageIndex + 1}`;
 
 

@@ -17,11 +17,11 @@ function cleanSlug(value) {
 
 function projectPayload(project, images = []) {
     const categories = Object.fromEntries(CATEGORIES.map((category) => [category, []]));
-    const coverImage = images.find((image) => image.category === "cover");
+    const coverImage = images.filter((image) => image.category === "cover").at(-1);
     const firstImage = images.find((image) => CATEGORIES.includes(image.category));
     const coverKey = coverImage?.object_key || project.cover_key || firstImage?.object_key;
     images.forEach((image) => {
-        if (categories[image.category]) categories[image.category].push(`/media/${image.object_key}`);
+        if (categories[image.category]) categories[image.category].push({ src: `/media/${image.object_key}`, alt: image.alt_text || "" });
     });
 
     return {
@@ -81,7 +81,8 @@ async function publicApi(request, env, pathname) {
 
     if (pathname === "/api/projects") {
         const { results } = await env.DB.prepare(`SELECT p.project_index, p.slug, p.name, p.full_name, p.client, p.year, p.type, p.status, p.kind, p.category, p.description,
-            (SELECT object_key FROM project_images WHERE project_id = p.id ORDER BY CASE WHEN category = 'cover' THEN 0 ELSE 1 END, sort_order, id LIMIT 1) AS cover_key
+            (SELECT object_key FROM project_images WHERE project_id = p.id ORDER BY CASE WHEN category = 'cover' THEN 0 ELSE 1 END,
+                CASE WHEN category = 'cover' THEN -sort_order ELSE sort_order END, id DESC LIMIT 1) AS cover_key
             FROM projects p WHERE p.published = 1 ORDER BY p.project_index, p.id`).all();
         return json(results.map((project) => projectPayload(project)));
     }
@@ -126,6 +127,45 @@ async function adminApi(request, env, pathname) {
         await Promise.all(record.images.map((image) => env.MEDIA.delete(image.object_key)));
         await env.DB.prepare("DELETE FROM projects WHERE id = ?").bind(record.project.id).run();
         return json({ deleted: true });
+    }
+
+    const imagesMatch = pathname.match(/^\/api\/admin\/projects\/([^/]+)\/images$/);
+    if (imagesMatch && request.method === "GET") {
+        const record = await getProject(env, decodeURIComponent(imagesMatch[1]), true);
+        if (!record) return error("Project not found.", 404);
+        return json(record.images.map((image) => ({
+            id: image.id,
+            category: image.category,
+            alt: image.alt_text,
+            order: image.sort_order,
+            url: `/media/${image.object_key}`
+        })));
+    }
+
+    const orderMatch = pathname.match(/^\/api\/admin\/projects\/([^/]+)\/images\/order$/);
+    if (orderMatch && request.method === "PUT") {
+        const slug = decodeURIComponent(orderMatch[1]);
+        const project = await env.DB.prepare("SELECT id FROM projects WHERE slug = ?").bind(slug).first();
+        if (!project) return error("Project not found.", 404);
+        let body;
+        try { body = await request.json(); } catch { return error("Invalid JSON body."); }
+        const category = String(body.category || "");
+        const ids = body.ids;
+        if (![...CATEGORIES, "cover"].includes(category) || !Array.isArray(ids) ||
+            !ids.every((id) => Number.isSafeInteger(id) && id > 0) || new Set(ids).size !== ids.length) {
+            return error("Provide one category and its ordered image IDs.");
+        }
+        const { results } = await env.DB.prepare("SELECT id FROM project_images WHERE project_id = ? AND category = ? ORDER BY sort_order, id").bind(project.id, category).all();
+        if (results.length !== ids.length || results.some((image) => !ids.includes(image.id))) {
+            return error("Image list changed. Refresh before reordering.", 409);
+        }
+        if (!ids.length) return json({ updated: true });
+        const cases = ids.map(() => "WHEN ? THEN ?").join(" ");
+        const placeholders = ids.map(() => "?").join(", ");
+        const bindings = ids.flatMap((id, index) => [id, index + 1]);
+        await env.DB.prepare(`UPDATE project_images SET sort_order = CASE id ${cases} END WHERE project_id = ? AND category = ? AND id IN (${placeholders})`)
+            .bind(...bindings, project.id, category, ...ids).run();
+        return json({ updated: true });
     }
 
     const uploadMatch = pathname.match(/^\/api\/admin\/projects\/([^/]+)\/images$/);

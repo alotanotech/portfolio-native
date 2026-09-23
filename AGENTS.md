@@ -11,7 +11,7 @@ Maintain this creative portfolio without changing its visual direction or breaki
 - `js/work-data.js` loads published homepage cards from `/api/projects`; `js/work.js` owns scrolling and the counter.
 - `js/project.js` loads published project data from the API, with local legacy fallback. `js/gallery.js` renders R2 image URLs or legacy manifests.
 - `src/worker.mjs` provides the deployed Cloudflare CRUD API, D1 data access, and R2 image delivery.
-- `admin/` is a protected upload/create/delete interface. It authenticates with the `ADMIN_TOKEN` Cloudflare secret.
+- `admin/` is the protected project editor and category-specific image ordering UI. It authenticates with the `ADMIN_TOKEN` Cloudflare secret.
 - D1/R2 are the live content source. `asset/` contains shared site media; `assets/projects/` and the metadata in `js/project.js` are retained legacy import/fallback inputs.
 
 ## Safe content workflow

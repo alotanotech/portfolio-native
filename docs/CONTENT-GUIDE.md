@@ -2,7 +2,9 @@
 
 ## Live D1/R2 workflow (current)
 
-Open `/admin/` after Cloudflare Access login, enter the separate admin token, create a draft project, and upload a **cover** plus its gallery images. Choose `social-post`, `story`, `square`, `landscape`, or `other` for gallery items. The cover is not shown as a gallery item. Upload gallery files in display order; image reordering and individual image management are planned for a later admin pass. Save the project as published only when ready. Published projects with an image appear on the homepage automatically. Unpublish to hide one without deleting it.
+Open `/admin/` after Cloudflare Access login, enter the separate admin token, and choose an existing project or create a draft. Upload a **cover** plus gallery images under `social-post`, `story`, `square`, `landscape`, or `other`. The cover is not shown as a gallery item; the newest uploaded cover is active. Use the ↑/↓ controls to change image order within a category. Save the project as published only when ready. Published projects with an image appear on the homepage automatically. Unpublish to hide one without deleting it.
+
+The media panel can also remove an individual image after confirmation. This deletes its R2 file permanently, so keep your source export elsewhere. Deleting a project also deletes every image attached to it. Reordering does not delete or duplicate image files.
 
 Images must be 10 MB or smaller. Export optimized WebP where possible; GIF is supported. D1 stores metadata and ordering; R2 stores image bytes. New live content does **not** require a Git commit or a new folder.
 

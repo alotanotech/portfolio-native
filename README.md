@@ -31,7 +31,7 @@ This checks JavaScript syntax and regenerates every project gallery manifest.
 | Live project names, dates, descriptions, and order | `/admin/` (Cloudflare D1) |
 | Gallery rendering and image viewer | `js/gallery.js` + `css/project-gallery.css` |
 | Cloudflare API, database, and image delivery | `src/worker.mjs` + `migrations/0001_init.sql` |
-| Private browser-based project uploads | `admin/` (available at `/admin` after Cloudflare deployment) |
+| Private project editing, uploads, and gallery ordering | `admin/` (available at `/admin/` after Cloudflare deployment) |
 | Reusable project-page shell | `pages/project.html` |
 | Shared site images and logos | `asset/` |
 | Live project images | `/admin/` (Cloudflare R2) |
