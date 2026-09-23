@@ -1,11 +1,15 @@
 {
   "name": "native",
   "version": "1.0.0",
-  "description": "",
+  "description": "Static portfolio site and project gallery for Lyanlu.",
   "main": "index.js",
   "scripts": {
-    "gallery": "node scripts/generate-gallery-manifests.js"
-},
+    "gallery": "node scripts/generate-gallery-manifests.js",
+    "dev": "npx --yes serve .",
+    "check": "node --check js/hero.js && node --check js/nav.js && node --check js/about.js && node --check js/work.js && node --check js/project.js && node --check js/gallery.js && node --check scripts/generate-gallery-manifests.js && node --check src/worker.mjs && npm run gallery",
+    "cf:dev": "npx --yes wrangler dev",
+    "cf:deploy": "npx --yes wrangler deploy"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alotanotech/portfolio-native.git"

@@ -1,0 +1,11 @@
+:root { color-scheme: dark; font-family: ui-monospace, Consolas, monospace; background: #050505; color: #fff; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+.admin-shell { width: min(100% - 2rem, 70rem); margin: 0 auto; padding: 3rem 0 6rem; }
+header { border-bottom: 1px solid #ffe601; margin-bottom: 1.5rem; padding-bottom: 1.5rem; }
+a { color: #ffe601; } h1 { font-size: clamp(2.5rem, 8vw, 5rem); margin: .5rem 0 0; } h2 { margin-top: 0; }
+.admin-card { border: 1px solid #333; padding: 1.25rem; margin: 1rem 0; background: #0d0d0d; }
+form { display: grid; gap: 1rem; grid-template-columns: repeat(2, minmax(0, 1fr)); } label { display: grid; gap: .4rem; font-size: .8rem; } .wide { grid-column: 1 / -1; }
+input, textarea, select, button { min-height: 2.75rem; border: 1px solid #555; background: #111; color: #fff; padding: .65rem; font: inherit; } button { cursor: pointer; background: #ffe601; color: #000; border: 0; font-weight: 700; width: fit-content; } .checkbox { display: flex; align-items: center; } .checkbox input { min-height: auto; }
+#status { color: #ffe601; min-height: 1.2rem; } .project-row { display: flex; justify-content: space-between; gap: 1rem; border-top: 1px solid #333; padding: .85rem 0; } .project-row button { background: transparent; color: #ff7777; border: 1px solid #ff7777; }
+@media (max-width: 600px) { form { grid-template-columns: 1fr; } .wide { grid-column: auto; } }

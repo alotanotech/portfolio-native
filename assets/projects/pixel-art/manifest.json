@@ -1,10 +1,11 @@
 {
-  "categories": {
+    "social-post": [],
+    "story": [],
+    "square": [],
+    "landscape": [],
     "other": [
-      "Chrislogo.webp",
-      "Lyan.gif",
-      "Minkyung.webp"
+        "Chrislogo.webp",
+        "Lyan.gif",
+        "Minkyung.webp"
     ]
-  },
-  "cover": "Chrislogo.webp"
 }

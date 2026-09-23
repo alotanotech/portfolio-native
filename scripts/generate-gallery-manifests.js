@@ -139,16 +139,22 @@ function generateProjectManifest(
 
 
             const files =
-                getImages(
-                    categoryPath
-                );
+                getImages(categoryPath);
 
 
             manifest[category] =
-                files.map(
-                    filename =>
-                        `${category}/${filename}`
-                );
+                category === "other"
+                    ? [
+                        ...getImages(projectPath),
+                        ...files.map(
+                            filename =>
+                                `${category}/${filename}`
+                        )
+                    ].sort(naturalSort)
+                    : files.map(
+                        filename =>
+                            `${category}/${filename}`
+                    );
 
         }
     );

@@ -726,7 +726,53 @@ function initializeProject() {
         getCurrentProject();
 
 
-    if (!data) {
+    return initializeProjectAsync(
+        slug,
+        data
+    );
+
+}
+
+
+async function initializeProjectAsync(
+    slug,
+    localProject
+) {
+
+    let project =
+        localProject;
+
+
+    if (slug) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/projects/${encodeURIComponent(slug)}`,
+                    {
+                        cache: "no-store"
+                    }
+                );
+
+
+            if (response.ok) {
+
+                project =
+                    await response.json();
+
+            }
+
+        } catch (error) {
+
+            /* Local static development intentionally uses project.js data. */
+
+        }
+
+    }
+
+
+    if (!project) {
 
         showProjectError(
 
@@ -745,11 +791,11 @@ function initializeProject() {
 
 
     applyProjectData(
-        data
+        project
     );
 
 
-    return data;
+    return project;
 
 }
 
@@ -775,4 +821,19 @@ window.getCurrentProject =
 
 
 window.currentProject =
-    initializeProject();
+    getCurrentProject().data;
+
+
+window.projectReady =
+    initializeProject()
+        .then(
+            project => {
+
+                window.currentProject =
+                    project;
+
+
+                return project;
+
+            }
+        );

@@ -86,6 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let ambientHoldTimeout = null;
     let ambientExitTimeout = null;
 
+    let pointerFrame = null;
+    let latestPointerEvent = null;
+
 
     /* =====================================================
        RANDOM TIME
@@ -104,16 +107,38 @@ document.addEventListener("DOMContentLoaded", () => {
        CUSTOM CURSOR
     ===================================================== */
 
-    if (cursor) {
+    function renderPointer() {
 
-        hero.addEventListener("mousemove", (event) => {
+        pointerFrame = null;
 
+        if (!latestPointerEvent) {
+            return;
+        }
+
+        const event = latestPointerEvent;
+
+        if (cursor) {
             cursor.style.left = `${event.clientX}px`;
             cursor.style.top = `${event.clientY}px`;
+        }
 
-        });
-
+        updateBrush(event);
     }
+
+
+    function queuePointerUpdate(event) {
+
+        latestPointerEvent = event;
+
+        if (pointerFrame) {
+            return;
+        }
+
+        pointerFrame = requestAnimationFrame(renderPointer);
+    }
+
+
+    hero.addEventListener("mousemove", queuePointerUpdate);
 
 
     /* =====================================================
@@ -310,7 +335,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Position the brush.
         */
 
-        updateBrush(event);
+        queuePointerUpdate(event);
 
 
         /*
@@ -339,7 +364,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Keep the brush following the cursor.
         */
 
-        updateBrush(event);
+        queuePointerUpdate(event);
 
     });
 

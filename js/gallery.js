@@ -113,10 +113,25 @@ function getImageURL(
     imagePath
 ) {
 
+    if (!imagePath) {
+
+        return "";
+
+    }
+
+
     if (
-        !project?.folder ||
-        !imagePath
+        imagePath.startsWith("/") ||
+        imagePath.startsWith("http://") ||
+        imagePath.startsWith("https://")
     ) {
+
+        return imagePath;
+
+    }
+
+
+    if (!project?.folder) {
 
         return "";
 
@@ -137,6 +152,13 @@ function getImageURL(
 async function loadManifest(
     project
 ) {
+
+    if (project?.manifest) {
+
+        return project.manifest;
+
+    }
+
 
     const manifestURL =
         getManifestURL(
@@ -1703,7 +1725,12 @@ async function initializeGallery() {
 
 
     const project =
-        window.currentProject;
+        await (
+            window.projectReady ||
+            Promise.resolve(
+                window.currentProject
+            )
+        );
 
 
     if (

@@ -1,18 +1,19 @@
 {
-  "categories": {
+    "social-post": [],
+    "story": [],
+    "square": [],
+    "landscape": [],
     "other": [
-      "21111.webp",
-      "damn.webp",
-      "DayakGirlNice1.webp",
-      "do123u.webp",
-      "ggg.webp",
-      "la.webp",
-      "LukaScene1.webp",
-      "nalaavvva.webp",
-      "nalasw.webp",
-      "rara.webp",
-      "shf.webp"
+        "21111.webp",
+        "damn.webp",
+        "DayakGirlNice1.webp",
+        "do123u.webp",
+        "ggg.webp",
+        "la.webp",
+        "LukaScene1.webp",
+        "nalaavvva.webp",
+        "nalasw.webp",
+        "rara.webp",
+        "shf.webp"
     ]
-  },
-  "cover": "21111.webp"
 }

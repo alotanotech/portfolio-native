@@ -2,7 +2,21 @@
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "creativeportfolio",
   "compatibility_date": "2026-09-16",
+  "main": "src/worker.mjs",
   "assets": {
     "directory": "."
-  }
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "portfolio-db",
+      "database_id": "ddfccc72-a6fd-435b-8989-8f607f9ccad7"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "portfolio-media"
+    }
+  ]
 }

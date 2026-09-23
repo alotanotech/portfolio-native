@@ -197,7 +197,8 @@ section {
 @supports (animation-timeline: view()) {
 
     .reveal-section {
-        animation-name: section-reveal;
+        /* Transform and opacity can be composited during scrolling. */
+        animation-name: section-reveal-smooth;
 
         animation-duration: 1ms;
         animation-timing-function: linear;
@@ -206,12 +207,10 @@ section {
         animation-timeline: view();
 
         animation-range:
-            entry 30%
-            cover 45%;
+            entry 15%
+            cover 30%;
 
-        will-change:
-            transform,
-            clip-path;
+        will-change: transform, opacity;
     }
 
 
@@ -227,6 +226,18 @@ section {
         animation-range:
             entry 30%
             cover 45%;
+    }
+}
+
+@keyframes section-reveal-smooth {
+    from {
+        opacity: 0;
+        transform: translate3d(var(--reveal-x), var(--reveal-y), 0) scale(var(--reveal-scale));
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0) scale(1);
     }
 }
 
@@ -382,9 +393,9 @@ section {
 
 .reveal-section--up {
     --reveal-x: 0rem;
-    --reveal-y: 14rem;
+    --reveal-y: 3rem;
 
-    --reveal-scale: .86;
+    --reveal-scale: .96;
 
     --reveal-rotate: 0deg;
 
@@ -394,10 +405,10 @@ section {
 
 
 .reveal-section--left {
-    --reveal-x: -14rem;
-    --reveal-y: 5rem;
+    --reveal-x: -3rem;
+    --reveal-y: 1.5rem;
 
-    --reveal-scale: .88;
+    --reveal-scale: .96;
 
     --reveal-rotate: -2deg;
 
@@ -407,10 +418,10 @@ section {
 
 
 .reveal-section--right {
-    --reveal-x: 14rem;
-    --reveal-y: 5rem;
+    --reveal-x: 3rem;
+    --reveal-y: 1.5rem;
 
-    --reveal-scale: .88;
+    --reveal-scale: .96;
 
     --reveal-rotate: 2deg;
 
@@ -421,9 +432,9 @@ section {
 
 .reveal-section--cyber {
     --reveal-x: 0rem;
-    --reveal-y: 16rem;
+    --reveal-y: 3rem;
 
-    --reveal-scale: .82;
+    --reveal-scale: .96;
 
     --reveal-rotate: 1.5deg;
 
