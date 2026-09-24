@@ -3313,6 +3313,12 @@
     --hero-image-scale: 1.12;
 }
 
+@media (min-width: 1440px) {
+    .hero-img {
+        --hero-image-scale: 1;
+    }
+}
+
 @media (min-width: 768px) and (max-height: 760px) {
     .hero-img {
         --hero-image-scale: 1;
@@ -3354,7 +3360,8 @@
     }
 
     .hero-img {
-        --hero-image-scale: 1.8;
+        --hero-image-scale: 1.7;
+        overflow: visible;
     }
 }
 
