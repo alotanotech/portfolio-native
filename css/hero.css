@@ -3264,6 +3264,101 @@
 
 
 /* =========================================================
+   CENTERED HERO COMPOSITION
+========================================================= */
+
+.hero-panel {
+    left: 50%;
+    top: clamp(5.5rem, 12dvh, 8rem);
+    width: 100%;
+    max-width: none;
+    transform: translateX(-50%);
+}
+
+.hero-title {
+    width: 100%;
+    max-width: none;
+    font-size: clamp(6rem, 18vw, 18rem);
+    line-height: 0.78;
+}
+
+.hero-title .glitch-line:first-child {
+    font-size: 0.42em;
+    line-height: 1;
+}
+
+.hero-title .glitch-line:last-child {
+    letter-spacing: -0.075em;
+}
+
+.hero-name {
+    position: absolute;
+    left: 5vw;
+    top: 50%;
+    width: min(18rem, 23vw);
+    max-width: none;
+    margin: 0;
+    text-align: left;
+    white-space: normal;
+}
+
+.hero-image-layer {
+    left: calc(50% + 6vw);
+    right: auto;
+    width: min(62vw, 64rem);
+    transform: translateX(-50%);
+}
+
+.hero-img {
+    --hero-image-scale: 1.12;
+}
+
+@media (min-width: 768px) and (max-height: 760px) {
+    .hero-img {
+        --hero-image-scale: 1;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) and (min-height: 761px) {
+    .hero-img {
+        --hero-image-scale: 1.25;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-panel {
+        top: clamp(5.5rem, 12dvh, 8rem);
+        width: 100%;
+    }
+
+    .hero-title {
+        font-size: clamp(3.6rem, 16vw, 7.5rem);
+    }
+
+    .hero-name {
+        left: 0;
+        top: 24%;
+        width: 100%;
+        font-size: 0.65rem;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .hero-image-layer {
+        left: 50%;
+        right: auto;
+        bottom: 0;
+        width: 100%;
+        height: 76%;
+        transform: translateX(-50%);
+    }
+
+    .hero-img {
+        --hero-image-scale: 1.8;
+    }
+}
+
+/* =========================================================
    REDUCED MOTION
 ========================================================= */
 
