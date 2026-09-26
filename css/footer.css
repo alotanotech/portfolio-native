@@ -3,21 +3,26 @@
 ========================================================= */
 
 .site-footer {
-    position: relative;
+    position: sticky;
+    bottom: 0;
+    z-index: 0;
     width: 100%;
     padding: 2rem 0 1rem;
     background: var(--bg-main);
     color: var(--text-main);
     overflow: hidden;
-    animation-name: footer-pop-in;
-    animation-duration: 1ms;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-    animation-timeline: view();
-    animation-range:
-        entry 20%
-        cover 45%;
-    will-change: transform;
+}
+
+main > :not(.site-footer) {
+    position: relative;
+    z-index: 2;
+}
+
+/* The previous sections scroll over Work before it takes the viewport. */
+main > .work {
+    position: sticky;
+    bottom: 0;
+    z-index: 1;
 }
 
 .site-footer::before {
@@ -48,49 +53,6 @@
     );
     background-size: 5px 5px;
     opacity: .12;
-}
-
-
-/* =========================================================
-   FOOTER POP-UP ANIMATION
-========================================================= */
-
-@keyframes footer-pop-in {
-    0% {
-        transform:
-            translate3d(0, 14rem, 0)
-            scale(.88);
-    }
-
-    18% {
-        transform:
-            translate3d(0, 8rem, 0)
-            scale(.93);
-    }
-
-    38% {
-        transform:
-            translate3d(0, 2.5rem, 0)
-            scale(.985);
-    }
-
-    52% {
-        transform:
-            translate3d(0, -0.6rem, 0)
-            scale(1.012);
-    }
-
-    65% {
-        transform:
-            translate3d(0, .25rem, 0)
-            scale(.998);
-    }
-
-    100% {
-        transform:
-            translate3d(0, 0, 0)
-            scale(1);
-    }
 }
 
 
@@ -725,9 +687,19 @@
 @media (prefers-reduced-motion: reduce) {
 
     .site-footer {
-        animation: none;
+        position: relative;
+        bottom: auto;
         transform: none;
         will-change: auto;
+    }
+
+    main > :not(.site-footer) {
+        z-index: auto;
+    }
+
+    main > .work {
+        position: relative;
+        bottom: auto;
     }
 
     .site-footer__logo,

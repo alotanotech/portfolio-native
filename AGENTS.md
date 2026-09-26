@@ -13,6 +13,7 @@ Maintain this creative portfolio without changing its visual direction or breaki
 - `src/worker.mjs` provides the deployed Cloudflare CRUD API, D1 data access, and R2 image delivery.
 - `admin/` is the protected project editor and category-specific image ordering UI. It authenticates with the `ADMIN_TOKEN` Cloudflare secret.
 - D1/R2 are the live content source. `asset/` contains shared site media; `assets/projects/` and the metadata in `js/project.js` are retained legacy import/fallback inputs.
+- The public site is [lyanluna.com](https://lyanluna.com), connected to this repository's GitHub `main` branch. Pushing an authorized site update to `origin/main` triggers deployment.
 
 ## Safe content workflow
 
@@ -32,6 +33,7 @@ Maintain this creative portfolio without changing its visual direction or breaki
 - Keep animations transform/opacity based when possible. Avoid scroll-linked `filter`, large `clip-path` animation, or layout-changing animation.
 - Respect `prefers-reduced-motion` whenever adding motion.
 - Keep content legible at 320px, 768px, 1024px, and 1440px.
+- For authorized live site updates, commit and push the verified change to `origin/main`, then check the deployed page.
 
 ## Verification
 
