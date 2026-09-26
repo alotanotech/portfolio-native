@@ -14,27 +14,12 @@
     cursor: none;
 
     background:
-        radial-gradient(
-            circle at 18% 25%,
-            color-mix(
-                in srgb,
-                var(--accent) 7%,
-                transparent
-            ) 0%,
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 80% 70%,
-            color-mix(
-                in srgb,
-                var(--accent) 3%,
-                transparent
-            ) 0%,
-            transparent 28%
-        ),
-        #050505;
+        radial-gradient(circle at 14% 22%, rgba(0, 0, 0, 0.09), transparent 32%),
+        radial-gradient(circle at 84% 16%, rgba(0, 0, 0, 0.055), transparent 26%),
+        radial-gradient(circle at 72% 82%, rgba(0, 0, 0, 0.07), transparent 34%),
+        #f8f8f6;
 
-    color: #FFFFFF;
+    color: #161616;
 
     box-sizing: border-box;
 
@@ -57,16 +42,16 @@
 
     background-image:
         linear-gradient(
-            rgba(255, 255, 255, 0.032) 1px,
+            rgba(12, 12, 12, 0.045) 1px,
             transparent 1px
         ),
         linear-gradient(
             90deg,
-            rgba(0, 0, 0, 0.032) 1px,
+            rgba(12, 12, 12, 0.045) 1px,
             transparent 1px
         );
 
-    background-size: 36px 36px;
+    background-size: 68px 68px;
 
     z-index: 0;
 }
@@ -85,12 +70,7 @@
 
     pointer-events: none;
 
-    background:
-        radial-gradient(
-            circle at center,
-            transparent 30%,
-            rgba(0, 0, 0, 0.42) 100%
-        );
+    background: none;
 
     z-index: 1;
 }
@@ -151,18 +131,7 @@
 
     inset: 0;
 
-    background-image:
-        linear-gradient(
-            rgba(255, 255, 255, 0.028) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.028) 1px,
-            transparent 1px
-        );
-
-    background-size: 28px 28px;
+    background: none;
 
     pointer-events: none;
 
@@ -194,16 +163,7 @@
             -50%
         );
 
-    background:
-        radial-gradient(
-            circle,
-            color-mix(
-                in srgb,
-                var(--accent) 6%,
-                transparent
-            ) 0%,
-            transparent 68%
-        );
+    background: none;
 
     pointer-events: none;
 
@@ -284,7 +244,7 @@
 
     box-sizing: border-box;
 
-    color: #FFFFFF;
+    color: #161616;
 
     font-size:
         clamp(
@@ -409,12 +369,12 @@
 ========================================================= */
 
 .hero-title .glitch-line:first-child {
-    color: #FFFFFF;
+    color: #161616;
 }
 
 
 .hero-title .glitch-line:last-child {
-    color: var(--accent);
+    color: #161616;
 }
 
 
@@ -903,8 +863,7 @@
 
     padding: 0;
 
-    color:
-        rgba(255, 255, 255, 1);
+    color: #383838;
 
     font-size:
         clamp(
@@ -1298,13 +1257,7 @@
     44%,
     100% {
 
-        color:
-            rgba(
-                255,
-                255,
-                255,
-                0.62
-            );
+        color: #383838;
 
         transform:
             translateX(0);
@@ -1362,13 +1315,7 @@
 
     44% {
 
-        color:
-            rgba(
-                255,
-                255,
-                255,
-                0.62
-            );
+        color: #383838;
 
         transform:
             translateX(0);
@@ -2830,7 +2777,7 @@
 
     border-radius: 50%;
 
-    background: #FFFFFF;
+    background: #161616;
 
     pointer-events: none;
 
@@ -3398,13 +3345,7 @@
     }
 
     .hero-name {
-        color:
-            rgba(
-                255,
-                255,
-                255,
-                0.62
-            );
+        color: #383838;
     }
 
     .hero-img,
