@@ -15,13 +15,6 @@
 
 main > :not(.site-footer) {
     position: relative;
-    z-index: 2;
-}
-
-/* The previous sections scroll over Work before it takes the viewport. */
-main > .work {
-    position: sticky;
-    bottom: 0;
     z-index: 1;
 }
 
@@ -695,11 +688,6 @@ main > .work {
 
     main > :not(.site-footer) {
         z-index: auto;
-    }
-
-    main > .work {
-        position: relative;
-        bottom: auto;
     }
 
     .site-footer__logo,

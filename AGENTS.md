@@ -34,6 +34,7 @@ Maintain this creative portfolio without changing its visual direction or breaki
 - Respect `prefers-reduced-motion` whenever adding motion.
 - Keep content legible at 320px, 768px, 1024px, and 1440px.
 - For authorized live site updates, commit and push the verified change to `origin/main`, then check the deployed page.
+- Other Codex chats may edit this repository at the same time. Recheck the working tree before editing, committing, and pushing; stage only the files for the current task and preserve concurrent changes.
 
 ## Verification
 
