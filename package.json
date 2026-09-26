@@ -6,7 +6,7 @@
   "scripts": {
     "gallery": "node scripts/generate-gallery-manifests.js",
     "dev": "npx --yes serve .",
-    "check": "node --check js/hero.js && node --check js/nav.js && node --check js/about.js && node --check js/work.js && node --check js/work-data.js && node --check js/project.js && node --check js/gallery.js && node --check admin/admin.js && node --check scripts/generate-gallery-manifests.js && node --check scripts/import-legacy-content.js && node --check src/worker.mjs && node tests/admin-order.test.mjs && npm run gallery",
+    "check": "node --check js/hero.js && node --check js/nav.js && node --check js/about.js && node --check js/about-stream.js && node --check js/work.js && node --check js/work-data.js && node --check js/project.js && node --check js/gallery.js && node --check admin/admin.js && node --check scripts/generate-gallery-manifests.js && node --check scripts/import-legacy-content.js && node --check src/worker.mjs && node tests/admin-order.test.mjs && npm run gallery",
     "content:plan": "node scripts/import-legacy-content.js",
     "content:import": "node scripts/import-legacy-content.js --execute",
     "cf:dev": "npx --yes wrangler dev",

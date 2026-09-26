@@ -3306,6 +3306,13 @@
     }
 }
 
+/* Keep the portrait clear of the nav on short laptop displays. */
+@media (min-width: 1200px) and (max-height: 820px) {
+    .hero-img {
+        --hero-image-scale: 0.96;
+    }
+}
+
 /* =========================================================
    REDUCED MOTION
 ========================================================= */
