@@ -10,6 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!hero || !heroImg) return;
 
+    const cyberLayer = heroImg.querySelector(".cyber-layer");
+
+    cyberLayer?.addEventListener("animationend", (event) => {
+        if (event.target === cyberLayer && event.animationName === "hero-cyber-intro") {
+            heroImg.classList.add("is-intro-complete");
+        }
+    });
+
 
     /* =====================================================
        SETTINGS
@@ -302,6 +310,9 @@ document.addEventListener("DOMContentLoaded", () => {
     heroImg.addEventListener("mouseenter", (event) => {
 
         isHovering = true;
+
+        // User interaction takes over even if the one-time intro is still running.
+        heroImg.classList.add("is-intro-complete");
 
 
         /*

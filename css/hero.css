@@ -1890,6 +1890,12 @@
         forwards;
 }
 
+.hero-img.is-intro-complete .cyber-layer,
+.hero-img.is-intro-complete:not(.glitch) .cyber-layer::before,
+.hero-img.is-intro-complete:not(.glitch) .cyber-layer::after {
+    animation: none;
+}
+
 
 /* =========================================================
    INITIAL GLITCH OFFSET 1
