@@ -178,6 +178,12 @@ function initializeWorkCounter() {
 function initializeWorkTabs() {
     if (!workSwitcher || !workScroll || !workTabs.length) return;
 
+    function updatePanelAnchorOffset(panel) {
+        const workSection = workSwitcher.closest(".work");
+        if (!workSection) return;
+        panel.style.scrollMarginTop = `${panel.getBoundingClientRect().top - workSection.getBoundingClientRect().top}px`;
+    }
+
     // Keep the existing transitions.dev pill in sync with the selected category.
     function movePill(tab, animate) {
         if (!workPill) return;
@@ -202,6 +208,7 @@ function initializeWorkTabs() {
         });
 
         workScroll.scrollTop = 0;
+        updatePanelAnchorOffset(workPanels[category]);
         movePill(selected, animate);
         initializeWorkCounter();
         if (focus) selected.focus();
@@ -226,6 +233,7 @@ function initializeWorkTabs() {
     window.addEventListener("resize", () => {
         const active = workTabs.find((tab) => tab.getAttribute("aria-selected") === "true") || workTabs[0];
         movePill(active, false);
+        updatePanelAnchorOffset(workPanels[active.dataset.workCategory]);
     });
     window.addEventListener("hashchange", () => {
         if (location.hash.startsWith("#work-") && workPanels[location.hash.slice(6)]) {
