@@ -3313,6 +3313,142 @@
     }
 }
 
+/* Split composition: the title and action sit beside, not behind, the portrait. */
+@media (min-width: 768px) {
+    .hero-title-layer {
+        width: min(80dvw, 1280px);
+        margin-inline: auto;
+    }
+
+    .hero-header {
+        position: relative;
+    }
+
+    .hero-panel {
+        left: 0;
+        top: 52%;
+        width: min(48%, 34rem);
+        max-width: none;
+        transform: translateY(-50%);
+        align-items: flex-start;
+    }
+
+    .hero-title {
+        width: auto;
+        max-width: 100%;
+        align-items: flex-start;
+        font-size: clamp(3rem, 6.3vw, 6.8rem);
+        line-height: 0.88;
+        text-align: left;
+    }
+
+    .hero-title .glitch-line:first-child {
+        left: 0;
+        font-size: 0.55em;
+        line-height: 1.1;
+    }
+
+    .hero-title .glitch-line:last-child {
+        letter-spacing: -0.075em;
+    }
+
+    .hero-name {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: auto;
+        max-width: 100%;
+        margin: 1.5rem 0 0;
+        text-align: left;
+        white-space: normal;
+    }
+
+    .hero-image-layer {
+        left: 72%;
+        width: min(55vw, 56rem);
+        transform: translateX(-50%);
+    }
+
+    .hero-img {
+        --hero-image-scale: 1.03;
+    }
+}
+
+.hero-cta {
+    align-self: flex-start;
+    margin-top: 1.5rem;
+    border: 1px solid #161616;
+    color: #161616;
+    background: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    pointer-events: auto;
+}
+
+.hero-cta span {
+    color: #161616;
+    animation: none;
+}
+
+.hero-cta:focus-visible {
+    outline: 2px solid #161616;
+    outline-offset: 4px;
+}
+
+@media (max-width: 767px) {
+    .hero-panel {
+        left: 1rem;
+        top: calc(var(--topbar-height) + 1.25rem);
+        width: calc(100% - 2rem);
+        max-width: none;
+        transform: none;
+        align-items: flex-start;
+    }
+
+    .hero-title {
+        width: auto;
+        max-width: 100%;
+        align-items: flex-start;
+        font-size: clamp(2.5rem, 11vw, 4rem);
+        text-align: left;
+    }
+
+    .hero-title .glitch-line:first-child,
+    .hero-title .glitch-line:last-child {
+        width: auto;
+        text-align: left;
+    }
+
+    .hero-title .glitch-line:first-child {
+        left: 0;
+        font-size: 0.55em;
+    }
+
+    .hero-name {
+        position: static;
+        width: auto;
+        max-width: 20rem;
+        margin-top: 0.8rem;
+        font-size: 0.66rem;
+        text-align: left;
+        white-space: normal;
+    }
+
+    .hero-cta {
+        margin-top: 1rem;
+        font-size: 0.68rem;
+    }
+
+    .hero-image-layer {
+        height: 64%;
+    }
+
+    .hero-img {
+        --hero-image-scale: 1.22;
+    }
+}
+
 /* =========================================================
    REDUCED MOTION
 ========================================================= */

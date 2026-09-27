@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/css/work.css">
     <link rel="stylesheet" href="/css/cyberad.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/home-refresh.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -99,12 +100,12 @@
                 <li>
 
                     <a
-                        href="#about"
-                        data-text="About"
+                        href="#work"
+                        data-text="Work"
                     >
 
                         <span>
-                            About
+                            Work
                         </span>
 
                     </a>
@@ -114,12 +115,12 @@
                 <li>
 
                     <a
-                        href="#work"
-                        data-text="Work"
+                        href="#about"
+                        data-text="About"
                     >
 
                         <span>
-                            Work
+                            About
                         </span>
 
                     </a>
@@ -187,11 +188,15 @@
 
                         </h1>
 
-                    </div>
+                        <p class="hero-name">
+                            Christopher Aurellyan Alotano Luna
+                        </p>
 
-                    <p class="hero-name">
-                        Christopher Aurellyan Alotano Luna
-                    </p>
+                        <a class="contact-button hero-cta" href="#work" data-text="View selected work">
+                            <span>View selected work</span>
+                        </a>
+
+                    </div>
 
                 </header>
 
@@ -343,34 +348,19 @@
 
             <div class="about-interface">
 
-                <header class="database-header">
-
-                    <div class="database-header-title">
-
-                        <span class="database-status"></span>
-
-                        <span class="database-header-label">
-                            Designer Database
-                        </span>
-
+                <header class="work-header about-header">
+                    <div class="work-header-index">
+                        <span class="work-status-dot"></span>
+                        <span>02 / ABOUT</span>
                     </div>
-
-                    <div class="database-header-meta">
-
-                        <span>
-                            DB / 001
-                        </span>
-
-                        <span>
-                            ACCESS / PUBLIC
-                        </span>
-
-                        <span>
-                            STATUS / ACTIVE
-                        </span>
-
+                    <div class="work-header-main">
+                        <p class="work-eyebrow">INTRODUCTION</p>
+                        <h2 class="work-title">ABOUT</h2>
                     </div>
-
+                    <div class="work-header-meta">
+                        <span>PROFILE</span>
+                        <span class="work-project-count">01 / 01</span>
+                    </div>
                 </header>
 
                 <div class="database-body">
@@ -470,6 +460,11 @@
 
                                         </div>
 
+                                        <div class="identity-field">
+                                            <span class="identity-label">Email</span>
+                                            <a class="identity-value" href="mailto:alotanostudio@gmail.com">alotanostudio@gmail.com</a>
+                                        </div>
+
                                     </div>
 
                                 </div>
@@ -512,23 +507,23 @@
 
                         <article class="database-card database-card--skills">
 
-                            <div class="database-card-header">
-
-                                <span>
-                                    Tools I work with
-                                </span>
-
-                                <span>
-                                    06 TOOLS
-                                </span>
-
+                            <div class="about-toolkit-header">
+                                <div>
+                                    <span class="about-toolkit-label">MY TOOLKIT</span>
+                                    <h3>Tools I work with</h3>
+                                </div>
+                                <div class="t-tabs" role="tablist" aria-label="Toolkit category">
+                                    <span class="t-tabs-pill" aria-hidden="true"></span>
+                                    <button class="t-tab" id="about-tools-design" type="button" role="tab" aria-selected="true" aria-controls="about-tools" data-tool-category="design">Graphic design</button>
+                                    <button class="t-tab" id="about-tools-art" type="button" role="tab" aria-selected="false" aria-controls="about-tools" data-tool-category="art">Digital art &amp; 3D</button>
+                                </div>
                             </div>
 
                             <div class="database-card-content database-card-content--skills">
 
-                                <div class="skills-list">
+                                <div class="skills-list" id="about-tools" role="tabpanel" aria-labelledby="about-tools-design">
 
-                                    <div class="skill-item">
+                                    <div class="skill-item" data-tool-group="design">
 
                                         <div class="skill-icon">
 
@@ -559,7 +554,7 @@
 
                                     </div>
 
-                                    <div class="skill-item">
+                                    <div class="skill-item" data-tool-group="design">
 
                                         <div class="skill-icon">
 
@@ -590,7 +585,7 @@
 
                                     </div>
 
-                                    <div class="skill-item">
+                                    <div class="skill-item" data-tool-group="design">
 
                                         <div class="skill-icon">
 
@@ -621,7 +616,7 @@
 
                                     </div>
 
-                                    <div class="skill-item">
+                                    <div class="skill-item" data-tool-group="art">
 
                                         <div class="skill-icon">
 
@@ -652,7 +647,7 @@
 
                                     </div>
 
-                                    <div class="skill-item">
+                                    <div class="skill-item" data-tool-group="design">
 
                                         <div class="skill-icon">
 
@@ -684,7 +679,7 @@
 
                                     </div>
 
-                                    <div class="skill-item">
+                                    <div class="skill-item" data-tool-group="art">
 
                                         <div class="skill-icon">
 
@@ -717,6 +712,11 @@
 
                                 </div>
 
+                                <div class="about-toolkit-actions">
+                                    <button type="button" data-tool-scroll="previous" aria-label="Scroll tools backward">Previous</button>
+                                    <button type="button" data-tool-scroll="next" aria-label="Scroll tools forward">Next</button>
+                                </div>
+
                             </div>
 
                         </article>
@@ -747,9 +747,7 @@
                                         About me
                                     </span>
 
-                                    <h2>
-                                        Hi, I'm Lyan.
-                                    </h2>
+                                    <h3>Hi, let's get to know me.</h3>
 
                                 </div>
 
@@ -987,7 +985,7 @@
                     <span class="work-status-dot"></span>
 
                     <span>
-                        02 / WORK
+                        01 / WORK
                     </span>
 
                 </div>
@@ -2157,6 +2155,7 @@
     <script src="/js/nav.js"></script>
     <script src="/js/about.js"></script>
     <script src="/js/about-stream.js"></script>
+    <script src="/js/about-tools.js"></script>
     <script src="./js/work.js"></script>
     <script src="./js/work-data.js"></script>
 
