@@ -15,6 +15,13 @@
 - Switching toolkit tabs exposes only the selected category. The project gallery loads 11 images for Digital Illustration, and Escape closes its image viewer.
 - `npm run check` passed after the gallery-manifest step was granted isolated-worktree write access.
 
+## Work switcher and admin editor follow-up
+
+- Client and Personal now replace each other in one internally scrollable Work showcase. The active tab is centered above the panel, the counter only tracks visible cards, and `#work-client` / `#work-personal` direct links still select the right panel.
+- The Work tabs were checked by pointer and keyboard; the 320px layout has no horizontal overflow.
+- The admin editor was checked against a local mock API at desktop, tablet, and 320px. Project and gallery filters worked, the live card preview followed form changes, and the new-project flow exposed an optional cover input.
+- Admin testing did not use a real token or mutate live portfolio content. Publishing and R2 upload behavior remain to verify manually with an authorized draft.
+
 ## Result
 
-Passed for this refresh. The photography switcher and individual photography project page are separate follow-up work and are not part of this QA result.
+Passed for the implemented UI. Photography content and its distinct layout are still follow-up work; the Work tabs can accept another panel when that layout and data are ready.

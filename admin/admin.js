@@ -13,6 +13,12 @@ const mediaContext = document.getElementById("media-context");
 const mediaCount = document.getElementById("media-count");
 const mediaList = document.getElementById("media-list");
 const uploadForm = document.getElementById("upload-form");
+const projectFilters = [...document.querySelectorAll("[data-project-filter]")];
+const galleryFilters = [...document.querySelectorAll("[data-gallery-filter]")];
+const galleryFilterBar = document.getElementById("gallery-filters");
+const newCoverField = document.getElementById("new-cover-field");
+const draftCoverImage = document.getElementById("draft-cover-image");
+const draftCoverEmpty = document.getElementById("draft-cover-empty");
 
 const labels = {
     cover: "Cover",
@@ -26,12 +32,74 @@ const labels = {
 let projects = [];
 let images = [];
 let editingSlug = null;
+let projectFilter = "all";
+let galleryFilter = "all";
+let previewFile = null;
+let previewObjectUrl = null;
+let savedEditorState = "";
 
 tokenInput.value = sessionStorage.getItem("portfolio-admin-token") || "";
 
 function setStatus(message, isError = false) {
     status.textContent = message;
     status.classList.toggle("is-error", isError);
+}
+
+function renderDraftPreview() {
+    const form = projectForm.elements;
+    const name = form.fullName.value.trim() || form.name.value.trim();
+    document.getElementById("draft-title").textContent = name || "Your project title";
+    document.getElementById("draft-kind").textContent = form.kind.value.toUpperCase();
+    document.getElementById("draft-year").textContent = form.year.value.trim() || "YEAR";
+    document.getElementById("draft-type").textContent = form.type.value.trim() || "Project type";
+    document.getElementById("draft-description").textContent = form.description.value.trim() || "Your description will appear here as you type.";
+    document.getElementById("draft-state").textContent = form.published.checked ? "PUBLISHED · PUBLIC" : "DRAFT · NOT PUBLIC";
+
+    const file = editingSlug
+        ? uploadForm.elements.category.value === "cover" ? uploadForm.elements.file.files[0] : null
+        : form.newCover.files[0];
+    if (file !== previewFile) {
+        if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
+        previewFile = file || null;
+        previewObjectUrl = file ? URL.createObjectURL(file) : null;
+    }
+    const cover = images.filter((image) => image.category === "cover").at(-1) || images[0];
+    const source = previewObjectUrl || cover?.url;
+    draftCoverImage.hidden = !source;
+    draftCoverEmpty.hidden = Boolean(source);
+    if (source) draftCoverImage.src = source;
+    else draftCoverImage.removeAttribute("src");
+
+    const gallery = document.getElementById("draft-gallery-images");
+    const galleryImages = images.filter((image) => image.category !== "cover").slice(0, 4);
+    gallery.replaceChildren();
+    if (galleryImages.length) {
+        galleryImages.forEach((image) => {
+            const thumbnail = document.createElement("img");
+            thumbnail.src = image.url;
+            thumbnail.alt = image.alt || `${labels[image.category] || "Gallery"} preview`;
+            thumbnail.loading = "lazy";
+            gallery.append(thumbnail);
+        });
+    } else {
+        const empty = document.createElement("p");
+        empty.textContent = "Add images to build this project's gallery.";
+        gallery.append(empty);
+    }
+}
+
+function editorState() {
+    const fields = [...projectForm.elements].filter((field) => field.name).map((field) => {
+        if (field.type === "checkbox") return [field.name, field.checked];
+        if (field.type === "file") return [field.name, field.files[0]?.name || "", field.files[0]?.size || 0];
+        return [field.name, field.value];
+    });
+    const upload = uploadForm.elements.file.files[0];
+    return JSON.stringify([...fields, ["pendingUpload", upload?.name || "", upload?.size || 0]]);
+}
+
+function hasUnsavedChanges() {
+    return Boolean(savedEditorState) && editorState() !== savedEditorState;
 }
 
 async function request(path, options = {}) {
@@ -51,7 +119,13 @@ function renderProjects() {
     projectCount.textContent = String(projects.length);
     projectList.replaceChildren();
 
-    for (const project of projects.filter((item) => `${item.name} ${item.slug}`.toLowerCase().includes(search))) {
+    const filtered = projects.filter((item) => {
+        const matchesSearch = `${item.name} ${item.full_name || ""} ${item.slug}`.toLowerCase().includes(search);
+        const matchesKind = projectFilter === "all" || (projectFilter === "draft" ? !item.published : item.kind === projectFilter);
+        return matchesSearch && matchesKind;
+    });
+
+    for (const project of filtered) {
         const button = document.createElement("button");
         const number = document.createElement("span");
         const detail = document.createElement("span");
@@ -68,14 +142,18 @@ function renderProjects() {
         meta.textContent = `${project.kind === "client" ? "Client" : "Personal"} · ${project.published ? "Published" : "Draft"}`;
         detail.append(name, meta);
         button.append(number, detail);
-        button.addEventListener("click", () => selectProject(project.slug));
+        button.addEventListener("click", () => {
+            if (editingSlug === project.slug) return;
+            if (hasUnsavedChanges() && !confirm("Discard unsaved project changes?")) return;
+            selectProject(project.slug);
+        });
         projectList.append(button);
     }
 
     if (!projectList.children.length) {
         const empty = document.createElement("p");
         empty.className = "empty-state";
-        empty.textContent = search ? "No projects match that search." : "No projects yet. Create your first one.";
+        empty.textContent = projects.length ? "No projects match this view. Try another filter or search." : "No projects yet. Create your first one.";
         projectList.append(empty);
     }
 }
@@ -84,6 +162,11 @@ function resetEditor() {
     editingSlug = null;
     images = [];
     projectForm.reset();
+    uploadForm.reset();
+    newCoverField.hidden = false;
+    galleryFilterBar.hidden = true;
+    galleryFilter = "all";
+    galleryFilters.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.galleryFilter === "all")));
     projectForm.elements.index.value = String(projects.length + 1).padStart(2, "0");
     editorTitle.textContent = "New project";
     document.getElementById("save-project").textContent = "Create project";
@@ -95,12 +178,19 @@ function resetEditor() {
     mediaCount.textContent = "0 images";
     mediaList.replaceChildren();
     renderProjects();
+    renderDraftPreview();
+    savedEditorState = editorState();
 }
 
 async function selectProject(slug) {
     const project = projects.find((item) => item.slug === slug);
     if (!project) return;
     editingSlug = slug;
+    images = [];
+    uploadForm.reset();
+    projectForm.elements.newCover.value = "";
+    newCoverField.hidden = true;
+    galleryFilterBar.hidden = false;
     projectForm.elements.slug.value = project.slug;
     projectForm.elements.index.value = project.project_index;
     projectForm.elements.name.value = project.name;
@@ -122,6 +212,8 @@ async function selectProject(slug) {
     uploadForm.hidden = false;
     mediaContext.textContent = `Managing images for ${project.full_name || project.name}. Upload a new cover to make it the active one.`;
     renderProjects();
+    renderDraftPreview();
+    savedEditorState = editorState();
     mediaList.replaceChildren();
     mediaCount.textContent = "Loading…";
     try {
@@ -160,6 +252,12 @@ function mediaButton(label, text, onClick, disabled = false, className = "order-
 function renderImages() {
     mediaList.replaceChildren();
     mediaCount.textContent = `${images.length} image${images.length === 1 ? "" : "s"}`;
+    galleryFilters.forEach((button) => {
+        const category = button.dataset.galleryFilter;
+        const count = category === "all" ? images.length : images.filter((image) => image.category === category).length;
+        button.textContent = `${category === "all" ? "All images" : labels[category]} (${count})`;
+        button.setAttribute("aria-pressed", String(category === galleryFilter));
+    });
     if (!images.length) {
         const empty = document.createElement("p");
         empty.className = "empty-state";
@@ -169,6 +267,7 @@ function renderImages() {
     }
 
     for (const [category, label] of Object.entries(labels)) {
+        if (galleryFilter !== "all" && galleryFilter !== category) continue;
         const items = images.filter((image) => image.category === category);
         if (!items.length) continue;
         const group = document.createElement("section");
@@ -208,6 +307,12 @@ function renderImages() {
         group.append(heading, grid);
         mediaList.append(group);
     }
+    if (!mediaList.children.length) {
+        const empty = document.createElement("p");
+        empty.className = "empty-state";
+        empty.textContent = `No ${labels[galleryFilter]?.toLowerCase() || "gallery"} images yet. Choose this category when uploading an image.`;
+        mediaList.append(empty);
+    }
 }
 
 async function loadImages(slug) {
@@ -215,6 +320,7 @@ async function loadImages(slug) {
     if (editingSlug !== slug) return;
     images = records;
     renderImages();
+    renderDraftPreview();
 }
 
 async function moveImage(category, index, direction) {
@@ -257,6 +363,7 @@ document.getElementById("access-form").addEventListener("submit", (event) => {
 });
 
 document.getElementById("new-project").addEventListener("click", () => {
+    if (hasUnsavedChanges() && !confirm("Discard unsaved project changes?")) return;
     resetEditor();
     projectForm.elements.slug.focus();
     setStatus("New draft ready.");
@@ -281,6 +388,20 @@ document.getElementById("lock-studio").addEventListener("click", () => {
 });
 
 projectSearch.addEventListener("input", renderProjects);
+projectFilters.forEach((button) => button.addEventListener("click", () => {
+    projectFilter = button.dataset.projectFilter;
+    projectFilters.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+    renderProjects();
+}));
+galleryFilters.forEach((button) => button.addEventListener("click", () => {
+    galleryFilter = button.dataset.galleryFilter;
+    if (galleryFilter !== "all") uploadForm.elements.category.value = galleryFilter;
+    renderImages();
+    renderDraftPreview();
+}));
+projectForm.addEventListener("input", renderDraftPreview);
+projectForm.addEventListener("change", renderDraftPreview);
+uploadForm.addEventListener("change", renderDraftPreview);
 
 projectForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -288,19 +409,52 @@ projectForm.addEventListener("submit", async (event) => {
     const data = Object.fromEntries(form);
     data.published = form.get("published") === "on";
     const previousSlug = editingSlug;
+    const newCover = previousSlug ? null : form.get("newCover");
+    delete data.newCover;
+    if (newCover?.size > 10 * 1024 * 1024) {
+        setStatus("Cover images must be 10 MB or smaller.", true);
+        return;
+    }
+    if (newCover?.size && !newCover.type.startsWith("image/")) {
+        setStatus("Choose an image for the cover.", true);
+        return;
+    }
+    const publishAfterCover = Boolean(newCover?.size && data.published);
+    if (publishAfterCover) data.published = false;
     const submit = document.getElementById("save-project");
     submit.disabled = true;
+    let result;
     try {
         const path = previousSlug ? `/api/admin/projects/${encodeURIComponent(previousSlug)}` : "/api/admin/projects";
-        const result = await request(path, {
+        result = await request(path, {
             method: previousSlug ? "PUT" : "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify(data)
         });
+        if (newCover?.size) {
+            const coverUpload = new FormData();
+            coverUpload.append("file", newCover);
+            coverUpload.append("category", "cover");
+            coverUpload.append("alt", data.fullName || data.name);
+            await request(`/api/admin/projects/${encodeURIComponent(result.slug)}/images`, { method: "POST", body: coverUpload });
+            if (publishAfterCover) {
+                data.published = true;
+                await request(`/api/admin/projects/${encodeURIComponent(result.slug)}`, {
+                    method: "PUT",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+            }
+        }
         await loadProjects(result.slug);
-        setStatus(previousSlug ? "Project updated." : "Project created. Add its cover and gallery images next.");
+        setStatus(previousSlug ? "Project updated." : newCover?.size ? "Project and cover saved. Add gallery images next." : "Project created. Add its cover and gallery images next.");
     } catch (error) {
-        setStatus(error.message, true);
+        if (result && !previousSlug) {
+            await loadProjects(result.slug).catch(() => {});
+            setStatus(`Project created, but its cover or publish step failed: ${error.message} Retry in the gallery.`, true);
+        } else {
+            setStatus(error.message, true);
+        }
     } finally {
         submit.disabled = false;
     }

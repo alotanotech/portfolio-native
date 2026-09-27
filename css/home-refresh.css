@@ -6,6 +6,59 @@
     max-width: calc(100% - 2rem);
 }
 
+/* One dashboard-like showcase, with a centered category switch above it. */
+.work .work-switcher {
+    align-self: center;
+    flex: 0 0 auto;
+    margin: 1rem auto 0;
+    border: 1px solid #111;
+    border-radius: 0;
+    --tabs-text-muted: #111;
+    --tabs-text-active: #fff;
+    --tabs-bar-bg: #fff;
+    --tabs-pill-bg: #111;
+}
+
+.work-switcher .t-tab,
+.work-switcher .t-tabs-pill {
+    border-radius: 0;
+}
+
+.work-switcher .t-tab {
+    min-width: 7.5rem;
+    height: 2.4rem;
+    font-size: 0.64rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.work-switcher .t-tab span {
+    margin-right: 0.4rem;
+    font-size: 0.55rem;
+    opacity: 0.75;
+}
+
+.work-switcher .t-tab:focus-visible {
+    outline: 2px solid #111;
+    outline-offset: 4px;
+}
+
+.work-switcher .t-tabs-pill {
+    height: calc(100% - 6px);
+}
+
+.work .work-category[hidden] {
+    display: none;
+}
+
+.work .work-category + .work-category {
+    margin-top: 0;
+}
+
+.work .work-category--personal {
+    padding-top: 0;
+}
+
 /* About: use the Work header system without the old database frame. */
 .about {
     display: block;
@@ -448,6 +501,15 @@
 }
 
 @media (max-width: 520px) {
+    .work-switcher {
+        width: calc(100% - 2rem);
+    }
+
+    .work-switcher .t-tab {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
     .about .work-header-meta > span:first-child {
         display: none;
     }

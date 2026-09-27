@@ -32,9 +32,15 @@
 
             <div class="workspace" id="workspace" hidden>
                 <aside class="project-sidebar" aria-labelledby="project-list-title">
-                    <div class="panel-heading"><div><p class="eyebrow">YOUR ARCHIVE</p><h2 id="project-list-title">Projects <span id="project-count">0</span></h2></div><button class="icon-button" id="new-project" type="button" aria-label="Create new project" title="Create new project">+</button></div>
+                    <div class="panel-heading"><div><p class="eyebrow">YOUR ARCHIVE</p><h2 id="project-list-title">Projects <span id="project-count">0</span></h2></div><button class="new-project-button" id="new-project" type="button">New project +</button></div>
                     <label class="search-label" for="project-search">Find a project</label>
                     <input id="project-search" type="search" placeholder="Search name or slug">
+                    <div class="project-filters" role="group" aria-label="Filter projects">
+                        <button type="button" data-project-filter="all" aria-pressed="true">All</button>
+                        <button type="button" data-project-filter="client" aria-pressed="false">Client</button>
+                        <button type="button" data-project-filter="personal" aria-pressed="false">Personal</button>
+                        <button type="button" data-project-filter="draft" aria-pressed="false">Drafts</button>
+                    </div>
                     <div id="project-list" class="project-list" aria-label="Project list"></div>
                     <button id="lock-studio" class="text-button" type="button">Lock this session</button>
                 </aside>
@@ -43,6 +49,7 @@
                     <section class="panel" aria-labelledby="editor-title">
                         <div class="panel-heading"><div><p class="eyebrow">01 / PROJECT DETAILS</p><h2 id="editor-title">New project</h2></div><a id="project-preview" class="preview-link" href="#" target="_blank" rel="noopener noreferrer" hidden>View live page ↗</a></div>
                         <p class="section-note">The slug becomes the project URL. “Order” controls where its card appears on the homepage.</p>
+                        <div class="editor-stage">
                         <form id="project-form" class="project-form">
                             <label>Slug <input name="slug" required pattern="[a-z0-9-]+" placeholder="coffee-campaign"></label>
                             <label>Order <input name="index" required value="12" maxlength="4" inputmode="numeric"></label>
@@ -55,15 +62,37 @@
                             <label>Status <input name="status" value="ARCHIVE"></label>
                             <label>Kind <select name="kind"><option value="personal">Personal</option><option value="client">Client</option></select></label>
                             <label class="wide">Description <textarea name="description" rows="4" placeholder="What was the project about?"></textarea></label>
+                            <label class="wide new-cover-field" id="new-cover-field">Cover image for a new project <input name="newCover" type="file" accept="image/*"><small>Optional. Preview it now; it uploads when you create the project.</small></label>
                             <label class="publish-field wide"><input name="published" type="checkbox"><span><strong>Published</strong><small>Visible on the portfolio. Leave off while preparing images.</small></span></label>
                             <div class="form-actions wide"><button type="submit" class="primary-button" id="save-project">Create project</button><button type="button" class="secondary-button" id="cancel-edit">Reset form</button></div>
                         </form>
+                        <aside class="editor-preview" aria-labelledby="editor-preview-title">
+                            <div class="preview-heading"><p class="eyebrow">LIVE DRAFT PREVIEW</p><h3 id="editor-preview-title">Portfolio card</h3></div>
+                            <div class="preview-cover" id="draft-cover"><img id="draft-cover-image" alt="" hidden><span id="draft-cover-empty">Add a cover image to preview the card.</span></div>
+                            <div class="preview-card-details"><span id="draft-kind">PERSONAL</span><span id="draft-year">YEAR</span></div>
+                            <h4 id="draft-title">Your project title</h4>
+                            <p id="draft-type">Project type</p>
+                            <p id="draft-description">Your description will appear here as you type.</p>
+                            <div class="preview-gallery"><span>GALLERY PREVIEW</span><div id="draft-gallery-images" class="preview-gallery-images"></div></div>
+                            <div class="preview-state" id="draft-state">DRAFT · NOT PUBLIC</div>
+                            <p class="preview-help">This preview is only in your browser. Save to update the real portfolio.</p>
+                        </aside>
+                        </div>
                         <div class="danger-zone" id="danger-zone" hidden><span><strong>Need to remove this project?</strong><small>This also deletes its uploaded R2 images.</small></span><button type="button" id="delete-project">Delete project</button></div>
                     </section>
 
                     <section class="panel" aria-labelledby="media-title">
                         <div class="panel-heading"><div><p class="eyebrow">02 / VISUAL CONTENT</p><h2 id="media-title">Cover &amp; gallery</h2></div><span class="media-count" id="media-count">0 images</span></div>
                         <p class="section-note" id="media-context">Save a project first, then add its cover and gallery images. The cover is separate from gallery categories.</p>
+                        <div class="gallery-filters" role="group" aria-label="Filter gallery images" id="gallery-filters" hidden>
+                            <button type="button" data-gallery-filter="all" aria-pressed="true">All images</button>
+                            <button type="button" data-gallery-filter="cover" aria-pressed="false">Cover</button>
+                            <button type="button" data-gallery-filter="social-post" aria-pressed="false">Social posts</button>
+                            <button type="button" data-gallery-filter="story" aria-pressed="false">Stories</button>
+                            <button type="button" data-gallery-filter="square" aria-pressed="false">Square</button>
+                            <button type="button" data-gallery-filter="landscape" aria-pressed="false">Landscape</button>
+                            <button type="button" data-gallery-filter="other" aria-pressed="false">Other</button>
+                        </div>
                         <form id="upload-form" class="upload-form" hidden>
                             <label>Image <input name="file" type="file" accept="image/*" required></label>
                             <label>Place in <select name="category"><option value="cover">Cover</option><option value="social-post">Social media posts</option><option value="story">Stories</option><option value="square">Square posts</option><option value="landscape">Landscape</option><option value="other" selected>Other</option></select></label>

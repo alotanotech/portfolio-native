@@ -1016,11 +1016,19 @@
 
             </header>
 
+            <div class="work-switcher t-tabs" role="tablist" aria-label="Work category">
+                <span class="t-tabs-pill" aria-hidden="true"></span>
+                <button class="t-tab" type="button" role="tab" id="work-tab-client" aria-controls="work-client" aria-selected="true" tabindex="0" data-work-category="client"><span>01</span> CLIENT</button>
+                <button class="t-tab" type="button" role="tab" id="work-tab-personal" aria-controls="work-personal" aria-selected="false" tabindex="-1" data-work-category="personal"><span>02</span> PERSONAL</button>
+            </div>
+
             <div class="work-scroll">
 
                 <section
                     class="work-category work-category--client"
                     id="work-client"
+                    role="tabpanel"
+                    aria-labelledby="work-tab-client"
                 >
 
                     <div class="work-category-header">
@@ -1036,29 +1044,6 @@
                                 <span class="work-category-kicker">
                                     Client Work
                                 </span>
-
-                                <nav
-                                    class="work-category-nav"
-                                    aria-label="Work navigation"
-                                >
-
-                                    <a
-                                        class="work-category-nav-link work-category-nav-link--active"
-                                        href="#work-client"
-                                    >
-                                        <span>01</span>
-                                        CLIENT
-                                    </a>
-
-                                    <a
-                                        class="work-category-nav-link"
-                                        href="#work-personal"
-                                    >
-                                        <span>02</span>
-                                        PERSONAL
-                                    </a>
-
-                                </nav>
 
                             </div>
 
@@ -1438,6 +1423,9 @@
                 <section
                     class="work-category work-category--personal"
                     id="work-personal"
+                    role="tabpanel"
+                    aria-labelledby="work-tab-personal"
+                    hidden
                 >
 
                     <div class="work-category-header">
@@ -1453,29 +1441,6 @@
                                 <span class="work-category-kicker">
                                     Personal Work
                                 </span>
-
-                                <nav
-                                    class="work-category-nav"
-                                    aria-label="Work navigation"
-                                >
-
-                                    <a
-                                        class="work-category-nav-link"
-                                        href="#work-client"
-                                    >
-                                        <span>01</span>
-                                        CLIENT
-                                    </a>
-
-                                    <a
-                                        class="work-category-nav-link work-category-nav-link--active"
-                                        href="#work-personal"
-                                    >
-                                        <span>02</span>
-                                        PERSONAL
-                                    </a>
-
-                                </nav>
 
                             </div>
 
