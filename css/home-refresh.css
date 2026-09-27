@@ -10,7 +10,7 @@
 .work .work-switcher {
     align-self: center;
     flex: 0 0 auto;
-    margin: 1rem auto 0;
+    margin: 0.85rem auto 0;
     border: 1px solid #111;
     border-radius: 0;
     --tabs-text-muted: #111;
@@ -25,16 +25,17 @@
 }
 
 .work-switcher .t-tab {
-    min-width: 7.5rem;
-    height: 2.4rem;
-    font-size: 0.64rem;
+    min-width: 4.5rem;
+    height: 1.8rem;
+    padding: 0.35rem 0.55rem;
+    font-size: 0.5rem;
     font-weight: 800;
     letter-spacing: 0.1em;
 }
 
 .work-switcher .t-tab span {
-    margin-right: 0.4rem;
-    font-size: 0.55rem;
+    margin-right: 0.25rem;
+    font-size: 0.4rem;
     opacity: 0.75;
 }
 
@@ -63,7 +64,7 @@
 .about {
     display: block;
     min-height: 0;
-    padding: clamp(4rem, 7vw, 6rem) 0;
+    padding: clamp(2.5rem, 4vw, 4rem) 0;
     overflow: visible;
     background: #fff;
     color: #111;
@@ -96,7 +97,7 @@
 .about .database-body {
     display: flex;
     flex-direction: column;
-    gap: clamp(2.5rem, 5vw, 5rem);
+    gap: clamp(1.25rem, 2.5vw, 2rem);
     min-height: 0;
     overflow: visible;
 }
@@ -111,7 +112,11 @@
 }
 
 .about .database-left {
-    gap: clamp(2.75rem, 5vw, 5rem);
+    gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.about .database-right {
+    order: -1;
 }
 
 .about .database-card {
@@ -144,15 +149,15 @@
 
 .about .database-card-content--description {
     display: block;
-    padding-top: clamp(1.75rem, 3vw, 3rem);
+    padding-top: clamp(1rem, 2vw, 1.75rem);
 }
 
 .about .description-heading {
     display: flex;
     flex-direction: column;
     gap: 0.6rem;
-    margin: 0 0 1.5rem;
-    padding: 0 0 1.5rem;
+    margin: 0 0 1rem;
+    padding: 0 0 1rem;
     border-bottom: 1px solid #111;
 }
 
@@ -182,21 +187,23 @@
 .about .description-text p {
     color: #111;
     font-size: clamp(0.82rem, 0.72rem + 0.22vw, 1rem);
-    line-height: 1.7;
+    line-height: 1.55;
     text-align: left;
 }
 
 .about .identity-record {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    align-items: center;
-    gap: clamp(2rem, 5vw, 6rem);
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: stretch;
+    gap: 0;
+    border: 1px solid #111;
 }
 
 .about .identity-photo {
     width: 100%;
-    max-width: 32rem;
-    aspect-ratio: 4 / 5;
+    max-width: none;
+    height: clamp(18rem, 31vw, 24rem);
+    aspect-ratio: auto;
     margin: 0;
     border: 0;
     background: #fff;
@@ -223,7 +230,9 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-content: center;
-    gap: clamp(1.25rem, 2.5vw, 2.5rem);
+    gap: clamp(0.85rem, 1.5vw, 1.4rem);
+    padding: clamp(1rem, 2vw, 2rem);
+    background: #111;
 }
 
 .about .identity-field {
@@ -237,7 +246,7 @@
 }
 
 .about .identity-label {
-    color: #111;
+    color: #ddd;
     font-size: 0.64rem;
     line-height: 1.3;
     letter-spacing: 0.13em;
@@ -245,7 +254,7 @@
 
 .about .identity-value,
 .about .identity-value--name {
-    color: #111;
+    color: #fff;
     font-size: clamp(0.9rem, 0.8rem + 0.26vw, 1.1rem);
     font-weight: 700;
     line-height: 1.5;
@@ -264,7 +273,13 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 1.25rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.about .database-card--skills {
+    padding: clamp(0.9rem, 1.5vw, 1.4rem);
+    border: 1px solid #111;
+    background: #fff;
 }
 
 .about-toolkit-label {
@@ -286,8 +301,8 @@
 .about .skills-list {
     display: flex;
     flex-direction: row;
-    gap: clamp(1rem, 2vw, 2rem);
-    padding: 0.25rem 0 1rem;
+    gap: clamp(0.4rem, 1vw, 1rem);
+    padding: 0;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
@@ -297,12 +312,12 @@
 
 .about .skill-item {
     display: flex;
-    flex: 0 0 8.5rem;
+    flex: 0 0 6.5rem;
     flex-direction: column;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.35rem;
     min-width: 0;
-    padding: 0.5rem;
+    padding: 0.25rem;
     border: 0;
     background: transparent;
     scroll-snap-align: start;
@@ -315,8 +330,8 @@
 .about .skill-icon {
     display: grid;
     place-items: center;
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 3rem;
+    height: 3rem;
     margin: 0;
     padding: 0.35rem;
     border: 0;
@@ -336,7 +351,7 @@
 
 .about .skill-name {
     color: #111;
-    font-size: 0.78rem;
+    font-size: 0.7rem;
     font-weight: 700;
 }
 
@@ -349,7 +364,7 @@
     display: flex;
     justify-content: flex-end;
     gap: 1.25rem;
-    margin-top: 0.6rem;
+    margin-top: 0.35rem;
 }
 
 .about-toolkit-actions button {
@@ -474,7 +489,7 @@
 
     .about .identity-record {
         grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
-        gap: 2rem;
+        gap: 0;
     }
 }
 
@@ -488,7 +503,7 @@
     }
 
     .about {
-        padding: 3rem 0 4rem;
+        padding: 2.5rem 0 3rem;
     }
 
     .about .identity-record {
@@ -496,18 +511,22 @@
     }
 
     .about .identity-photo {
-        max-width: 25rem;
+        height: clamp(16rem, 68vw, 23rem);
+    }
+
+    .about .identity-information {
+        padding: 1.25rem;
     }
 }
 
 @media (max-width: 520px) {
     .work-switcher {
-        width: calc(100% - 2rem);
+        width: auto;
     }
 
     .work-switcher .t-tab {
-        flex: 1 1 0;
-        min-width: 0;
+        flex: 0 0 auto;
+        min-width: 4.5rem;
     }
 
     .about .work-header-meta > span:first-child {
@@ -519,7 +538,11 @@
     }
 
     .about .identity-information {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .about .identity-field:last-child {
+        grid-column: 1 / -1;
     }
 
     .about-toolkit-header {
@@ -536,6 +559,16 @@
     }
 
     .about .skill-item {
-        flex-basis: 7rem;
+        flex-basis: 5.5rem;
+    }
+}
+
+@media (max-width: 359px) {
+    .about .identity-information {
+        grid-template-columns: 1fr;
+    }
+
+    .about .identity-field:last-child {
+        grid-column: auto;
     }
 }
