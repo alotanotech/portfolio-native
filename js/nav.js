@@ -1,24 +1,6 @@
 const topbar = document.querySelector(".topbar");
 const navToggle = document.querySelector(".nav-toggle");
 
-// Keep the visual and keyboard reading order aligned with the homepage journey.
-const heroSection = document.querySelector("main > #hero");
-const aboutSection = document.querySelector("main > #about");
-const workSection = document.querySelector("main > #work");
-const aboutBreak = aboutSection?.nextElementSibling;
-
-if (heroSection && aboutSection && workSection) {
-    if (aboutBreak?.classList.contains("ad-break")) {
-        heroSection.after(aboutBreak, workSection);
-    } else {
-        heroSection.after(workSection);
-    }
-
-    const aboutBody = aboutSection.querySelector(".database-body");
-    const introduction = aboutBody?.querySelector(".database-right");
-    if (aboutBody && introduction) aboutBody.prepend(introduction);
-}
-
 if (topbar && navToggle) {
 
     navToggle.addEventListener("click", () => {
@@ -62,4 +44,22 @@ if (topbar && navToggle) {
 
         });
 
+}
+
+const workHero = document.querySelector(".work-hero");
+if (topbar && workHero) {
+    let frame = 0;
+    const updateHeroNavbar = () => {
+        frame = 0;
+        topbar.classList.toggle(
+            "is-over-hero",
+            workHero.getBoundingClientRect().bottom > topbar.offsetHeight
+        );
+    };
+    const queueHeroNavbar = () => {
+        if (!frame) frame = requestAnimationFrame(updateHeroNavbar);
+    };
+    updateHeroNavbar();
+    window.addEventListener("scroll", queueHeroNavbar, { passive: true });
+    window.addEventListener("resize", queueHeroNavbar);
 }

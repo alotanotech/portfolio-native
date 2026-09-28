@@ -10,7 +10,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const identityPhotos =
-        document.querySelectorAll(".identity-photo");
+        document.querySelectorAll(".about .about-portrait, .identity-photo");
 
 
     if (!identityPhotos.length) {

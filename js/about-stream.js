@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const blocks = [...document.querySelectorAll(".about .description-text .t-stream")];
+    const blocks = [...document.querySelectorAll(".about .about-bio-wrap > .t-stream")];
 
     if (!blocks.length ||
         !window.IntersectionObserver ||

@@ -1,0 +1,269 @@
+.work-hero {
+    position: relative;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
+    isolation: isolate;
+    background: #111;
+    color: #fff;
+}
+
+.work-hero__screen-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+.work-hero__anchor { position: absolute; top: 0; }
+
+.work-hero__visual,
+.work-hero__shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.work-hero__visual { z-index: -2; }
+.work-hero__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.work-hero__image.is-changing { animation: work-hero-image-in .48s cubic-bezier(.22, 1, .36, 1) both; }
+.work-hero__image[hidden] { display: none; }
+@keyframes work-hero-image-in {
+    from { opacity: .35; transform: scale(1.025); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.work-hero__shade {
+    z-index: -1;
+    background:
+        radial-gradient(ellipse 62% 45% at 50% 100%, rgba(0,0,0,.9), transparent 100%),
+        linear-gradient(180deg, rgba(0,0,0,.36) 0%, transparent 28%, transparent 62%, rgba(0,0,0,.68) 100%);
+}
+
+.work-hero__inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: end;
+    width: min(80vw, 1280px);
+    height: 100%;
+    margin-inline: auto;
+    padding-bottom: max(.85rem, env(safe-area-inset-bottom));
+    pointer-events: none;
+}
+
+.work-hero__bottom {
+    width: 100%;
+    display: grid;
+    gap: .4rem;
+    pointer-events: auto;
+}
+
+.work-hero__project {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 3.5rem;
+    padding-bottom: .4rem;
+    border-bottom: 1px solid rgba(255,255,255,.4);
+}
+.work-hero__project-copy { min-width: 0; }
+.work-hero__counter,
+.work-hero__type {
+    font-size: .67rem;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+}
+.work-hero__counter { margin-right: 1rem; color: var(--accent); }
+.work-hero__title {
+    margin-top: .2rem;
+    max-width: min(70vw, 700px);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2vw, 1.9rem);
+    line-height: 1.1;
+    letter-spacing: -.02em;
+    font-weight: 600;
+    text-wrap: balance;
+}
+.work-hero__project-copy.is-changing { animation: work-hero-copy-in .35s ease-out both; }
+@keyframes work-hero-copy-in {
+    from { opacity: .25; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.work-hero__link-stack {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .5rem;
+}
+.work-hero__link-hint {
+    color: rgba(255,255,255,.85);
+    font-size: .67rem;
+    letter-spacing: .09em;
+    text-transform: uppercase;
+}
+.work-hero__link {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    flex: 0 0 auto;
+    padding: .4rem .55rem;
+    border: 1px solid rgba(255,255,255,.5);
+    background: rgba(0,0,0,.2);
+    color: #fff;
+    font-size: .67rem;
+    font-weight: 500;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    transition: color .2s ease, background-color .2s ease, border-color .2s ease;
+}
+.work-hero__link:hover { background: var(--accent); border-color: var(--accent); color: #111; }
+.work-hero__link[hidden],
+.work-hero__thumbs[hidden] { display: none; }
+
+.work-hero__filters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .15rem;
+    min-height: 1.75rem;
+}
+.work-hero__filters button {
+    min-height: 1.65rem;
+    padding: .2rem .7rem;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: rgba(0,0,0,.2);
+    color: rgba(255,255,255,.7);
+    font-size: .66rem;
+    font-weight: 500;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color .2s ease, border-color .2s ease, background-color .2s ease;
+}
+.work-hero__filters button:hover,
+.work-hero__filters button.is-active { color: #fff; background: rgba(0,0,0,.4); border-color: var(--accent); }
+
+.work-hero__selector {
+    display: grid;
+    grid-template-columns: 2.2rem minmax(0, 1fr) 2.2rem;
+    align-items: center;
+    gap: .4rem;
+    width: min(100%, 560px);
+    margin-inline: auto;
+}
+.work-hero__arrow {
+    display: grid;
+    place-items: center;
+    width: 2.2rem;
+    height: 2.9rem;
+    border: 1px solid rgba(255,255,255,.5);
+    background: rgba(0,0,0,.28);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color .2s ease, border-color .2s ease, visibility .2s ease;
+}
+.work-hero__arrow:hover { background: rgba(0,0,0,.7); border-color: #fff; }
+.work-hero__arrow[hidden] { display: grid; visibility: hidden; pointer-events: none; }
+.work-hero__thumbs {
+    display: flex;
+    gap: .35rem;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+}
+.work-hero__thumbs::-webkit-scrollbar { display: none; }
+.work-hero__thumb {
+    flex: 0 0 clamp(62px, 7vw, 90px);
+    height: clamp(43px, 5vw, 57px);
+    padding: 0;
+    border: 2px solid transparent;
+    background: #333;
+    opacity: .48;
+    cursor: pointer;
+    scroll-snap-align: center;
+    transition: opacity .25s ease, border-color .25s ease, transform .25s ease;
+}
+.work-hero__thumb:first-child { margin-inline-start: auto; }
+.work-hero__thumb:last-child { margin-inline-end: auto; }
+.work-hero__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: blur(1px) saturate(.75);
+    transition: filter .25s ease;
+}
+.work-hero__thumb:hover,
+.work-hero__thumb.is-active { opacity: 1; border-color: var(--accent); transform: translateY(-2px); }
+.work-hero__thumb:hover img,
+.work-hero__thumb.is-active img { filter: none; }
+.work-hero :is(button, a):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.work-hero__empty .work-hero__title { max-width: 650px; }
+.work-hero__empty .work-hero__link-stack { display: none; }
+.work-hero__empty .work-hero__selector { display: none; }
+
+/* The service strip is repeated later; About follows the hero directly. */
+.work-hero + .ad-break { display: none; }
+
+@media (max-width: 700px) {
+    .work-hero__inner { width: min(92vw, 1280px); padding-bottom: max(.55rem, env(safe-area-inset-bottom)); }
+    .work-hero__bottom { gap: .25rem; }
+    .work-hero__project { min-height: 2.8rem; }
+    .work-hero__title { max-width: 76vw; font-size: clamp(1.1rem, 4vw, 1.4rem); }
+    .work-hero__link { width: 2rem; height: 2rem; justify-content: center; padding: 0; font-size: 0; }
+    .work-hero__link span { font-size: 1.15rem; }
+    .work-hero__filters { min-height: 1.6rem; }
+    .work-hero__filters button { min-height: 1.5rem; padding-inline: .45rem; font-size: .62rem; }
+    .work-hero__selector { grid-template-columns: 1.8rem minmax(0, 1fr) 1.8rem; gap: .2rem; }
+    .work-hero__arrow { width: 1.8rem; height: 2.6rem; }
+}
+
+@media (max-height: 540px) {
+    .work-hero__bottom { gap: .18rem; }
+    .work-hero__project { min-height: 1.8rem; padding-bottom: .15rem; }
+    .work-hero__counter,
+    .work-hero__type { display: none; }
+    .work-hero__title {
+        margin-top: 0;
+        max-width: min(68vw, 700px);
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        font-size: 1.05rem;
+    }
+    .work-hero__empty .work-hero__title { max-width: min(68vw, 700px); }
+    .work-hero__filters,
+    .work-hero__filters button { min-height: 1.3rem; }
+    .work-hero__filters button { padding-block: 0; }
+    .work-hero__thumb { height: 31px; }
+    .work-hero__arrow { height: 31px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .work-hero__image.is-changing,
+    .work-hero__project-copy.is-changing { animation: none; }
+    .work-hero__thumb,
+    .work-hero__thumb img,
+    .work-hero__filters button,
+    .work-hero__arrow,
+    .work-hero__link { transition: none; }
+    .work-hero__thumbs { scroll-behavior: auto; }
+}
