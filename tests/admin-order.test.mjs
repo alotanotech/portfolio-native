@@ -17,6 +17,10 @@ database.exec(`
 
 const env = {
     ADMIN_TOKEN: "test-token",
+    MEDIA: {
+        async put(key) { return { key }; },
+        async delete(key) { return { key }; }
+    },
     DB: {
         prepare(sql) {
             const statement = database.prepare(sql);
@@ -66,4 +70,20 @@ const coverOrder = await worker.fetch(request("/api/admin/projects/sample/images
 assert.equal(coverOrder.status, 200);
 const changedCover = await worker.fetch(request("/api/projects/sample", "GET", undefined, false), env).then((response) => response.json());
 assert.equal(changedCover.cover, "/media/sample/cover.webp");
+const altForm = new FormData();
+altForm.set("alt", "Updated accessible description");
+const editRequest = (body) => new Request(url("/api/admin/images/11"), { method: "PUT", headers: { authorization: "Bearer test-token" }, body });
+const altUpdate = await worker.fetch(editRequest(altForm), env);
+assert.equal(altUpdate.status, 200);
+assert.equal(database.prepare("SELECT alt_text FROM project_images WHERE id = 11").get().alt_text, "Updated accessible description");
+const replacementForm = new FormData();
+replacementForm.set("alt", "Replacement image");
+replacementForm.set("file", new File(["image bytes"], "new.webp", { type: "image/webp" }));
+const replacement = await worker.fetch(editRequest(replacementForm), env);
+assert.equal(replacement.status, 200);
+const replacementRecord = database.prepare("SELECT object_key, category, sort_order, alt_text FROM project_images WHERE id = 11").get();
+assert.match(replacementRecord.object_key, /^sample\/[a-f0-9-]+\.webp$/);
+assert.equal(replacementRecord.category, "social-post");
+assert.equal(replacementRecord.sort_order, 2);
+assert.equal(replacementRecord.alt_text, "Replacement image");
 console.log("Admin image listing, authorization, reorder validation and public gallery order passed.");

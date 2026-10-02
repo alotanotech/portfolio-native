@@ -196,6 +196,31 @@ async function adminApi(request, env, pathname) {
     }
 
     const imageMatch = pathname.match(/^\/api\/admin\/images\/(\d+)$/);
+    if (imageMatch && request.method === "PUT") {
+        const image = await env.DB.prepare("SELECT object_key FROM project_images WHERE id = ?").bind(imageMatch[1]).first();
+        if (!image) return error("Image not found.", 404);
+        const form = await request.formData();
+        const file = form.get("file");
+        const alt = String(form.get("alt") || "");
+        if (file && (!(file instanceof File) || !file.size || !file.type.startsWith("image/"))) return error("Upload one image file.");
+        if (file && file.size > 10 * 1024 * 1024) return error("Images must be 10 MB or smaller.");
+        if (!file) {
+            await env.DB.prepare("UPDATE project_images SET alt_text = ? WHERE id = ?").bind(alt, imageMatch[1]).run();
+            return json({ updated: true });
+        }
+        const extension = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "webp";
+        const projectFolder = image.object_key.split("/")[0];
+        const objectKey = `${projectFolder}/${crypto.randomUUID()}.${extension}`;
+        await env.MEDIA.put(objectKey, file.stream(), { httpMetadata: { contentType: file.type } });
+        try {
+            await env.DB.prepare("UPDATE project_images SET object_key = ?, alt_text = ? WHERE id = ?").bind(objectKey, alt, imageMatch[1]).run();
+        } catch (cause) {
+            await env.MEDIA.delete(objectKey);
+            throw cause;
+        }
+        await env.MEDIA.delete(image.object_key);
+        return json({ updated: true, url: `/media/${objectKey}` });
+    }
     if (imageMatch && request.method === "DELETE") {
         const image = await env.DB.prepare("SELECT object_key FROM project_images WHERE id = ?").bind(imageMatch[1]).first();
         if (!image) return error("Image not found.", 404);

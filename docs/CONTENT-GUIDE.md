@@ -8,6 +8,15 @@ The media panel can also remove an individual image after confirmation. This del
 
 Images must be 10 MB or smaller. Export optimized WebP where possible; GIF is supported. D1 stores metadata and ordering; R2 stores image bytes. New live content does **not** require a Git commit or a new folder.
 
+### Upload and manage images
+
+1. In the project editor, enter the full and short titles, client, year, category (Client or Personal work), and description. New projects receive a URL slug and placement automatically; open **URL and placement** only when you need to inspect or change the slug. The older Type, Status, and grouping metadata are preserved without cluttering the editor.
+2. Save the project first, then choose **Add image** above the image list. Select **Place in** inside the popup: Cover for the homepage card, or Social media posts, Stories, Square posts, Landscape, or Other for the project gallery. Choose a file, drag to position it, use the zoom slider, and choose a crop shape if needed. **Use crop** stages an optimized still image; **Upload original** keeps the file unchanged. Click **Upload image** to persist it. Cropping an animated GIF makes a still frame, so use its original if you want animation.
+3. The image list groups existing images by category. Select a thumbnail to open its edit popup and change alt text, replace its file without changing its position, or move it earlier/later. The card controls also reorder or remove an image. The newest Cover is active on the homepage. Image deletion permanently removes its R2 file.
+4. For longer editing sessions, the project archive remains visible while the content column scrolls independently. On smaller screens, the archive stays above the independently scrolling editor.
+
+The localhost demo at `http://127.0.0.1:8767/admin/` uses sample data and is **read-only**. It lets you test cropping and layout but cannot save to D1/R2. Use the live `/admin/` to save real content.
+
 The original 11 projects remain in Git as fallback/import material. Run `npm run content:plan` to validate them. After deploying the updated Worker, `npm run content:import` asks for the admin token at a hidden terminal prompt and uploads the 68 gallery files and 9 covers. It is resumable and does not delete the originals.
 
 ## Legacy local workflow (fallback only)

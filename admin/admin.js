@@ -13,12 +13,20 @@ const mediaContext = document.getElementById("media-context");
 const mediaCount = document.getElementById("media-count");
 const mediaList = document.getElementById("media-list");
 const uploadForm = document.getElementById("upload-form");
-const projectFilters = [...document.querySelectorAll("[data-project-filter]")];
-const galleryFilters = [...document.querySelectorAll("[data-gallery-filter]")];
-const galleryFilterBar = document.getElementById("gallery-filters");
-const newCoverField = document.getElementById("new-cover-field");
-const draftCoverImage = document.getElementById("draft-cover-image");
-const draftCoverEmpty = document.getElementById("draft-cover-empty");
+const destinationNote = document.getElementById("destination-note");
+const uploadSelection = document.getElementById("upload-selection");
+const uploadThumbnail = document.getElementById("upload-thumbnail");
+const uploadFilename = document.getElementById("upload-filename");
+const uploadDetails = document.getElementById("upload-details");
+const addImageButton = document.getElementById("add-image");
+const projectOrderNote = document.getElementById("project-order-note");
+const imageDialog = document.getElementById("image-dialog");
+const imageDialogTitle = document.getElementById("image-dialog-title");
+const imageDialogContext = document.getElementById("image-dialog-context");
+const submitImage = document.getElementById("submit-image");
+const imageOrderControls = document.getElementById("image-order-controls");
+const imageMoveEarlier = document.getElementById("image-move-earlier");
+const imageMoveLater = document.getElementById("image-move-later");
 
 const labels = {
     cover: "Cover",
@@ -28,15 +36,77 @@ const labels = {
     landscape: "Landscape",
     other: "Other"
 };
+const destinationDetails = {
+    cover: "Homepage card image. It does not appear inside the project gallery; a new cover becomes the active one.",
+    "social-post": "Appears under Social media posts in the project gallery. Suggested crop: 4:5 portrait.",
+    story: "Appears under Stories in the project gallery. Suggested crop: 9:16 portrait.",
+    square: "Appears under Square posts in the project gallery. Suggested crop: 1:1.",
+    landscape: "Appears under Landscape in the project gallery. Suggested crop: 16:9.",
+    other: "Appears under Other in the project gallery. Keep the original ratio or choose a crop."
+};
 
 let projects = [];
 let images = [];
 let editingSlug = null;
-let projectFilter = "all";
-let galleryFilter = "all";
-let previewFile = null;
-let previewObjectUrl = null;
-let savedEditorState = "";
+let stagedFile = null;
+let sourceFile = null;
+let stagedUrl = null;
+let readOnlyDemo = false;
+let shortTitleManuallyEdited = false;
+let slugManuallyEdited = false;
+let editingImage = null;
+let modalCloseTimer = null;
+
+function updateImageOrderControls() {
+    const peers = images.filter((item) => item.category === editingImage?.category);
+    const index = peers.findIndex((item) => item.id === editingImage?.id);
+    imageOrderControls.hidden = index < 0 || editingImage?.category === "cover";
+    imageMoveEarlier.disabled = index <= 0;
+    imageMoveLater.disabled = index < 0 || index >= peers.length - 1;
+}
+
+function openImageDialog(category, image = null) {
+    if (!editingSlug) return;
+    clearStagedImage();
+    editingImage = image;
+    updateImageOrderControls();
+    uploadForm.hidden = false;
+    uploadForm.elements.category.value = category;
+    uploadForm.elements.category.disabled = Boolean(image);
+    uploadForm.elements.alt.value = image?.alt || "";
+    imageDialogTitle.textContent = image ? "Edit image" : "Add image";
+    imageDialogContext.textContent = `${projectForm.elements.fullName.value || editingSlug} / ${labels[category]}${image ? ` / image ${images.filter((item) => item.category === category).findIndex((item) => item.id === image.id) + 1}` : ""}`;
+    submitImage.textContent = image ? "Save image" : "Upload image";
+    if (image) {
+        uploadThumbnail.src = image.url;
+        uploadFilename.textContent = "Current image";
+        uploadDetails.textContent = "Choose a new file to replace this image, or change only its alt text.";
+        uploadSelection.hidden = false;
+        document.getElementById("edit-crop").hidden = true;
+    } else {
+        document.getElementById("edit-crop").hidden = false;
+    }
+    updateDestination();
+    clearTimeout(modalCloseTimer);
+    imageDialog.classList.remove("is-closing");
+    if (!imageDialog.open) imageDialog.showModal();
+    requestAnimationFrame(() => imageDialog.classList.add("is-open"));
+}
+
+function closeImageDialog() {
+    if (!imageDialog.open || imageDialog.classList.contains("is-closing")) return;
+    imageDialog.classList.remove("is-open");
+    imageDialog.classList.add("is-closing");
+    const closeMs = matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--modal-close-dur")) || 150;
+    modalCloseTimer = setTimeout(() => {
+        imageDialog.close();
+        imageDialog.classList.remove("is-closing");
+        editingImage = null;
+        clearStagedImage();
+        uploadForm.elements.alt.value = "";
+        uploadForm.elements.category.disabled = false;
+    }, closeMs);
+}
 
 tokenInput.value = sessionStorage.getItem("portfolio-admin-token") || "";
 
@@ -45,61 +115,24 @@ function setStatus(message, isError = false) {
     status.classList.toggle("is-error", isError);
 }
 
-function renderDraftPreview() {
-    const form = projectForm.elements;
-    const name = form.fullName.value.trim() || form.name.value.trim();
-    document.getElementById("draft-title").textContent = name || "Your project title";
-    document.getElementById("draft-kind").textContent = form.kind.value.toUpperCase();
-    document.getElementById("draft-year").textContent = form.year.value.trim() || "YEAR";
-    document.getElementById("draft-type").textContent = form.type.value.trim() || "Project type";
-    document.getElementById("draft-description").textContent = form.description.value.trim() || "Your description will appear here as you type.";
-    document.getElementById("draft-state").textContent = form.published.checked ? "PUBLISHED · PUBLIC" : "DRAFT · NOT PUBLIC";
-
-    const file = editingSlug
-        ? uploadForm.elements.category.value === "cover" ? uploadForm.elements.file.files[0] : null
-        : form.newCover.files[0];
-    if (file !== previewFile) {
-        if (previewObjectUrl) URL.revokeObjectURL(previewObjectUrl);
-        previewFile = file || null;
-        previewObjectUrl = file ? URL.createObjectURL(file) : null;
-    }
-    const cover = images.filter((image) => image.category === "cover").at(-1) || images[0];
-    const source = previewObjectUrl || cover?.url;
-    draftCoverImage.hidden = !source;
-    draftCoverEmpty.hidden = Boolean(source);
-    if (source) draftCoverImage.src = source;
-    else draftCoverImage.removeAttribute("src");
-
-    const gallery = document.getElementById("draft-gallery-images");
-    const galleryImages = images.filter((image) => image.category !== "cover").slice(0, 4);
-    gallery.replaceChildren();
-    if (galleryImages.length) {
-        galleryImages.forEach((image) => {
-            const thumbnail = document.createElement("img");
-            thumbnail.src = image.url;
-            thumbnail.alt = image.alt || `${labels[image.category] || "Gallery"} preview`;
-            thumbnail.loading = "lazy";
-            gallery.append(thumbnail);
-        });
-    } else {
-        const empty = document.createElement("p");
-        empty.textContent = "Add images to build this project's gallery.";
-        gallery.append(empty);
-    }
+function clearStagedImage() {
+    if (stagedUrl) URL.revokeObjectURL(stagedUrl);
+    stagedFile = null;
+    sourceFile = null;
+    stagedUrl = null;
+    uploadForm.elements.file.value = "";
+    uploadSelection.hidden = true;
 }
 
-function editorState() {
-    const fields = [...projectForm.elements].filter((field) => field.name).map((field) => {
-        if (field.type === "checkbox") return [field.name, field.checked];
-        if (field.type === "file") return [field.name, field.files[0]?.name || "", field.files[0]?.size || 0];
-        return [field.name, field.value];
-    });
-    const upload = uploadForm.elements.file.files[0];
-    return JSON.stringify([...fields, ["pendingUpload", upload?.name || "", upload?.size || 0]]);
-}
-
-function hasUnsavedChanges() {
-    return Boolean(savedEditorState) && editorState() !== savedEditorState;
+function updateDestination() {
+    const category = uploadForm.elements.category.value;
+    destinationNote.replaceChildren();
+    const title = document.createElement("strong");
+    const detail = document.createElement("span");
+    title.textContent = `${editingImage ? "Editing" : "Uploading to"} ${editingSlug || "a saved project"} / ${labels[category]}`;
+    detail.textContent = destinationDetails[category];
+    destinationNote.append(title, detail);
+    if (!editingImage) imageDialogContext.textContent = `${projectForm.elements.fullName.value || editingSlug || "New project"} / ${labels[category]}`;
 }
 
 async function request(path, options = {}) {
@@ -109,6 +142,10 @@ async function request(path, options = {}) {
         ...options,
         headers: { ...options.headers, authorization: `Bearer ${token}` }
     });
+    if (response.headers.get("x-preview-mode") === "read-only") {
+        readOnlyDemo = true;
+        document.getElementById("demo-banner").hidden = false;
+    }
     const data = await response.json();
     if (!response.ok) throw new Error(data.error || `Request failed (${response.status}).`);
     return data;
@@ -119,13 +156,7 @@ function renderProjects() {
     projectCount.textContent = String(projects.length);
     projectList.replaceChildren();
 
-    const filtered = projects.filter((item) => {
-        const matchesSearch = `${item.name} ${item.full_name || ""} ${item.slug}`.toLowerCase().includes(search);
-        const matchesKind = projectFilter === "all" || (projectFilter === "draft" ? !item.published : item.kind === projectFilter);
-        return matchesSearch && matchesKind;
-    });
-
-    for (const project of filtered) {
+    for (const project of projects.filter((item) => `${item.name} ${item.slug}`.toLowerCase().includes(search))) {
         const button = document.createElement("button");
         const number = document.createElement("span");
         const detail = document.createElement("span");
@@ -142,55 +173,54 @@ function renderProjects() {
         meta.textContent = `${project.kind === "client" ? "Client" : "Personal"} · ${project.published ? "Published" : "Draft"}`;
         detail.append(name, meta);
         button.append(number, detail);
-        button.addEventListener("click", () => {
-            if (editingSlug === project.slug) return;
-            if (hasUnsavedChanges() && !confirm("Discard unsaved project changes?")) return;
-            selectProject(project.slug);
-        });
+        button.addEventListener("click", () => selectProject(project.slug));
         projectList.append(button);
     }
 
     if (!projectList.children.length) {
         const empty = document.createElement("p");
         empty.className = "empty-state";
-        empty.textContent = projects.length ? "No projects match this view. Try another filter or search." : "No projects yet. Create your first one.";
+        empty.textContent = search ? "No projects match that search." : "No projects yet. Create your first one.";
         projectList.append(empty);
     }
 }
 
 function resetEditor() {
+    closeImageDialog();
+    clearStagedImage();
     editingSlug = null;
     images = [];
     projectForm.reset();
-    uploadForm.reset();
-    newCoverField.hidden = false;
-    galleryFilterBar.hidden = true;
-    galleryFilter = "all";
-    galleryFilters.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.galleryFilter === "all")));
-    projectForm.elements.index.value = String(projects.length + 1).padStart(2, "0");
+    projectForm.elements.index.value = String(Math.max(0, ...projects.map((project) => Number(project.project_index) || 0)) + 1).padStart(2, "0");
+    projectForm.elements.type.value = "PERSONAL WORK";
+    projectForm.elements.status.value = "ARCHIVE";
+    projectForm.elements.category.value = "Personal";
+    shortTitleManuallyEdited = false;
+    slugManuallyEdited = false;
+    projectOrderNote.textContent = `Placement: ${projectForm.elements.index.value} (assigned automatically)`;
     editorTitle.textContent = "New project";
     document.getElementById("save-project").textContent = "Create project";
     document.getElementById("cancel-edit").textContent = "Reset form";
     projectPreview.hidden = true;
     dangerZone.hidden = true;
+    addImageButton.disabled = true;
     uploadForm.hidden = true;
-    mediaContext.textContent = "Save a project first, then add its cover and gallery images. The cover is separate from gallery categories.";
+    mediaContext.textContent = "Save a project first, then add images. Choose their category in the popup.";
     mediaCount.textContent = "0 images";
     mediaList.replaceChildren();
     renderProjects();
-    renderDraftPreview();
-    savedEditorState = editorState();
+    updateDestination();
 }
 
 async function selectProject(slug) {
+    if (editingSlug !== slug) closeImageDialog();
     const project = projects.find((item) => item.slug === slug);
     if (!project) return;
+    if (editingSlug !== slug) {
+        clearStagedImage();
+        images = [];
+    }
     editingSlug = slug;
-    images = [];
-    uploadForm.reset();
-    projectForm.elements.newCover.value = "";
-    newCoverField.hidden = true;
-    galleryFilterBar.hidden = false;
     projectForm.elements.slug.value = project.slug;
     projectForm.elements.index.value = project.project_index;
     projectForm.elements.name.value = project.name;
@@ -203,17 +233,20 @@ async function selectProject(slug) {
     projectForm.elements.kind.value = project.kind;
     projectForm.elements.description.value = project.description;
     projectForm.elements.published.checked = Boolean(project.published);
+    shortTitleManuallyEdited = true;
+    slugManuallyEdited = true;
+    projectOrderNote.textContent = `Placement: ${project.project_index} (kept from this project)`;
     editorTitle.textContent = project.full_name || project.name;
     document.getElementById("save-project").textContent = "Save changes";
     document.getElementById("cancel-edit").textContent = "Cancel changes";
     projectPreview.href = `/pages/project.html?project=${encodeURIComponent(slug)}`;
     projectPreview.hidden = !project.published;
     dangerZone.hidden = false;
+    addImageButton.disabled = false;
     uploadForm.hidden = false;
-    mediaContext.textContent = `Managing images for ${project.full_name || project.name}. Upload a new cover to make it the active one.`;
+    mediaContext.textContent = `Managing images for ${project.full_name || project.name}. Select a thumbnail to edit, or choose Add image to pick a category.`;
+    updateDestination();
     renderProjects();
-    renderDraftPreview();
-    savedEditorState = editorState();
     mediaList.replaceChildren();
     mediaCount.textContent = "Loading…";
     try {
@@ -227,8 +260,9 @@ async function loadProjects(preferredSlug = editingSlug) {
     projects = await request("/api/admin/projects");
     workspace.hidden = false;
     accessPanel.hidden = true;
+    document.body.classList.add("admin-unlocked");
     sessionStorage.setItem("portfolio-admin-token", tokenInput.value.trim());
-    setStatus(`${projects.length} projects loaded.`);
+    setStatus(`${projects.length} project${projects.length === 1 ? "" : "s"} loaded.`);
     if (preferredSlug && projects.some((project) => project.slug === preferredSlug)) {
         await selectProject(preferredSlug);
     } else if (projects.length) {
@@ -251,13 +285,8 @@ function mediaButton(label, text, onClick, disabled = false, className = "order-
 
 function renderImages() {
     mediaList.replaceChildren();
+    updateImageOrderControls();
     mediaCount.textContent = `${images.length} image${images.length === 1 ? "" : "s"}`;
-    galleryFilters.forEach((button) => {
-        const category = button.dataset.galleryFilter;
-        const count = category === "all" ? images.length : images.filter((image) => image.category === category).length;
-        button.textContent = `${category === "all" ? "All images" : labels[category]} (${count})`;
-        button.setAttribute("aria-pressed", String(category === galleryFilter));
-    });
     if (!images.length) {
         const empty = document.createElement("p");
         empty.className = "empty-state";
@@ -267,7 +296,6 @@ function renderImages() {
     }
 
     for (const [category, label] of Object.entries(labels)) {
-        if (galleryFilter !== "all" && galleryFilter !== category) continue;
         const items = images.filter((image) => image.category === category);
         if (!items.length) continue;
         const group = document.createElement("section");
@@ -284,14 +312,23 @@ function renderImages() {
 
         items.forEach((image, index) => {
             const card = document.createElement("article");
+            const edit = document.createElement("button");
             const preview = document.createElement("img");
+            const editLabel = document.createElement("span");
             const body = document.createElement("div");
             const caption = document.createElement("p");
             const actions = document.createElement("div");
             card.className = "media-item";
+            edit.type = "button";
+            edit.className = "media-edit-trigger";
+            edit.setAttribute("aria-label", `Edit ${label} image ${index + 1}`);
+            edit.addEventListener("click", () => openImageDialog(category, image));
             preview.src = image.url;
             preview.alt = image.alt || `${label} image ${index + 1}`;
             preview.loading = "lazy";
+            editLabel.className = "media-edit-label";
+            editLabel.textContent = "Edit image";
+            edit.append(preview, editLabel);
             body.className = "media-item-body";
             caption.textContent = `${category === "cover" && index === items.length - 1 ? "ACTIVE COVER · " : ""}${String(index + 1).padStart(2, "0")} / ${image.alt || "No alt text"}`;
             actions.className = "media-actions";
@@ -301,17 +338,11 @@ function renderImages() {
                 mediaButton(`Delete ${label} image ${index + 1}`, "Remove", () => removeImage(image), false, "remove-image")
             );
             body.append(caption, actions);
-            card.append(preview, body);
+            card.append(edit, body);
             grid.append(card);
         });
         group.append(heading, grid);
         mediaList.append(group);
-    }
-    if (!mediaList.children.length) {
-        const empty = document.createElement("p");
-        empty.className = "empty-state";
-        empty.textContent = `No ${labels[galleryFilter]?.toLowerCase() || "gallery"} images yet. Choose this category when uploading an image.`;
-        mediaList.append(empty);
     }
 }
 
@@ -320,7 +351,6 @@ async function loadImages(slug) {
     if (editingSlug !== slug) return;
     images = records;
     renderImages();
-    renderDraftPreview();
 }
 
 async function moveImage(category, index, direction) {
@@ -363,9 +393,8 @@ document.getElementById("access-form").addEventListener("submit", (event) => {
 });
 
 document.getElementById("new-project").addEventListener("click", () => {
-    if (hasUnsavedChanges() && !confirm("Discard unsaved project changes?")) return;
     resetEditor();
-    projectForm.elements.slug.focus();
+    projectForm.elements.fullName.focus();
     setStatus("New draft ready.");
 });
 
@@ -376,6 +405,7 @@ document.getElementById("cancel-edit").addEventListener("click", () => {
 });
 
 document.getElementById("lock-studio").addEventListener("click", () => {
+    clearStagedImage();
     sessionStorage.removeItem("portfolio-admin-token");
     tokenInput.value = "";
     projects = [];
@@ -383,78 +413,89 @@ document.getElementById("lock-studio").addEventListener("click", () => {
     editingSlug = null;
     workspace.hidden = true;
     accessPanel.hidden = false;
+    document.body.classList.remove("admin-unlocked");
     setStatus("Studio locked for this browser session.");
     tokenInput.focus();
 });
 
 projectSearch.addEventListener("input", renderProjects);
-projectFilters.forEach((button) => button.addEventListener("click", () => {
-    projectFilter = button.dataset.projectFilter;
-    projectFilters.forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-    renderProjects();
-}));
-galleryFilters.forEach((button) => button.addEventListener("click", () => {
-    galleryFilter = button.dataset.galleryFilter;
-    if (galleryFilter !== "all") uploadForm.elements.category.value = galleryFilter;
-    renderImages();
-    renderDraftPreview();
-}));
-projectForm.addEventListener("input", renderDraftPreview);
-projectForm.addEventListener("change", renderDraftPreview);
-uploadForm.addEventListener("change", renderDraftPreview);
+projectForm.elements.name.addEventListener("input", () => { shortTitleManuallyEdited = true; });
+projectForm.elements.slug.addEventListener("input", () => { slugManuallyEdited = true; });
+projectForm.elements.fullName.addEventListener("input", () => {
+    const title = projectForm.elements.fullName.value.trim();
+    if (!shortTitleManuallyEdited) projectForm.elements.name.value = title.toUpperCase();
+    if (!slugManuallyEdited) projectForm.elements.slug.value = title.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+});
+projectForm.elements.kind.addEventListener("change", () => {
+    if (!editingSlug) {
+        const client = projectForm.elements.kind.value === "client";
+        projectForm.elements.category.value = client ? "Client" : "Personal";
+        projectForm.elements.type.value = client ? "CLIENT WORK" : "PERSONAL WORK";
+    }
+});
+uploadForm.elements.category.addEventListener("change", updateDestination);
+addImageButton.addEventListener("click", () => openImageDialog("other"));
+document.getElementById("close-image-dialog").addEventListener("click", closeImageDialog);
+imageMoveEarlier.addEventListener("click", () => {
+    const index = images.filter((item) => item.category === editingImage?.category).findIndex((item) => item.id === editingImage?.id);
+    if (index >= 0) moveImage(editingImage.category, index, -1);
+});
+imageMoveLater.addEventListener("click", () => {
+    const index = images.filter((item) => item.category === editingImage?.category).findIndex((item) => item.id === editingImage?.id);
+    if (index >= 0) moveImage(editingImage.category, index, 1);
+});
+imageDialog.addEventListener("cancel", (event) => { event.preventDefault(); closeImageDialog(); });
+imageDialog.addEventListener("click", (event) => { if (event.target === imageDialog) closeImageDialog(); });
+
+async function editSelectedImage(file) {
+    const slug = editingSlug;
+    try {
+        const selection = await imageEditor.open(file, uploadForm.elements.category.value);
+        uploadForm.elements.file.value = "";
+        if (!selection || slug !== editingSlug) return;
+        if (stagedUrl) URL.revokeObjectURL(stagedUrl);
+        stagedFile = selection.file;
+        sourceFile = file;
+        stagedUrl = URL.createObjectURL(stagedFile);
+        uploadThumbnail.src = stagedUrl;
+        uploadFilename.textContent = stagedFile.name;
+        uploadDetails.textContent = `${(stagedFile.size / 1024 / 1024).toFixed(2)} MB · ${selection.edited ? "cropped WebP" : "original file"}`;
+        uploadSelection.hidden = false;
+        document.getElementById("edit-crop").hidden = false;
+    } catch (error) {
+        uploadForm.elements.file.value = "";
+        setStatus(error.message, true);
+    }
+}
+
+uploadForm.elements.file.addEventListener("change", () => {
+    const file = uploadForm.elements.file.files[0];
+    if (file) editSelectedImage(file);
+});
+document.getElementById("edit-crop").addEventListener("click", () => {
+    if (sourceFile) editSelectedImage(sourceFile);
+});
 
 projectForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (readOnlyDemo) { setStatus("Local demo is read-only. Open the live admin to save project changes.", true); return; }
     const form = new FormData(projectForm);
     const data = Object.fromEntries(form);
     data.published = form.get("published") === "on";
     const previousSlug = editingSlug;
-    const newCover = previousSlug ? null : form.get("newCover");
-    delete data.newCover;
-    if (newCover?.size > 10 * 1024 * 1024) {
-        setStatus("Cover images must be 10 MB or smaller.", true);
-        return;
-    }
-    if (newCover?.size && !newCover.type.startsWith("image/")) {
-        setStatus("Choose an image for the cover.", true);
-        return;
-    }
-    const publishAfterCover = Boolean(newCover?.size && data.published);
-    if (publishAfterCover) data.published = false;
     const submit = document.getElementById("save-project");
     submit.disabled = true;
-    let result;
     try {
         const path = previousSlug ? `/api/admin/projects/${encodeURIComponent(previousSlug)}` : "/api/admin/projects";
-        result = await request(path, {
+        const result = await request(path, {
             method: previousSlug ? "PUT" : "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify(data)
         });
-        if (newCover?.size) {
-            const coverUpload = new FormData();
-            coverUpload.append("file", newCover);
-            coverUpload.append("category", "cover");
-            coverUpload.append("alt", data.fullName || data.name);
-            await request(`/api/admin/projects/${encodeURIComponent(result.slug)}/images`, { method: "POST", body: coverUpload });
-            if (publishAfterCover) {
-                data.published = true;
-                await request(`/api/admin/projects/${encodeURIComponent(result.slug)}`, {
-                    method: "PUT",
-                    headers: { "content-type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-            }
-        }
         await loadProjects(result.slug);
-        setStatus(previousSlug ? "Project updated." : newCover?.size ? "Project and cover saved. Add gallery images next." : "Project created. Add its cover and gallery images next.");
+        setStatus(previousSlug ? "Project updated." : "Project created. Add its cover and gallery images next.");
     } catch (error) {
-        if (result && !previousSlug) {
-            await loadProjects(result.slug).catch(() => {});
-            setStatus(`Project created, but its cover or publish step failed: ${error.message} Retry in the gallery.`, true);
-        } else {
-            setStatus(error.message, true);
-        }
+        setStatus(error.message, true);
     } finally {
         submit.disabled = false;
     }
@@ -462,23 +503,26 @@ projectForm.addEventListener("submit", async (event) => {
 
 uploadForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (readOnlyDemo) { setStatus("Local demo is read-only. Your crop is only a preview; nothing was uploaded.", true); return; }
     if (!editingSlug) return;
     const slug = editingSlug;
     const form = new FormData(uploadForm);
-    const file = form.get("file");
-    if (!file || !file.size) return;
-    if (file.size > 10 * 1024 * 1024) {
+    const file = stagedFile;
+    if ((!file || !file.size) && !editingImage) { setStatus("Choose an image and confirm its crop before uploading.", true); return; }
+    if (file) form.set("file", file);
+    else form.delete("file");
+    form.set("category", uploadForm.elements.category.value);
+    if (file && file.size > 10 * 1024 * 1024) {
         setStatus("Images must be 10 MB or smaller.", true);
         return;
     }
     const button = uploadForm.querySelector("button[type=submit]");
     button.disabled = true;
     try {
-        await request(`/api/admin/projects/${encodeURIComponent(slug)}/images`, { method: "POST", body: form });
-        uploadForm.elements.file.value = "";
-        uploadForm.elements.alt.value = "";
+        await request(editingImage ? `/api/admin/images/${editingImage.id}` : `/api/admin/projects/${encodeURIComponent(slug)}/images`, { method: editingImage ? "PUT" : "POST", body: form });
         await loadImages(slug);
-        setStatus("Image uploaded. Its gallery position is saved automatically.");
+        closeImageDialog();
+        setStatus(editingImage ? "Image updated." : "Image uploaded. Its gallery position is saved automatically.");
     } catch (error) {
         setStatus(error.message, true);
     } finally {
@@ -504,3 +548,4 @@ if (tokenInput.value) loadProjects().catch(() => {
     tokenInput.value = "";
     setStatus("Session expired. Enter your admin token again.", true);
 });
+updateDestination();
