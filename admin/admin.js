@@ -60,7 +60,7 @@ let modalCloseTimer = null;
 function updateImageOrderControls() {
     const peers = images.filter((item) => item.category === editingImage?.category);
     const index = peers.findIndex((item) => item.id === editingImage?.id);
-    imageOrderControls.hidden = index < 0 || editingImage?.category === "cover";
+    imageOrderControls.hidden = index < 0 || editingImage?.category === "cover" || uploadForm.elements.category.value !== editingImage?.category;
     imageMoveEarlier.disabled = index <= 0;
     imageMoveLater.disabled = index < 0 || index >= peers.length - 1;
 }
@@ -69,10 +69,9 @@ function openImageDialog(category, image = null) {
     if (!editingSlug) return;
     clearStagedImage();
     editingImage = image;
-    updateImageOrderControls();
     uploadForm.hidden = false;
     uploadForm.elements.category.value = category;
-    uploadForm.elements.category.disabled = Boolean(image);
+    updateImageOrderControls();
     uploadForm.elements.alt.value = image?.alt || "";
     imageDialogTitle.textContent = image ? "Edit image" : "Add image";
     imageDialogContext.textContent = `${projectForm.elements.fullName.value || editingSlug} / ${labels[category]}${image ? ` / image ${images.filter((item) => item.category === category).findIndex((item) => item.id === image.id) + 1}` : ""}`;
@@ -104,7 +103,6 @@ function closeImageDialog() {
         editingImage = null;
         clearStagedImage();
         uploadForm.elements.alt.value = "";
-        uploadForm.elements.category.disabled = false;
     }, closeMs);
 }
 
@@ -129,9 +127,19 @@ function updateDestination() {
     destinationNote.replaceChildren();
     const title = document.createElement("strong");
     const detail = document.createElement("span");
-    title.textContent = `${editingImage ? "Editing" : "Uploading to"} ${editingSlug || "a saved project"} / ${labels[category]}`;
-    detail.textContent = destinationDetails[category];
+    const makingCover = editingImage && category === "cover" && editingImage.category !== "cover";
+    title.textContent = `${makingCover ? "Using as cover" : editingImage ? "Placing in" : "Uploading to"} ${editingSlug || "a saved project"} / ${labels[category]}`;
+    detail.textContent = makingCover
+        ? "A separate cover copy will be created. This image stays in its current gallery category."
+        : destinationDetails[category];
     destinationNote.append(title, detail);
+    submitImage.textContent = makingCover ? "Use as cover" : editingImage ? "Save image" : "Upload image";
+    if (editingImage && !stagedFile) {
+        uploadDetails.textContent = makingCover
+            ? "Use this existing image as cover, or choose a new file. The gallery original stays unchanged."
+            : "Choose a new file to replace this image, or change its category and alt text.";
+    }
+    updateImageOrderControls();
     if (!editingImage) imageDialogContext.textContent = `${projectForm.elements.fullName.value || editingSlug || "New project"} / ${labels[category]}`;
 }
 
@@ -194,7 +202,7 @@ function resetEditor() {
     projectForm.elements.index.value = String(Math.max(0, ...projects.map((project) => Number(project.project_index) || 0)) + 1).padStart(2, "0");
     projectForm.elements.type.value = "PERSONAL WORK";
     projectForm.elements.status.value = "ARCHIVE";
-    projectForm.elements.category.value = "Personal";
+    projectForm.elements.category.value = "";
     shortTitleManuallyEdited = false;
     slugManuallyEdited = false;
     projectOrderNote.textContent = `Placement: ${projectForm.elements.index.value} (assigned automatically)`;
@@ -228,7 +236,7 @@ async function selectProject(slug) {
     projectForm.elements.client.value = project.client;
     projectForm.elements.year.value = project.year;
     projectForm.elements.type.value = project.type;
-    projectForm.elements.category.value = project.category;
+    projectForm.elements.category.value = project.category || "";
     projectForm.elements.status.value = project.status;
     projectForm.elements.kind.value = project.kind;
     projectForm.elements.description.value = project.description;
@@ -429,7 +437,6 @@ projectForm.elements.fullName.addEventListener("input", () => {
 projectForm.elements.kind.addEventListener("change", () => {
     if (!editingSlug) {
         const client = projectForm.elements.kind.value === "client";
-        projectForm.elements.category.value = client ? "Client" : "Personal";
         projectForm.elements.type.value = client ? "CLIENT WORK" : "PERSONAL WORK";
     }
 });
@@ -519,10 +526,11 @@ uploadForm.addEventListener("submit", async (event) => {
     const button = uploadForm.querySelector("button[type=submit]");
     button.disabled = true;
     try {
+        const makingCover = editingImage && uploadForm.elements.category.value === "cover" && editingImage.category !== "cover";
         await request(editingImage ? `/api/admin/images/${editingImage.id}` : `/api/admin/projects/${encodeURIComponent(slug)}/images`, { method: editingImage ? "PUT" : "POST", body: form });
         await loadImages(slug);
         closeImageDialog();
-        setStatus(editingImage ? "Image updated." : "Image uploaded. Its gallery position is saved automatically.");
+        setStatus(makingCover ? "Cover selected. The gallery image is still in place." : editingImage ? "Image updated." : "Image uploaded. Its gallery position is saved automatically.");
     } catch (error) {
         setStatus(error.message, true);
     } finally {

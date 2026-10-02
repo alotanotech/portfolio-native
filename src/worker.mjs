@@ -197,23 +197,53 @@ async function adminApi(request, env, pathname) {
 
     const imageMatch = pathname.match(/^\/api\/admin\/images\/(\d+)$/);
     if (imageMatch && request.method === "PUT") {
-        const image = await env.DB.prepare("SELECT object_key FROM project_images WHERE id = ?").bind(imageMatch[1]).first();
+        const image = await env.DB.prepare("SELECT project_id, category, object_key, sort_order FROM project_images WHERE id = ?").bind(imageMatch[1]).first();
         if (!image) return error("Image not found.", 404);
         const form = await request.formData();
         const file = form.get("file");
         const alt = String(form.get("alt") || "");
+        const category = String(form.get("category") || image.category);
+        if (![...CATEGORIES, "cover"].includes(category)) return error("Invalid image category.");
         if (file && (!(file instanceof File) || !file.size || !file.type.startsWith("image/"))) return error("Upload one image file.");
         if (file && file.size > 10 * 1024 * 1024) return error("Images must be 10 MB or smaller.");
+        const order = category !== image.category || category === "cover"
+            ? await env.DB.prepare("SELECT COALESCE(MAX(sort_order), 0) + 1 AS next_order FROM project_images WHERE project_id = ? AND category = ?").bind(image.project_id, category).first()
+            : null;
+        const sortOrder = order?.next_order || image.sort_order;
+        const projectFolder = image.object_key.split("/")[0];
+
+        // A gallery image selected as cover remains in its gallery category.
+        if (category === "cover" && image.category !== "cover") {
+            const source = file ? null : await env.MEDIA.get(image.object_key);
+            if (!file && !source) return error("Original image not found in storage.", 404);
+            const extension = file
+                ? file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "webp"
+                : image.object_key.split(".").pop();
+            const objectKey = `${projectFolder}/${crypto.randomUUID()}.${extension}`;
+            await env.MEDIA.put(objectKey, file ? file.stream() : source.body, {
+                httpMetadata: { contentType: file?.type || source?.httpMetadata?.contentType || "image/webp" }
+            });
+            try {
+                const result = await env.DB.prepare("INSERT INTO project_images (project_id, category, object_key, alt_text, sort_order) VALUES (?, 'cover', ?, ?, ?)")
+                    .bind(image.project_id, objectKey, alt, sortOrder).run();
+                return json({ updated: true, coverCreated: true, id: result.meta.last_row_id, url: `/media/${objectKey}` });
+            } catch (cause) {
+                await env.MEDIA.delete(objectKey);
+                throw cause;
+            }
+        }
+
         if (!file) {
-            await env.DB.prepare("UPDATE project_images SET alt_text = ? WHERE id = ?").bind(alt, imageMatch[1]).run();
+            await env.DB.prepare("UPDATE project_images SET category = ?, sort_order = ?, alt_text = ? WHERE id = ?")
+                .bind(category, sortOrder, alt, imageMatch[1]).run();
             return json({ updated: true });
         }
         const extension = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "webp";
-        const projectFolder = image.object_key.split("/")[0];
         const objectKey = `${projectFolder}/${crypto.randomUUID()}.${extension}`;
         await env.MEDIA.put(objectKey, file.stream(), { httpMetadata: { contentType: file.type } });
         try {
-            await env.DB.prepare("UPDATE project_images SET object_key = ?, alt_text = ? WHERE id = ?").bind(objectKey, alt, imageMatch[1]).run();
+            await env.DB.prepare("UPDATE project_images SET object_key = ?, category = ?, sort_order = ?, alt_text = ? WHERE id = ?")
+                .bind(objectKey, category, sortOrder, alt, imageMatch[1]).run();
         } catch (cause) {
             await env.MEDIA.delete(objectKey);
             throw cause;

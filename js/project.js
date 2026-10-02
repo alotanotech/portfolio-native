@@ -588,6 +588,14 @@ function applyProjectData(
     document.title =
         `${project.name} | Lyan`;
 
+    setProjectText("project-gallery-full-title", project.fullName || project.name);
+    setProjectText("project-gallery-short-title", project.name);
+    setProjectText("project-gallery-client-label", project.kind === "client" ? "CLIENT" : "PROJECT");
+    setProjectText("project-gallery-client", project.client);
+    setProjectText("project-gallery-description", project.description);
+    const galleryDescription = document.getElementById("project-gallery-description");
+    if (galleryDescription) galleryDescription.hidden = !project.description;
+
 
     setProjectText(
         "project-index",

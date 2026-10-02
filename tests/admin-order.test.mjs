@@ -15,11 +15,17 @@ database.exec(`
     INSERT INTO project_images VALUES (14, 2, 'social-post', 'other/x.webp', 'Other', 1);
 `);
 
+const storedImages = new Set(["sample/a.webp", "sample/b.webp", "sample/cover.webp", "sample/new-cover.webp", "other/x.webp"]);
 const env = {
     ADMIN_TOKEN: "test-token",
     MEDIA: {
-        async put(key) { return { key }; },
-        async delete(key) { return { key }; }
+        async get(key) {
+            return storedImages.has(key)
+                ? { body: new Blob(["stored image"]).stream(), httpMetadata: { contentType: "image/webp" } }
+                : null;
+        },
+        async put(key) { storedImages.add(key); return { key }; },
+        async delete(key) { storedImages.delete(key); return { key }; }
     },
     DB: {
         prepare(sql) {
@@ -86,4 +92,46 @@ assert.match(replacementRecord.object_key, /^sample\/[a-f0-9-]+\.webp$/);
 assert.equal(replacementRecord.category, "social-post");
 assert.equal(replacementRecord.sort_order, 2);
 assert.equal(replacementRecord.alt_text, "Replacement image");
-console.log("Admin image listing, authorization, reorder validation and public gallery order passed.");
+
+const invalidCategoryForm = new FormData();
+invalidCategoryForm.set("category", "not-a-category");
+assert.equal((await worker.fetch(editRequest(invalidCategoryForm), env)).status, 400);
+
+const moveForm = new FormData();
+moveForm.set("category", "other");
+moveForm.set("alt", "Moved to other");
+assert.equal((await worker.fetch(new Request(url("/api/admin/images/12"), {
+    method: "PUT", headers: { authorization: "Bearer test-token" }, body: moveForm
+}), env)).status, 200);
+const moved = database.prepare("SELECT category, sort_order, object_key FROM project_images WHERE id = 12").get();
+assert.equal(moved.category, "other");
+assert.equal(moved.sort_order, 1);
+assert.equal(moved.object_key, "sample/b.webp");
+
+const coverForm = new FormData();
+coverForm.set("category", "cover");
+coverForm.set("alt", "Featured from gallery");
+const coverResponse = await worker.fetch(editRequest(coverForm), env);
+assert.equal(coverResponse.status, 200);
+assert.equal((await coverResponse.json()).coverCreated, true);
+const galleryOriginal = database.prepare("SELECT category, object_key FROM project_images WHERE id = 11").get();
+assert.equal(galleryOriginal.category, "social-post");
+assert.equal(galleryOriginal.object_key, replacementRecord.object_key);
+const selectedCover = database.prepare("SELECT object_key, alt_text FROM project_images WHERE category = 'cover' ORDER BY sort_order DESC LIMIT 1").get();
+assert.notEqual(selectedCover.object_key, galleryOriginal.object_key);
+assert.equal(selectedCover.alt_text, "Featured from gallery");
+assert.ok(storedImages.has(selectedCover.object_key));
+const updatedPublicProject = await worker.fetch(request("/api/projects/sample", "GET", undefined, false), env).then((response) => response.json());
+assert.equal(updatedPublicProject.cover, `/media/${selectedCover.object_key}`);
+assert.deepEqual(updatedPublicProject.manifest.categories["social-post"].map((image) => image.alt), ["Replacement image"]);
+
+const customCategory = await worker.fetch(request("/api/admin/projects", "POST", {
+    slug: "custom-category", index: "03", name: "CUSTOM", fullName: "Custom category project",
+    client: "Personal project", year: "2026", type: "PERSONAL WORK", status: "ARCHIVE",
+    kind: "personal", category: "Brand identity", description: "Custom project label", published: true
+}), env);
+assert.equal(customCategory.status, 201);
+const customProject = await worker.fetch(request("/api/projects/custom-category", "GET", undefined, false), env).then((response) => response.json());
+assert.equal(customProject.category, "Brand identity");
+
+console.log("Admin image listing, authorization, reorder, category moves, cover selection and public gallery order passed.");

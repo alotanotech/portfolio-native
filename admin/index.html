@@ -47,13 +47,13 @@
                         <form id="project-form" class="project-form">
                             <input name="index" type="hidden" value="01">
                             <input name="type" type="hidden" value="PERSONAL WORK">
-                            <input name="category" type="hidden" value="Personal">
                             <input name="status" type="hidden" value="ARCHIVE">
                             <label class="wide">Full title <input name="fullName" required placeholder="Coffee Campaign"></label>
                             <label>Short title <input name="name" required placeholder="COFFEE CAMPAIGN"></label>
                             <label>Client <input name="client" value="PERSONAL PROJECT"></label>
                             <label>Year <input name="year" required placeholder="2026"></label>
-                            <label>Category <select name="kind"><option value="personal">Personal work</option><option value="client">Client work</option></select></label>
+                            <label>Portfolio section <select name="kind"><option value="personal">Personal work</option><option value="client">Client work</option></select></label>
+                            <label>Project category <input name="category" required maxlength="80" placeholder="e.g. Brand identity" aria-describedby="project-category-help"><small id="project-category-help" class="field-help">Type your own label for this project.</small></label>
                             <label class="wide">Description <textarea name="description" rows="4" placeholder="What was the project about?"></textarea></label>
                             <details class="advanced-fields wide"><summary>URL and placement</summary><p>The URL slug identifies this page. Changing it after publishing can break shared links. Placement is assigned automatically for new projects.</p><label>URL slug <input name="slug" required pattern="[a-z0-9-]+" placeholder="coffee-campaign"></label><span id="project-order-note"></span></details>
                             <label class="publish-field wide"><input name="published" type="checkbox"><span><strong>Published</strong><small>Visible on the portfolio. Leave off while preparing images.</small></span></label>
