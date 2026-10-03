@@ -28,6 +28,34 @@
 .topbar:not(.is-compact)::before { opacity: 0; }
 .topbar.menu-open:not(.is-compact)::before { opacity: 1; }
 
+/* Keep the full-width hero nav typographically consistent with the pill. */
+.topbar:not(.is-compact) .nav-index .nav-links a,
+.topbar:not(.is-compact) .contact-button {
+  padding: 10px 14px;
+  font-family: var(--font-display);
+  font-size: .88rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  border-radius: 999px;
+}
+.topbar:not(.is-compact) .nav-index .nav-links a::after,
+.topbar:not(.is-compact) .contact-button::after { padding: 10px 14px; }
+.topbar:not(.is-compact) .nav-index .nav-links a::before,
+.topbar:not(.is-compact) .contact-button::before { border-radius: 999px; }
+.topbar:not(.is-compact) .contact-button {
+  background: #fff;
+  color: #111;
+}
+.topbar:not(.is-compact) .contact-button span {
+  color: inherit;
+  animation: none;
+}
+.topbar:not(.is-compact) .nav-index .nav-links a:focus-visible,
+.topbar:not(.is-compact) .contact-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 .topbar.is-compact {
   --text-main: #111;
   top: 12px;
