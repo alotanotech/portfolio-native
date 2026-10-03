@@ -13,8 +13,10 @@
     <link rel="stylesheet" href="/css/intro.css">
     <link rel="stylesheet" href="/css/about.css">
     <link rel="stylesheet" href="/css/about-home.css">
+    <link rel="stylesheet" href="/css/about-experience.css">
     <link rel="stylesheet" href="/css/cyberad.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/nav-pill.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -56,7 +58,7 @@
 
     </div>
 
-    <nav class="topbar">
+    <nav class="topbar t-resize" aria-label="Main navigation">
 
         <a
             href="#hero"
@@ -65,7 +67,7 @@
 
             <img
                 src="/asset/logo/logo.webp"
-                alt="Logo"
+                alt="Lyan Luna"
                 class="main-logo-static"
             />
 
@@ -81,6 +83,12 @@
         <div class="nav-index">
 
             <ul class="nav-links">
+
+                <li>
+
+                    <a href="#hero" data-text="Home"><span>Home</span></a>
+
+                </li>
 
                 <li>
 
@@ -101,11 +109,11 @@
 
                     <a
                         href="#about"
-                        data-text="About"
+                        data-text="Who I Am"
                     >
 
                         <span>
-                            About
+                            Who I Am
                         </span>
 
                     </a>
@@ -350,6 +358,8 @@
 
                     <div class="about-bio-wrap">
 
+                        <div class="about-description">
+
                         <p class="about-bio-intro t-stream">
                             I'm Christopher Aurellyan Alotano Luna, a graphic designer and programming student
                             based in Pontianak, Indonesia. I turn ideas into clear identities, expressive visuals,
@@ -361,28 +371,52 @@
                             and the small interactions that make a website feel right.
                         </p>
 
+                        </div>
+
+                        <section class="about-experience" aria-labelledby="about-experience-title">
+                            <div class="about-experience-heading">
+                                <div>
+                                    <p class="about-experience-eyebrow">BACKGROUND / 02</p>
+                                    <h3 id="about-experience-title">Experience</h3>
+                                </div>
+                                <a href="https://www.linkedin.com/in/alotanoluna/" target="_blank" rel="noopener noreferrer">View LinkedIn <span aria-hidden="true">↗</span></a>
+                            </div>
+
+                            <div class="about-experience-list" role="region" aria-label="Experience history" tabindex="0">
+                                <article class="about-experience-item">
+                                    <div>
+                                        <h4>PT PCBA Semiconductor International</h4>
+                                        <p>Graphic Designer</p>
+                                    </div>
+                                    <span class="about-experience-period">Feb 2025 — Oct 2025</span>
+                                </article>
+                                <article class="about-experience-item">
+                                    <div>
+                                        <h4>PT Digital Investa Indonesia</h4>
+                                        <p>Graphic Designer</p>
+                                    </div>
+                                    <span class="about-experience-period">Dec 2024 — Apr 2025</span>
+                                </article>
+                                <article class="about-experience-item">
+                                    <div>
+                                        <h4>AIESEC</h4>
+                                        <p>Project Manager, Local Project</p>
+                                    </div>
+                                    <span class="about-experience-period">Feb 2024 — Aug 2024</span>
+                                </article>
+                                <article class="about-experience-item">
+                                    <div>
+                                        <h4>AIESEC · EduStanding 2024</h4>
+                                        <p>Organizing Committee President</p>
+                                    </div>
+                                    <span class="about-experience-period">Feb 2024 — Aug 2024</span>
+                                </article>
+                            </div>
+                        </section>
+
                         <div class="about-bio-panel">
 
                             <div class="about-bio-card">
-
-                                <div class="about-bio-table">
-
-                                    <div class="about-bio-row">
-                                        <div class="about-bio-label">01 / Identity</div>
-                                        <div class="about-bio-value">Brand systems and visual direction</div>
-                                    </div>
-
-                                    <div class="about-bio-row">
-                                        <div class="about-bio-label">02 / Digital</div>
-                                        <div class="about-bio-value">Web design and development</div>
-                                    </div>
-
-                                    <div class="about-bio-row">
-                                        <div class="about-bio-label">03 / Visuals</div>
-                                        <div class="about-bio-value">Illustration, motion, and 3D</div>
-                                    </div>
-
-                                </div>
 
                                 <div class="about-toolkit">
 
@@ -717,6 +751,7 @@
 
     <script src="/js/work-hero.js"></script>
     <script src="/js/nav.js"></script>
+    <script src="/js/nav-pill.js"></script>
     <script src="/js/about.js"></script>
     <script src="/js/about-stream.js"></script>
     <script src="/js/about-grid.js"></script>
