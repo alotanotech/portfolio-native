@@ -45,6 +45,10 @@ const destinationDetails = {
     other: "Appears under Other in the project gallery. Keep the original ratio or choose a crop."
 };
 
+function sectionLabel(value) {
+    return String(value || "Personal").replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
 let projects = [];
 let images = [];
 let editingSlug = null;
@@ -164,7 +168,7 @@ function renderProjects() {
     projectCount.textContent = String(projects.length);
     projectList.replaceChildren();
 
-    for (const project of projects.filter((item) => `${item.name} ${item.slug}`.toLowerCase().includes(search))) {
+    for (const project of projects.filter((item) => `${item.name} ${item.slug} ${item.kind} ${item.category}`.toLowerCase().includes(search))) {
         const button = document.createElement("button");
         const number = document.createElement("span");
         const detail = document.createElement("span");
@@ -178,7 +182,7 @@ function renderProjects() {
         name.className = "project-name";
         name.textContent = project.full_name || project.name;
         meta.className = "project-meta";
-        meta.textContent = `${project.kind === "client" ? "Client" : "Personal"} · ${project.published ? "Published" : "Draft"}`;
+        meta.textContent = `${sectionLabel(project.kind)} · ${project.published ? "Published" : "Draft"}`;
         detail.append(name, meta);
         button.append(number, detail);
         button.addEventListener("click", () => selectProject(project.slug));
@@ -202,6 +206,7 @@ function resetEditor() {
     projectForm.elements.index.value = String(Math.max(0, ...projects.map((project) => Number(project.project_index) || 0)) + 1).padStart(2, "0");
     projectForm.elements.type.value = "PERSONAL WORK";
     projectForm.elements.status.value = "ARCHIVE";
+    projectForm.elements.kind.value = "Personal";
     projectForm.elements.category.value = "";
     shortTitleManuallyEdited = false;
     slugManuallyEdited = false;
@@ -238,7 +243,7 @@ async function selectProject(slug) {
     projectForm.elements.type.value = project.type;
     projectForm.elements.category.value = project.category || "";
     projectForm.elements.status.value = project.status;
-    projectForm.elements.kind.value = project.kind;
+    projectForm.elements.kind.value = sectionLabel(project.kind);
     projectForm.elements.description.value = project.description;
     projectForm.elements.published.checked = Boolean(project.published);
     shortTitleManuallyEdited = true;
@@ -434,10 +439,10 @@ projectForm.elements.fullName.addEventListener("input", () => {
     if (!shortTitleManuallyEdited) projectForm.elements.name.value = title.toUpperCase();
     if (!slugManuallyEdited) projectForm.elements.slug.value = title.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 });
-projectForm.elements.kind.addEventListener("change", () => {
+projectForm.elements.kind.addEventListener("input", () => {
     if (!editingSlug) {
-        const client = projectForm.elements.kind.value === "client";
-        projectForm.elements.type.value = client ? "CLIENT WORK" : "PERSONAL WORK";
+        const section = projectForm.elements.kind.value.trim().toUpperCase();
+        projectForm.elements.type.value = section === "PHOTOGRAPHY" ? section : `${section || "PERSONAL"} WORK`;
     }
 });
 uploadForm.elements.category.addEventListener("change", updateDestination);

@@ -136,11 +136,19 @@
 .work-hero__filters {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: .15rem;
+    width: max-content;
+    max-width: 100%;
+    margin-inline: auto;
     min-height: 1.75rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-inline: contain;
 }
+.work-hero__filters::-webkit-scrollbar { display: none; }
 .work-hero__filters button {
+    flex: 0 0 auto;
     min-height: 1.65rem;
     padding: .2rem .7rem;
     border: 0;

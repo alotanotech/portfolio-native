@@ -21,7 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const counter = hero.querySelector(".work-hero__counter");
     const link = hero.querySelector(".work-hero__link");
     const thumbnails = hero.querySelector(".work-hero__thumbs");
-    const filters = [...hero.querySelectorAll("[data-work-filter]")];
+    const filterContainer = hero.querySelector(".work-hero__filters");
+    let filters = [...hero.querySelectorAll("[data-work-filter]")];
     const previous = hero.querySelector(".work-hero__previous");
     const next = hero.querySelector(".work-hero__next");
     let activeFilter = "client";
@@ -29,12 +30,28 @@ document.addEventListener("DOMContentLoaded", () => {
     let projects = [];
     let catalog = fallbackProjects;
     let imageChange = 0;
+    let userSelectedFilter = false;
 
     image.addEventListener("animationend", () => image.classList.remove("is-changing"));
     projectCopy.addEventListener("animationend", () => projectCopy.classList.remove("is-changing"));
 
     function getProjects() {
         return catalog;
+    }
+
+    function ensureFilterButtons() {
+        const known = new Set(filters.map((button) => button.dataset.workFilter));
+        for (const group of new Set(catalog.map((project) => project.group))) {
+            if (known.has(group)) continue;
+            const button = document.createElement("button");
+            button.type = "button";
+            button.dataset.workFilter = group;
+            button.setAttribute("aria-pressed", "false");
+            button.textContent = group.replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+            filterContainer.append(button);
+            known.add(group);
+        }
+        filters = [...filterContainer.querySelectorAll("[data-work-filter]")];
     }
 
     async function loadPublishedProjects() {
@@ -46,19 +63,22 @@ document.addEventListener("DOMContentLoaded", () => {
             const nextCatalog = published.filter((project) => project.cover && project.slug).map((project) => {
                 const name = project.fullName || project.name;
                 const type = project.type || "Creative work";
-                const isPhoto = /photograph|\bphoto\b/i.test(`${project.category || ""} ${type} ${name}`);
                 return {
                     slug: project.slug,
                     name,
                     type,
                     image: project.cover,
                     href: `/pages/project.html?project=${encodeURIComponent(project.slug)}`,
-                    group: isPhoto ? "photography" : project.kind === "client" ? "client" : "personal"
+                    group: project.kind || "personal"
                 };
             }).filter((project) => project.name);
             if (!nextCatalog.length) return;
             catalog = nextCatalog;
-            selectFilter(activeFilter, projects[activeIndex]?.slug);
+            ensureFilterButtons();
+            const nextFilter = userSelectedFilter || nextCatalog.some((project) => project.group === activeFilter)
+                ? activeFilter
+                : nextCatalog[0].group;
+            selectFilter(nextFilter, projects[activeIndex]?.slug);
         } catch (error) {
             console.warn("Using local work covers:", error);
         }
@@ -99,9 +119,10 @@ document.addEventListener("DOMContentLoaded", () => {
         link.hidden = empty;
 
         if (empty) {
+            const sectionName = filters.find((button) => button.dataset.workFilter === activeFilter)?.textContent || "Work";
             counter.textContent = "00 / 00";
-            type.textContent = "PHOTOGRAPHY";
-            title.textContent = "Photography collection coming soon.";
+            type.textContent = sectionName.toUpperCase();
+            title.textContent = activeFilter === "photography" ? "Photography collection coming soon." : `No ${sectionName.toLowerCase()} projects yet.`;
             projectCopy.classList.remove("is-changing");
             setImage(null);
             return;
@@ -158,7 +179,12 @@ document.addEventListener("DOMContentLoaded", () => {
         showProject(preservedIndex >= 0 ? preservedIndex : 0);
     }
 
-    filters.forEach((button) => button.addEventListener("click", () => selectFilter(button.dataset.workFilter)));
+    filterContainer.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-work-filter]");
+        if (!button || !filterContainer.contains(button)) return;
+        userSelectedFilter = true;
+        selectFilter(button.dataset.workFilter);
+    });
     previous.addEventListener("click", () => {
         if (activeIndex > 0) showProject(activeIndex - 1);
     });

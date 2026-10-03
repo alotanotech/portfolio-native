@@ -44,7 +44,9 @@ function projectPayload(project, images = []) {
 async function readBody(request) {
     const data = await request.json();
     const slug = cleanSlug(data.slug);
+    const kind = cleanSlug(String(data.kind || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, ""));
     if (!slug || !data.name || !data.year || !data.type) throw new Error("Slug, name, year, and type are required.");
+    if (!kind || kind.length > 80) throw new Error("Portfolio section is required (up to 80 characters).");
 
     return {
         slug,
@@ -55,7 +57,7 @@ async function readBody(request) {
         year: String(data.year).trim(),
         type: String(data.type).trim(),
         status: String(data.status || "ARCHIVE").trim(),
-        kind: data.kind === "client" ? "client" : "personal",
+        kind,
         category: String(data.category || "Personal").trim(),
         description: String(data.description || "").trim(),
         published: data.published ? 1 : 0

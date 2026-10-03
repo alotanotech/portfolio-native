@@ -52,7 +52,8 @@
                             <label>Short title <input name="name" required placeholder="COFFEE CAMPAIGN"></label>
                             <label>Client <input name="client" value="PERSONAL PROJECT"></label>
                             <label>Year <input name="year" required placeholder="2026"></label>
-                            <label>Portfolio section <select name="kind"><option value="personal">Personal work</option><option value="client">Client work</option></select></label>
+                            <label>Portfolio section <input name="kind" required maxlength="80" list="portfolio-section-suggestions" value="Personal" placeholder="e.g. Photography" aria-describedby="portfolio-section-help"><small id="portfolio-section-help" class="field-help">Choose where this project appears. Type a new section name anytime.</small></label>
+                            <datalist id="portfolio-section-suggestions"><option value="Client"><option value="Personal"><option value="Photography"></datalist>
                             <label>Project category <input name="category" required maxlength="80" placeholder="e.g. Brand identity" aria-describedby="project-category-help"><small id="project-category-help" class="field-help">Type your own label for this project.</small></label>
                             <label class="wide">Description <textarea name="description" rows="4" placeholder="What was the project about?"></textarea></label>
                             <details class="advanced-fields wide"><summary>URL and placement</summary><p>The URL slug identifies this page. Changing it after publishing can break shared links. Placement is assigned automatically for new projects.</p><label>URL slug <input name="slug" required pattern="[a-z0-9-]+" placeholder="coffee-campaign"></label><span id="project-order-note"></span></details>

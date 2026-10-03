@@ -590,6 +590,7 @@ function applyProjectData(
 
     setProjectText("project-gallery-full-title", project.fullName || project.name);
     setProjectText("project-gallery-short-title", project.name);
+    setProjectText("project-gallery-section", (project.kind || "personal").replace(/-/g, " ").toUpperCase());
     setProjectText("project-gallery-client-label", project.kind === "client" ? "CLIENT" : "PROJECT");
     setProjectText("project-gallery-client", project.client);
     setProjectText("project-gallery-description", project.description);

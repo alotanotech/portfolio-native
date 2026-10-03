@@ -510,6 +510,10 @@
 
 .project-gallery-header-index {
     grid-area: index;
+
+    min-width: 0;
+
+    overflow-wrap: anywhere;
     display: flex;
 
     align-items: center;

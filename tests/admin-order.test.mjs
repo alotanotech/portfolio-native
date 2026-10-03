@@ -134,4 +134,23 @@ assert.equal(customCategory.status, 201);
 const customProject = await worker.fetch(request("/api/projects/custom-category", "GET", undefined, false), env).then((response) => response.json());
 assert.equal(customProject.category, "Brand identity");
 
+const photography = await worker.fetch(request("/api/admin/projects", "POST", {
+    slug: "portrait-series", index: "04", name: "PORTRAITS", fullName: "Portrait series",
+    client: "Personal project", year: "2026", type: "PHOTOGRAPHY", status: "ARCHIVE",
+    kind: "Photography", category: "Portraits", description: "A photography project", published: true
+}), env);
+assert.equal(photography.status, 201);
+const photoProject = await worker.fetch(request("/api/projects/portrait-series", "GET", undefined, false), env).then((response) => response.json());
+assert.equal(photoProject.kind, "photography");
+assert.equal(photoProject.category, "Portraits");
+
+const futureSection = await worker.fetch(request("/api/admin/projects", "POST", {
+    slug: "motion-study", index: "05", name: "MOTION", fullName: "Motion study",
+    client: "Personal project", year: "2026", type: "MOTION DESIGN WORK", status: "ARCHIVE",
+    kind: "Motion Design", category: "Experiments", description: "A future section", published: true
+}), env);
+assert.equal(futureSection.status, 201);
+const motionProject = await worker.fetch(request("/api/projects/motion-study", "GET", undefined, false), env).then((response) => response.json());
+assert.equal(motionProject.kind, "motion-design");
+
 console.log("Admin image listing, authorization, reorder, category moves, cover selection and public gallery order passed.");
