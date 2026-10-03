@@ -78,7 +78,11 @@
         <div id="image-order-controls" class="image-order-controls" hidden><span>Position in gallery</span><button id="image-move-earlier" class="secondary-button" type="button">Move earlier</button><button id="image-move-later" class="secondary-button" type="button">Move later</button></div>
         <form id="upload-form" class="upload-form" hidden>
                                     <p class="destination-note wide" id="destination-note" aria-live="polite"></p>
-                                    <label class="wide">Place in <input name="category" list="image-category-suggestions" required maxlength="80" value="Other" placeholder="e.g. Portraits" aria-describedby="image-category-help"><small id="image-category-help" class="field-help">Type a gallery group name or choose a suggestion. Cover stays separate from the gallery.</small></label>
+                                    <div class="image-category-controls wide">
+                                        <label>Preset groups <select id="image-category-preset"><option value="">Custom group…</option><option value="cover">Cover</option><option value="social-post">Social media posts</option><option value="story">Stories</option><option value="square">Square posts</option><option value="landscape">Landscape</option><option value="other">Other</option></select></label>
+                                        <label>Place in <input name="category" list="image-category-suggestions" required maxlength="80" value="Other" placeholder="e.g. Portraits" aria-describedby="image-category-help"></label>
+                                    </div>
+                                    <p id="image-category-help" class="field-help wide">Choose a preset or type your own gallery group. Cover stays separate from the gallery.</p>
                                     <datalist id="image-category-suggestions"><option value="Cover"><option value="Social media posts"><option value="Stories"><option value="Square posts"><option value="Landscape"><option value="Other"></datalist>
                                     <label class="wide">Choose an image <input name="file" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
                                     <div class="upload-selection wide" id="upload-selection" hidden>

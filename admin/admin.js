@@ -13,6 +13,7 @@ const mediaContext = document.getElementById("media-context");
 const mediaCount = document.getElementById("media-count");
 const mediaList = document.getElementById("media-list");
 const uploadForm = document.getElementById("upload-form");
+const categoryPreset = document.getElementById("image-category-preset");
 const destinationNote = document.getElementById("destination-note");
 const uploadSelection = document.getElementById("upload-selection");
 const uploadThumbnail = document.getElementById("upload-thumbnail");
@@ -95,6 +96,7 @@ function openImageDialog(category, image = null) {
     editingImage = image;
     uploadForm.hidden = false;
     uploadForm.elements.category.value = categoryLabel(category);
+    categoryPreset.value = Object.hasOwn(labels, category) ? category : "";
     updateImageOrderControls();
     uploadForm.elements.alt.value = image?.alt || "";
     imageDialogTitle.textContent = image ? "Edit image" : "Add image";
@@ -469,7 +471,16 @@ projectForm.elements.kind.addEventListener("input", () => {
         projectForm.elements.type.value = section === "PHOTOGRAPHY" ? section : `${section || "PERSONAL"} WORK`;
     }
 });
-uploadForm.elements.category.addEventListener("input", updateDestination);
+categoryPreset.addEventListener("change", () => {
+    uploadForm.elements.category.value = categoryPreset.value ? categoryLabel(categoryPreset.value) : "";
+    updateDestination();
+    if (!categoryPreset.value) uploadForm.elements.category.focus();
+});
+uploadForm.elements.category.addEventListener("input", () => {
+    const category = categoryId(uploadForm.elements.category.value);
+    categoryPreset.value = Object.hasOwn(labels, category) ? category : "";
+    updateDestination();
+});
 addImageButton.addEventListener("click", () => openImageDialog("other"));
 document.getElementById("close-image-dialog").addEventListener("click", closeImageDialog);
 imageMoveEarlier.addEventListener("click", () => {

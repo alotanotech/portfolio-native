@@ -1,3 +1,71 @@
+:root {
+  --tt-in-dur: 150ms;
+  --tt-out-dur: 50ms;
+  --tt-scale: 0.98;
+  --tt-delay: 80ms;
+  --tt-in-ease: ease-out;
+  --tt-out-ease: ease-out;
+  --tt-move-dur: 160ms;
+  --tt-move-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --tt-bg: #ffffff;
+  --tt-fg: #2f2f2f;
+}
+
+.t-tt-group {
+  position: relative;
+  display: inline-flex;
+}
+.t-tt {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 0;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0;                 /* the JS writes the measured width */
+  overflow: hidden;
+  /* Individual transform properties: the travel (translate) and the
+     appear (scale) run on their own clocks. */
+  translate: var(--tt-x, 0px) 0;
+  scale: var(--tt-scale);
+  transform-origin: 50% 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--tt-bg);
+  color: var(--tt-fg);
+  white-space: nowrap;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06),
+    0 2px 6px 0 rgba(0, 0, 0, 0.05),
+    0 4px 42px 0 rgba(0, 0, 0, 0.06);
+  opacity: 0;
+  pointer-events: none;
+  /* Default rule controls the LEAVE state: no delay, so hiding plays
+     immediately. The move lanes are always live. */
+  transition:
+    opacity   var(--tt-out-dur) var(--tt-out-ease),
+    scale     var(--tt-out-dur) var(--tt-out-ease),
+    translate var(--tt-move-dur) var(--tt-move-ease),
+    width     var(--tt-move-dur) var(--tt-move-ease);
+}
+/* The appear delay belongs ONLY to the show rule, so hiding snaps it
+   back to 0. A retarget while showing carries no delay at all. */
+.t-tt[data-show="true"] {
+  opacity: 1;
+  scale: 1;
+  transition:
+    opacity   var(--tt-in-dur) var(--tt-in-ease) var(--tt-delay),
+    scale     var(--tt-in-dur) var(--tt-in-ease) var(--tt-delay),
+    translate var(--tt-move-dur) var(--tt-move-ease),
+    width     var(--tt-move-dur) var(--tt-move-ease);
+}
+.t-tt-text { white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  .t-tt { transition: none !important; }
+}
+
 .work-hero {
     position: relative;
     height: 100vh;
@@ -7,6 +75,8 @@
     isolation: isolate;
     background: #111;
     color: #fff;
+    --tt-bg: #111;
+    --tt-fg: #fff;
 }
 
 .work-hero__screen-title {
@@ -27,7 +97,28 @@
     pointer-events: none;
 }
 
-.work-hero__visual { z-index: -2; }
+.work-hero__visual { z-index: -2; display: block; pointer-events: auto; }
+.work-hero__cover-link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M12 2v6m0 8v6M2 12h6m8 0h6' stroke='%23000' stroke-width='3'/%3E%3Cpath d='M12 2v6m0 8v6M2 12h6m8 0h6' stroke='%23fff' stroke-width='1.5'/%3E%3Ccircle cx='12' cy='12' r='2.5' fill='%23ffe100' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E") 12 12, crosshair;
+}
+.work-hero__cover-link[hidden] { display: none; }
+.work-hero__cover-tooltip {
+    top: 0;
+    bottom: auto;
+    z-index: 2;
+    max-width: calc(100vw - 1rem);
+    border: 1px solid #fff;
+    border-radius: 0;
+    box-shadow: none;
+    translate: var(--tt-x, 0px) var(--tt-y, 0px);
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
 .work-hero__image {
     position: absolute;
     inset: 0;
@@ -44,7 +135,7 @@
 }
 
 .work-hero__shade {
-    z-index: -1;
+    z-index: 1;
     background:
         radial-gradient(ellipse 62% 45% at 50% 100%, rgba(0,0,0,.9), transparent 100%),
         linear-gradient(180deg, rgba(0,0,0,.36) 0%, transparent 28%, transparent 62%, rgba(0,0,0,.68) 100%);

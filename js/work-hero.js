@@ -20,6 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const type = hero.querySelector(".work-hero__type");
     const counter = hero.querySelector(".work-hero__counter");
     const link = hero.querySelector(".work-hero__link");
+    const coverLink = hero.querySelector(".work-hero__cover-link");
+    const coverGroup = hero.querySelector(".work-hero__visual");
+    const coverTip = hero.querySelector(".work-hero__cover-tooltip");
+    const coverTipText = coverTip.querySelector(".t-tt-text");
     const thumbnails = hero.querySelector(".work-hero__thumbs");
     const filterContainer = hero.querySelector(".work-hero__filters");
     let filters = [...hero.querySelectorAll("[data-work-filter]")];
@@ -31,6 +35,51 @@ document.addEventListener("DOMContentLoaded", () => {
     let catalog = fallbackProjects;
     let imageChange = 0;
     let userSelectedFilter = false;
+    let tipWidth = 0;
+
+    function hideCoverTip() {
+        coverTip.setAttribute("data-show", "false");
+        coverTip.setAttribute("aria-hidden", "true");
+    }
+
+    function positionCoverTip(event) {
+        const bounds = coverGroup.getBoundingClientRect();
+        const x = event
+            ? Math.max(8, Math.min(event.clientX - bounds.left + 18, bounds.width - tipWidth - 8))
+            : Math.max(8, (bounds.width - tipWidth) / 2);
+        const y = event
+            ? Math.max(8, Math.min(event.clientY - bounds.top + 20, bounds.height - coverTip.offsetHeight - 8))
+            : Math.max(8, bounds.height / 2);
+        coverTip.style.setProperty("--tt-x", `${x}px`);
+        coverTip.style.setProperty("--tt-y", `${y}px`);
+    }
+
+    function showCoverTip(event) {
+        const showing = coverTip.getAttribute("data-show") === "true";
+        coverTipText.textContent = coverLink.dataset.tooltip || "";
+        const style = getComputedStyle(coverTip);
+        tipWidth = Math.min(
+            Math.ceil(coverTipText.scrollWidth + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)),
+            coverGroup.clientWidth - 16
+        );
+        if (!showing) coverTip.style.transition = "none";
+        coverTip.style.width = `${tipWidth}px`;
+        positionCoverTip(event);
+        if (!showing) {
+            void coverTip.offsetWidth;
+            coverTip.style.transition = "";
+        }
+        coverTip.setAttribute("data-show", "true");
+        coverTip.setAttribute("aria-hidden", "false");
+    }
+
+    coverLink.addEventListener("pointerenter", showCoverTip);
+    coverLink.addEventListener("pointermove", (event) => {
+        if (coverTip.getAttribute("data-show") === "true") positionCoverTip(event);
+    });
+    coverLink.addEventListener("focus", () => showCoverTip());
+    coverLink.addEventListener("blur", hideCoverTip);
+    coverGroup.addEventListener("pointerleave", hideCoverTip);
 
     image.addEventListener("animationend", () => image.classList.remove("is-changing"));
     projectCopy.addEventListener("animationend", () => projectCopy.classList.remove("is-changing"));
@@ -88,14 +137,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const change = ++imageChange;
         if (!src) {
             image.hidden = true;
+            coverLink.hidden = true;
+            coverLink.style.pointerEvents = "";
+            hideCoverTip();
             image.classList.remove("is-changing");
             return;
         }
+        coverLink.style.pointerEvents = "none";
+        hideCoverTip();
         const preload = new Image();
         preload.onload = () => {
             if (change !== imageChange) return;
             image.src = src;
             image.hidden = false;
+            coverLink.hidden = false;
+            coverLink.style.pointerEvents = "";
             image.classList.remove("is-changing");
             void image.offsetWidth;
             image.classList.add("is-changing");
@@ -103,6 +159,9 @@ document.addEventListener("DOMContentLoaded", () => {
         preload.onerror = () => {
             if (change !== imageChange) return;
             image.hidden = true;
+            coverLink.hidden = true;
+            coverLink.style.pointerEvents = "";
+            hideCoverTip();
             image.classList.remove("is-changing");
         };
         preload.src = src;
@@ -136,6 +195,8 @@ document.addEventListener("DOMContentLoaded", () => {
         projectCopy.classList.add("is-changing");
         link.href = project.href;
         link.setAttribute("aria-label", `Explore ${project.name} project`);
+        coverLink.href = project.href;
+        coverLink.setAttribute("aria-label", `View ${project.name} gallery project`);
         setImage(project.image);
         [...thumbnails.children].forEach((button, position) => {
             button.classList.toggle("is-active", position === index);
