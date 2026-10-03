@@ -106,6 +106,50 @@
    SIDEBAR
 ========================================================= */
 
+.gallery-home-dock {
+    position: fixed;
+    top: 50%;
+    left: clamp(.7rem, 2.5vw, 2rem);
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    padding: 7px;
+    border: 1px solid #e5e5e5;
+    border-radius: 17px;
+    background: #fff;
+    box-shadow: 0 5px 16px rgb(0 0 0 / .1);
+    transform: translateY(-50%);
+}
+.gallery-home-dock__link {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #111;
+    color: #fff;
+    text-decoration: none;
+    transition: background 150ms ease-out, transform 150ms ease-out;
+}
+.gallery-home-dock__link:hover { background: #333; transform: translateY(-2px); }
+.gallery-home-dock__link:focus-visible { outline: 2px solid #111; outline-offset: 4px; }
+.gallery-home-dock__link img { display: block; filter: brightness(0) invert(1); }
+
+@media (max-width: 640px) {
+    .gallery-home-dock {
+        top: auto;
+        bottom: max(1rem, env(safe-area-inset-bottom));
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .gallery-home-dock__link { transition: none; }
+}
+
 .gallery-sidebar {
     position: absolute;
 
@@ -1150,17 +1194,16 @@
 
     align-self: start;
 
-    animation:
-        gallery-image-reveal
-        linear
-        both;
+    transition:
+        opacity 400ms ease-out var(--reveal-delay, 0ms),
+        transform 400ms cubic-bezier(.22, 1, .36, 1) var(--reveal-delay, 0ms),
+        filter 400ms ease-out var(--reveal-delay, 0ms);
+}
 
-    animation-timeline:
-        view(block);
-
-    animation-range:
-        entry 0%
-        cover 38%;
+.gallery-item.is-reveal-pending {
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(6px);
 }
 
 
@@ -1205,30 +1248,6 @@ img.gallery-image {
     transition:
         transform 250ms
         cubic-bezier(.2,.8,.2,1);
-}
-
-
-/* =========================================================
-   IMAGE REVEAL
-========================================================= */
-
-@keyframes gallery-image-reveal {
-
-    0% {
-        opacity: 0;
-
-        transform:
-            translateY(0.8rem)
-            scale(0.985);
-    }
-
-    100% {
-        opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
 }
 
 
@@ -2791,7 +2810,10 @@ and (max-width: 479px) {
     }
 
     .gallery-item {
-        animation: none;
+        transition: none;
+        opacity: 1;
+        transform: none;
+        filter: none;
     }
 
     .gallery-sidebar,
