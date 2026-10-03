@@ -45,6 +45,26 @@ const destinationDetails = {
     other: "Appears under Other in the project gallery. Keep the original ratio or choose a crop."
 };
 
+function categoryId(value) {
+    const text = String(value || "").trim();
+    const preset = Object.entries(labels).find(([id, label]) => id === text.toLowerCase() || label.toLowerCase() === text.toLowerCase());
+    return preset?.[0] || text.normalize("NFKD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+function categoryLabel(value) {
+    return Object.hasOwn(labels, value) ? labels[value] : String(value || "").replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function refreshCategorySuggestions() {
+    const list = document.getElementById("image-category-suggestions");
+    const names = [...Object.values(labels), ...images.map((image) => categoryLabel(image.category))];
+    list.replaceChildren(...[...new Set(names)].map((name) => {
+        const option = document.createElement("option");
+        option.value = name;
+        return option;
+    }));
+}
+
 function sectionLabel(value) {
     return String(value || "Personal").replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
@@ -64,7 +84,7 @@ let modalCloseTimer = null;
 function updateImageOrderControls() {
     const peers = images.filter((item) => item.category === editingImage?.category);
     const index = peers.findIndex((item) => item.id === editingImage?.id);
-    imageOrderControls.hidden = index < 0 || editingImage?.category === "cover" || uploadForm.elements.category.value !== editingImage?.category;
+    imageOrderControls.hidden = index < 0 || editingImage?.category === "cover" || categoryId(uploadForm.elements.category.value) !== editingImage?.category;
     imageMoveEarlier.disabled = index <= 0;
     imageMoveLater.disabled = index < 0 || index >= peers.length - 1;
 }
@@ -74,11 +94,11 @@ function openImageDialog(category, image = null) {
     clearStagedImage();
     editingImage = image;
     uploadForm.hidden = false;
-    uploadForm.elements.category.value = category;
+    uploadForm.elements.category.value = categoryLabel(category);
     updateImageOrderControls();
     uploadForm.elements.alt.value = image?.alt || "";
     imageDialogTitle.textContent = image ? "Edit image" : "Add image";
-    imageDialogContext.textContent = `${projectForm.elements.fullName.value || editingSlug} / ${labels[category]}${image ? ` / image ${images.filter((item) => item.category === category).findIndex((item) => item.id === image.id) + 1}` : ""}`;
+    imageDialogContext.textContent = `${projectForm.elements.fullName.value || editingSlug} / ${categoryLabel(category)}${image ? ` / image ${images.filter((item) => item.category === category).findIndex((item) => item.id === image.id) + 1}` : ""}`;
     submitImage.textContent = image ? "Save image" : "Upload image";
     if (image) {
         uploadThumbnail.src = image.url;
@@ -127,15 +147,15 @@ function clearStagedImage() {
 }
 
 function updateDestination() {
-    const category = uploadForm.elements.category.value;
+    const category = categoryId(uploadForm.elements.category.value);
     destinationNote.replaceChildren();
     const title = document.createElement("strong");
     const detail = document.createElement("span");
     const makingCover = editingImage && category === "cover" && editingImage.category !== "cover";
-    title.textContent = `${makingCover ? "Using as cover" : editingImage ? "Placing in" : "Uploading to"} ${editingSlug || "a saved project"} / ${labels[category]}`;
+    title.textContent = `${makingCover ? "Using as cover" : editingImage ? "Placing in" : "Uploading to"} ${editingSlug || "a saved project"} / ${categoryLabel(category) || "Choose a group"}`;
     detail.textContent = makingCover
         ? "A separate cover copy will be created. This image stays in its current gallery category."
-        : destinationDetails[category];
+        : destinationDetails[category] || "Appears as its own group in this project's gallery. Choose the crop that suits the image.";
     destinationNote.append(title, detail);
     submitImage.textContent = makingCover ? "Use as cover" : editingImage ? "Save image" : "Upload image";
     if (editingImage && !stagedFile) {
@@ -144,7 +164,7 @@ function updateDestination() {
             : "Choose a new file to replace this image, or change its category and alt text.";
     }
     updateImageOrderControls();
-    if (!editingImage) imageDialogContext.textContent = `${projectForm.elements.fullName.value || editingSlug || "New project"} / ${labels[category]}`;
+    if (!editingImage) imageDialogContext.textContent = `${projectForm.elements.fullName.value || editingSlug || "New project"} / ${categoryLabel(category) || "Choose a group"}`;
 }
 
 async function request(path, options = {}) {
@@ -202,6 +222,7 @@ function resetEditor() {
     clearStagedImage();
     editingSlug = null;
     images = [];
+    refreshCategorySuggestions();
     projectForm.reset();
     projectForm.elements.index.value = String(Math.max(0, ...projects.map((project) => Number(project.project_index) || 0)) + 1).padStart(2, "0");
     projectForm.elements.type.value = "PERSONAL WORK";
@@ -308,7 +329,9 @@ function renderImages() {
         return;
     }
 
-    for (const [category, label] of Object.entries(labels)) {
+    const categories = [...Object.keys(labels), ...new Set(images.map((image) => image.category).filter((category) => !Object.hasOwn(labels, category)))];
+    for (const category of categories) {
+        const label = categoryLabel(category);
         const items = images.filter((image) => image.category === category);
         if (!items.length) continue;
         const group = document.createElement("section");
@@ -363,6 +386,7 @@ async function loadImages(slug) {
     const records = await request(`/api/admin/projects/${encodeURIComponent(slug)}/images`);
     if (editingSlug !== slug) return;
     images = records;
+    refreshCategorySuggestions();
     renderImages();
 }
 
@@ -381,7 +405,7 @@ async function moveImage(category, index, direction) {
             body: JSON.stringify({ category, ids })
         });
         await loadImages(slug);
-        setStatus(`${labels[category]} order saved.`);
+        setStatus(`${categoryLabel(category)} order saved.`);
     } catch (error) {
         await loadImages(slug).catch(() => {});
         setStatus(error.message, true);
@@ -389,7 +413,7 @@ async function moveImage(category, index, direction) {
 }
 
 async function removeImage(image) {
-    if (!editingSlug || !confirm(`Delete this ${labels[image.category]} image? This permanently removes its R2 file and cannot be undone.`)) return;
+    if (!editingSlug || !confirm(`Delete this ${categoryLabel(image.category)} image? This permanently removes its R2 file and cannot be undone.`)) return;
     const slug = editingSlug;
     try {
         await request(`/api/admin/images/${image.id}`, { method: "DELETE" });
@@ -445,7 +469,7 @@ projectForm.elements.kind.addEventListener("input", () => {
         projectForm.elements.type.value = section === "PHOTOGRAPHY" ? section : `${section || "PERSONAL"} WORK`;
     }
 });
-uploadForm.elements.category.addEventListener("change", updateDestination);
+uploadForm.elements.category.addEventListener("input", updateDestination);
 addImageButton.addEventListener("click", () => openImageDialog("other"));
 document.getElementById("close-image-dialog").addEventListener("click", closeImageDialog);
 imageMoveEarlier.addEventListener("click", () => {
@@ -462,7 +486,7 @@ imageDialog.addEventListener("click", (event) => { if (event.target === imageDia
 async function editSelectedImage(file) {
     const slug = editingSlug;
     try {
-        const selection = await imageEditor.open(file, uploadForm.elements.category.value);
+        const selection = await imageEditor.open(file, categoryId(uploadForm.elements.category.value));
         uploadForm.elements.file.value = "";
         if (!selection || slug !== editingSlug) return;
         if (stagedUrl) URL.revokeObjectURL(stagedUrl);
@@ -523,7 +547,7 @@ uploadForm.addEventListener("submit", async (event) => {
     if ((!file || !file.size) && !editingImage) { setStatus("Choose an image and confirm its crop before uploading.", true); return; }
     if (file) form.set("file", file);
     else form.delete("file");
-    form.set("category", uploadForm.elements.category.value);
+    form.set("category", categoryId(uploadForm.elements.category.value));
     if (file && file.size > 10 * 1024 * 1024) {
         setStatus("Images must be 10 MB or smaller.", true);
         return;
@@ -531,7 +555,7 @@ uploadForm.addEventListener("submit", async (event) => {
     const button = uploadForm.querySelector("button[type=submit]");
     button.disabled = true;
     try {
-        const makingCover = editingImage && uploadForm.elements.category.value === "cover" && editingImage.category !== "cover";
+        const makingCover = editingImage && categoryId(uploadForm.elements.category.value) === "cover" && editingImage.category !== "cover";
         await request(editingImage ? `/api/admin/images/${editingImage.id}` : `/api/admin/projects/${encodeURIComponent(slug)}/images`, { method: editingImage ? "PUT" : "POST", body: form });
         await loadImages(slug);
         closeImageDialog();

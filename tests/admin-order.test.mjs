@@ -95,6 +95,10 @@ assert.equal(replacementRecord.alt_text, "Replacement image");
 
 const invalidCategoryForm = new FormData();
 invalidCategoryForm.set("category", "not-a-category");
+invalidCategoryForm.set("alt", "Replacement image");
+assert.equal((await worker.fetch(editRequest(invalidCategoryForm), env)).status, 200);
+assert.equal(database.prepare("SELECT category FROM project_images WHERE id = 11").get().category, "not-a-category");
+invalidCategoryForm.set("category", "   ");
 assert.equal((await worker.fetch(editRequest(invalidCategoryForm), env)).status, 400);
 
 const moveForm = new FormData();
@@ -115,7 +119,7 @@ const coverResponse = await worker.fetch(editRequest(coverForm), env);
 assert.equal(coverResponse.status, 200);
 assert.equal((await coverResponse.json()).coverCreated, true);
 const galleryOriginal = database.prepare("SELECT category, object_key FROM project_images WHERE id = 11").get();
-assert.equal(galleryOriginal.category, "social-post");
+assert.equal(galleryOriginal.category, "not-a-category");
 assert.equal(galleryOriginal.object_key, replacementRecord.object_key);
 const selectedCover = database.prepare("SELECT object_key, alt_text FROM project_images WHERE category = 'cover' ORDER BY sort_order DESC LIMIT 1").get();
 assert.notEqual(selectedCover.object_key, galleryOriginal.object_key);
@@ -123,7 +127,31 @@ assert.equal(selectedCover.alt_text, "Featured from gallery");
 assert.ok(storedImages.has(selectedCover.object_key));
 const updatedPublicProject = await worker.fetch(request("/api/projects/sample", "GET", undefined, false), env).then((response) => response.json());
 assert.equal(updatedPublicProject.cover, `/media/${selectedCover.object_key}`);
-assert.deepEqual(updatedPublicProject.manifest.categories["social-post"].map((image) => image.alt), ["Replacement image"]);
+assert.deepEqual(updatedPublicProject.manifest.categories["not-a-category"].map((image) => image.alt), ["Replacement image"]);
+
+const portraitForm = new FormData();
+portraitForm.set("category", "Portrait Studies");
+portraitForm.set("alt", "Studio portrait");
+portraitForm.set("file", new File(["image bytes"], "portrait.webp", { type: "image/webp" }));
+const portraitUpload = await worker.fetch(new Request(url("/api/admin/projects/sample/images"), {
+    method: "POST", headers: { authorization: "Bearer test-token" }, body: portraitForm
+}), env);
+assert.equal(portraitUpload.status, 201);
+const portraitId = database.prepare("SELECT MAX(id) AS id FROM project_images").get().id;
+assert.equal(database.prepare("SELECT category FROM project_images WHERE id = ?").get(portraitId).category, "portrait-studies");
+const secondPortrait = new FormData();
+secondPortrait.set("category", "Portrait Studies");
+secondPortrait.set("file", new File(["image bytes"], "portrait-2.webp", { type: "image/webp" }));
+const secondUpload = await worker.fetch(new Request(url("/api/admin/projects/sample/images"), {
+    method: "POST", headers: { authorization: "Bearer test-token" }, body: secondPortrait
+}), env);
+assert.equal(secondUpload.status, 201);
+const secondPortraitId = database.prepare("SELECT MAX(id) AS id FROM project_images").get().id;
+assert.equal((await worker.fetch(request("/api/admin/projects/sample/images/order", "PUT", {
+    category: "portrait-studies", ids: [secondPortraitId, portraitId]
+}), env)).status, 200);
+const portraitProject = await worker.fetch(request("/api/projects/sample", "GET", undefined, false), env).then((response) => response.json());
+assert.deepEqual(portraitProject.manifest.categories["portrait-studies"].map((image) => image.alt), ["", "Studio portrait"]);
 
 const customCategory = await worker.fetch(request("/api/admin/projects", "POST", {
     slug: "custom-category", index: "03", name: "CUSTOM", fullName: "Custom category project",

@@ -1,5 +1,11 @@
 const CATEGORIES = ["social-post", "story", "square", "landscape", "other"];
 
+function imageCategory(value) {
+    const raw = String(value || "").trim();
+    if (!raw || raw.length > 80) return "";
+    return cleanSlug(raw.normalize("NFKD").replace(/[\u0300-\u036f]/g, ""));
+}
+
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
     status,
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" }
@@ -18,10 +24,13 @@ function cleanSlug(value) {
 function projectPayload(project, images = []) {
     const categories = Object.fromEntries(CATEGORIES.map((category) => [category, []]));
     const coverImage = images.filter((image) => image.category === "cover").at(-1);
-    const firstImage = images.find((image) => CATEGORIES.includes(image.category));
+    const firstImage = images.find((image) => image.category !== "cover");
     const coverKey = coverImage?.object_key || project.cover_key || firstImage?.object_key;
     images.forEach((image) => {
-        if (categories[image.category]) categories[image.category].push({ src: `/media/${image.object_key}`, alt: image.alt_text || "" });
+        if (image.category !== "cover") {
+            if (!Object.hasOwn(categories, image.category)) categories[image.category] = [];
+            categories[image.category].push({ src: `/media/${image.object_key}`, alt: image.alt_text || "" });
+        }
     });
 
     return {
@@ -151,9 +160,9 @@ async function adminApi(request, env, pathname) {
         if (!project) return error("Project not found.", 404);
         let body;
         try { body = await request.json(); } catch { return error("Invalid JSON body."); }
-        const category = String(body.category || "");
+        const category = imageCategory(body.category);
         const ids = body.ids;
-        if (![...CATEGORIES, "cover"].includes(category) || !Array.isArray(ids) ||
+        if (!category || !Array.isArray(ids) ||
             !ids.every((id) => Number.isSafeInteger(id) && id > 0) || new Set(ids).size !== ids.length) {
             return error("Provide one category and its ordered image IDs.");
         }
@@ -174,11 +183,11 @@ async function adminApi(request, env, pathname) {
     if (uploadMatch && request.method === "POST") {
         const form = await request.formData();
         const file = form.get("file");
-        const category = String(form.get("category") || "other");
+        const category = imageCategory(form.get("category") || "other");
         const project = await env.DB.prepare("SELECT id FROM projects WHERE slug = ?").bind(decodeURIComponent(uploadMatch[1])).first();
         if (!project) return error("Project not found.", 404);
         if (!(file instanceof File) || !file.size || !file.type.startsWith("image/")) return error("Upload one image file.");
-        if (![...CATEGORIES, "cover"].includes(category)) return error("Invalid image category.");
+        if (!category) return error("Image group is required (up to 80 characters).");
         if (file.size > 10 * 1024 * 1024) return error("Images must be 10 MB or smaller.");
 
         const extension = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "webp";
@@ -204,8 +213,8 @@ async function adminApi(request, env, pathname) {
         const form = await request.formData();
         const file = form.get("file");
         const alt = String(form.get("alt") || "");
-        const category = String(form.get("category") || image.category);
-        if (![...CATEGORIES, "cover"].includes(category)) return error("Invalid image category.");
+        const category = imageCategory(form.get("category") || image.category);
+        if (!category) return error("Image group is required (up to 80 characters).");
         if (file && (!(file instanceof File) || !file.size || !file.type.startsWith("image/"))) return error("Upload one image file.");
         if (file && file.size > 10 * 1024 * 1024) return error("Images must be 10 MB or smaller.");
         const order = category !== image.category || category === "cover"

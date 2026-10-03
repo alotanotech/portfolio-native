@@ -81,6 +81,16 @@ const galleryCategories = [
 
 ];
 
+function getGalleryCategories(manifest, includeEmpty = false) {
+    const categories = getManifestCategories(manifest);
+    const presets = galleryCategories.filter((category) => includeEmpty || getCategoryImages(manifest, category).length);
+    const custom = Object.keys(categories)
+        .filter((id) => id !== "cover" && !galleryCategories.some((category) => category.id === id) && Array.isArray(categories[id]) && categories[id].length)
+        .sort((first, second) => first.localeCompare(second))
+        .map((id) => ({ id, label: id.replace(/-/g, " ").toUpperCase(), size: "CUSTOM", ratio: "—" }));
+    return [...presets, ...custom];
+}
+
 
 function getManifestURL(
     project
@@ -320,7 +330,7 @@ function getCoverPath(
 
     for (
         const category
-        of galleryCategories
+        of getGalleryCategories(manifest)
     ) {
 
         const images =
@@ -630,7 +640,8 @@ function createGalleryItem(
 function createGalleryCategory(
     category,
     images,
-    project
+    project,
+    categoryIndex
 ) {
 
     const section =
@@ -687,9 +698,7 @@ function createGalleryCategory(
 
     index.textContent =
         String(
-            galleryCategories.indexOf(
-                category
-            ) + 1
+            categoryIndex + 1
         ).padStart(
             2,
             "0"
@@ -1186,9 +1195,10 @@ function renderGallery(
         0;
 
 
-    galleryCategories.forEach(
+    getGalleryCategories(manifest, Boolean(project.editable)).forEach(
         (
-            category
+            category,
+            categoryIndex
         ) => {
 
             const images =
@@ -1215,7 +1225,8 @@ function renderGallery(
                 createGalleryCategory(
                     category,
                     images,
-                    project
+                    project,
+                    categoryIndex
                 )
             );
 
