@@ -819,6 +819,9 @@
     box-sizing: border-box;
 
     background: #FFFFFF;
+
+    /* Keep each gallery inside its own category panel. */
+    overflow: clip;
 }
 
 
@@ -827,9 +830,7 @@
 ========================================================= */
 
 .gallery-category-header {
-    position: sticky;
-
-    top: 0;
+    position: relative;
 
     width: 100%;
 
