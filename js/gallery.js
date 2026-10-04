@@ -494,6 +494,18 @@ function layoutGalleryTrack(track) {
 
     });
 
+    const body = track.closest(".gallery-category-body");
+    const loadedItems = [...track.querySelectorAll(".gallery-item")]
+        .filter((figure) => figure.querySelector(".gallery-image")?.naturalWidth);
+    if (!body || !loadedItems.length) return;
+
+    const rowTops = [...new Set(loadedItems.map((figure) => figure.offsetTop))].sort((a, b) => a - b).slice(0, 2);
+    const secondRowBottom = Math.max(...loadedItems
+        .filter((figure) => rowTops.includes(figure.offsetTop))
+        .map((figure) => figure.offsetTop + figure.offsetHeight));
+    const paddingBottom = parseFloat(window.getComputedStyle(body).paddingBottom) || 0;
+    body.style.setProperty("--gallery-two-row-height", `${Math.ceil(secondRowBottom + paddingBottom)}px`);
+
 }
 
 

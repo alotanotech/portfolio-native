@@ -2872,9 +2872,9 @@ and (max-width: 479px) {
 }
 
 .gallery-category:not(.is-collapsed) > .gallery-category-body {
-    height: clamp(12rem, 27dvh, 26rem);
+    height: auto;
 
     min-height: 0;
 
-    max-height: clamp(12rem, 27dvh, 26rem);
+    max-height: var(--gallery-two-row-height, clamp(24rem, 54dvh, 42rem));
 }
