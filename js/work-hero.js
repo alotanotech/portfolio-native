@@ -255,26 +255,4 @@ document.addEventListener("DOMContentLoaded", () => {
     selectFilter(activeFilter);
     loadPublishedProjects();
 
-    const toolkitTabs = [...document.querySelectorAll(".about-toolkit .tool-tab")];
-    toolkitTabs.forEach((button, index) => {
-        button.addEventListener("click", () => {
-            toolkitTabs.forEach((tab) => {
-                const active = tab === button;
-                tab.classList.toggle("active", active);
-                tab.setAttribute("aria-selected", String(active));
-                tab.tabIndex = active ? 0 : -1;
-                const panel = document.getElementById(tab.getAttribute("aria-controls"));
-                panel.hidden = !active;
-                panel.classList.toggle("active", active);
-            });
-        });
-        button.addEventListener("keydown", (event) => {
-            if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
-            event.preventDefault();
-            const direction = event.key === "ArrowRight" ? 1 : -1;
-            const target = toolkitTabs[(index + direction + toolkitTabs.length) % toolkitTabs.length];
-            target.focus();
-            target.click();
-        });
-    });
 });
