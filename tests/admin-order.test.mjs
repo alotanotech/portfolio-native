@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
+import { readFileSync } from "node:fs";
 import worker from "../src/worker.mjs";
 
 const database = new DatabaseSync(":memory:");
@@ -13,9 +14,12 @@ database.exec(`
     INSERT INTO project_images VALUES (13, 1, 'cover', 'sample/cover.webp', 'Cover', 1);
     INSERT INTO project_images VALUES (15, 1, 'cover', 'sample/new-cover.webp', 'New cover', 2);
     INSERT INTO project_images VALUES (14, 2, 'social-post', 'other/x.webp', 'Other', 1);
+    INSERT INTO project_images VALUES (16, 1, 'story', 'sample/story.webp', 'Story', 1);
 `);
+database.exec("ALTER TABLE projects ADD COLUMN updated_at TEXT");
+database.exec(readFileSync(new URL("../migrations/0002_gallery_category_order.sql", import.meta.url), "utf8"));
 
-const storedImages = new Set(["sample/a.webp", "sample/b.webp", "sample/cover.webp", "sample/new-cover.webp", "other/x.webp"]);
+const storedImages = new Set(["sample/a.webp", "sample/b.webp", "sample/cover.webp", "sample/new-cover.webp", "other/x.webp", "sample/story.webp"]);
 const env = {
     ADMIN_TOKEN: "test-token",
     MEDIA: {
@@ -53,7 +57,7 @@ const request = (path, method = "GET", body, authorized = true) => new Request(u
 
 const list = await worker.fetch(request("/api/admin/projects/sample/images"), env);
 assert.equal(list.status, 200);
-assert.deepEqual((await list.json()).map((image) => image.id), [13, 15, 11, 12]);
+assert.deepEqual((await list.json()).map((image) => image.id), [13, 15, 11, 12, 16]);
 
 const unauthorized = await worker.fetch(request("/api/admin/projects/sample/images/order", "PUT", { category: "social-post", ids: [12, 11] }, false), env);
 assert.equal(unauthorized.status, 401);
@@ -69,8 +73,36 @@ assert.equal(reordered.status, 200);
 const project = await worker.fetch(request("/api/projects/sample", "GET", undefined, false), env).then((response) => response.json());
 assert.deepEqual(project.manifest.categories["social-post"].map((image) => image.alt), ["Second", "First"]);
 assert.equal(project.cover, "/media/sample/new-cover.webp");
+assert.equal((await worker.fetch(request("/api/admin/projects/order", "PUT", { slugs: ["other", "sample"] }, false), env)).status, 401);
+assert.equal((await worker.fetch(request("/api/admin/projects/order", "PUT", { slugs: ["sample", "sample"] }), env)).status, 400);
+assert.equal((await worker.fetch(request("/api/admin/projects/order", "PUT", { slugs: ["sample"] }), env)).status, 409);
+const projectReorder = await worker.fetch(request("/api/admin/projects/order", "PUT", { slugs: ["other", "sample"] }), env);
+assert.equal(projectReorder.status, 200);
+assert.deepEqual((await projectReorder.json()).slugs, ["other", "sample"]);
+assert.deepEqual((await worker.fetch(request("/api/projects", "GET", undefined, false), env).then((response) => response.json())).map((item) => item.slug), ["other", "sample"]);
+assert.deepEqual((await worker.fetch(request("/api/admin/projects", "GET"), env).then((response) => response.json())).map((item) => item.project_index), ["01", "02"]);
+assert.equal((await worker.fetch(request("/api/admin/projects/sample/categories/order", "PUT", {
+    categories: ["story", "social-post"]
+}, false), env)).status, 401);
+assert.equal((await worker.fetch(request("/api/admin/projects/sample/categories/order", "PUT", {
+    categories: ["story", "story"]
+}), env)).status, 400);
+assert.equal((await worker.fetch(request("/api/admin/projects/sample/categories/order", "PUT", {
+    categories: ["story", "cover"]
+}), env)).status, 400);
+assert.equal((await worker.fetch(request("/api/admin/projects/sample/categories/order", "PUT", {
+    categories: ["story"]
+}), env)).status, 409);
+const categoryReorder = await worker.fetch(request("/api/admin/projects/sample/categories/order", "PUT", {
+    categories: ["story", "social-post"]
+}), env);
+assert.equal(categoryReorder.status, 200);
+assert.deepEqual((await categoryReorder.json()).categoryOrder, ["story", "social-post"]);
+const orderedProject = await worker.fetch(request("/api/projects/sample", "GET", undefined, false), env).then((response) => response.json());
+assert.deepEqual(orderedProject.manifest.categoryOrder, ["story", "social-post"]);
+assert.deepEqual(orderedProject.manifest.categories["social-post"].map((image) => image.alt), ["Second", "First"]);
 const publicList = await worker.fetch(request("/api/projects", "GET", undefined, false), env).then((response) => response.json());
-assert.equal(publicList[0].cover, project.cover);
+assert.equal(publicList.find((item) => item.slug === "sample").cover, project.cover);
 
 const coverOrder = await worker.fetch(request("/api/admin/projects/sample/images/order", "PUT", { category: "cover", ids: [15, 13] }), env);
 assert.equal(coverOrder.status, 200);

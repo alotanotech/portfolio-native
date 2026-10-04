@@ -21,6 +21,15 @@ function cleanSlug(value) {
     return String(value || "").toLowerCase().trim().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
+function savedCategoryOrder(value) {
+    try {
+        const order = JSON.parse(value || "[]");
+        return Array.isArray(order) ? order.filter((category) => typeof category === "string") : [];
+    } catch {
+        return [];
+    }
+}
+
 function projectPayload(project, images = []) {
     const categories = Object.fromEntries(CATEGORIES.map((category) => [category, []]));
     const coverImage = images.filter((image) => image.category === "cover").at(-1);
@@ -46,7 +55,7 @@ function projectPayload(project, images = []) {
         category: project.category,
         description: project.description,
         cover: coverKey ? `/media/${coverKey}` : null,
-        manifest: { cover: coverKey ? `/media/${coverKey}` : null, categories }
+        manifest: { cover: coverKey ? `/media/${coverKey}` : null, categories, categoryOrder: savedCategoryOrder(project.gallery_category_order) }
     };
 }
 
@@ -120,6 +129,29 @@ async function adminApi(request, env, pathname) {
         }
     }
 
+    if (pathname === "/api/admin/projects/order" && request.method === "PUT") {
+        let body;
+        try { body = await request.json(); } catch { return error("Invalid JSON body."); }
+        const slugs = body?.slugs;
+        if (!Array.isArray(slugs) || slugs.length > 200 ||
+            !slugs.every((slug) => typeof slug === "string" && cleanSlug(slug) === slug && slug.length > 0) ||
+            new Set(slugs).size !== slugs.length) {
+            return error("Provide the ordered project slugs without duplicates.");
+        }
+        const { results } = await env.DB.prepare("SELECT slug FROM projects ORDER BY project_index, id").all();
+        if (results.length !== slugs.length || results.some((project) => !slugs.includes(project.slug))) {
+            return error("Project list changed. Refresh before reordering.", 409);
+        }
+        if (slugs.length) {
+            const cases = slugs.map(() => "WHEN ? THEN ?").join(" ");
+            const placeholders = slugs.map(() => "?").join(", ");
+            const values = slugs.flatMap((slug, index) => [slug, String(index + 1).padStart(2, "0")]);
+            await env.DB.prepare(`UPDATE projects SET project_index = CASE slug ${cases} END, updated_at = CURRENT_TIMESTAMP WHERE slug IN (${placeholders})`)
+                .bind(...values, ...slugs).run();
+        }
+        return json({ slugs });
+    }
+
     const projectMatch = pathname.match(/^\/api\/admin\/projects\/([^/]+)$/);
     if (projectMatch && request.method === "PUT") {
         try {
@@ -151,6 +183,29 @@ async function adminApi(request, env, pathname) {
             order: image.sort_order,
             url: `/media/${image.object_key}`
         })));
+    }
+
+    const categoryOrderMatch = pathname.match(/^\/api\/admin\/projects\/([^/]+)\/categories\/order$/);
+    if (categoryOrderMatch && request.method === "PUT") {
+        const project = await env.DB.prepare("SELECT id FROM projects WHERE slug = ?")
+            .bind(decodeURIComponent(categoryOrderMatch[1])).first();
+        if (!project) return error("Project not found.", 404);
+        let body;
+        try { body = await request.json(); } catch { return error("Invalid JSON body."); }
+        const categories = body?.categories;
+        if (!Array.isArray(categories) || categories.length > 100 ||
+            !categories.every((category) => typeof category === "string" && category !== "cover" && imageCategory(category) === category) ||
+            new Set(categories).size !== categories.length) {
+            return error("Provide the ordered gallery categories without duplicates.");
+        }
+        const { results } = await env.DB.prepare("SELECT DISTINCT category FROM project_images WHERE project_id = ? AND category != 'cover'")
+            .bind(project.id).all();
+        if (results.length !== categories.length || results.some((image) => !categories.includes(image.category))) {
+            return error("Gallery categories changed. Refresh before reordering.", 409);
+        }
+        await env.DB.prepare("UPDATE projects SET gallery_category_order = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?")
+            .bind(JSON.stringify(categories), project.id).run();
+        return json({ categoryOrder: categories });
     }
 
     const orderMatch = pathname.match(/^\/api\/admin\/projects\/([^/]+)\/images\/order$/);

@@ -72,6 +72,7 @@ function sectionLabel(value) {
 
 let projects = [];
 let images = [];
+let categoryOrder = [];
 let editingSlug = null;
 let stagedFile = null;
 let sourceFile = null;
@@ -81,6 +82,15 @@ let shortTitleManuallyEdited = false;
 let slugManuallyEdited = false;
 let editingImage = null;
 let modalCloseTimer = null;
+
+function getOrderedImageCategories() {
+    const available = [...new Set([...Object.keys(labels), ...images.map((image) => image.category)])]
+        .filter((category) => images.some((image) => image.category === category));
+    const gallery = available.filter((category) => category !== "cover");
+    const ordered = [...categoryOrder.filter((category) => gallery.includes(category)),
+        ...gallery.filter((category) => !categoryOrder.includes(category))];
+    return available.includes("cover") ? ["cover", ...ordered] : ordered;
+}
 
 function updateImageOrderControls() {
     const peers = images.filter((item) => item.category === editingImage?.category);
@@ -191,12 +201,14 @@ function renderProjects() {
     projectList.replaceChildren();
 
     for (const project of projects.filter((item) => `${item.name} ${item.slug} ${item.kind} ${item.category}`.toLowerCase().includes(search))) {
+        const row = document.createElement("div");
         const button = document.createElement("button");
         const number = document.createElement("span");
         const detail = document.createElement("span");
         const name = document.createElement("span");
         const meta = document.createElement("span");
         button.type = "button";
+        row.className = "project-list-row";
         button.className = `project-option${editingSlug === project.slug ? " is-active" : ""}`;
         button.setAttribute("aria-current", editingSlug === project.slug ? "true" : "false");
         number.className = "project-number";
@@ -208,7 +220,19 @@ function renderProjects() {
         detail.append(name, meta);
         button.append(number, detail);
         button.addEventListener("click", () => selectProject(project.slug));
-        projectList.append(button);
+        row.append(button);
+        const sectionProjects = projects.filter((item) => item.kind === project.kind);
+        if (!search && sectionProjects.length > 1) {
+            const position = sectionProjects.indexOf(project);
+            const controls = document.createElement("div");
+            controls.className = "project-order-controls";
+            controls.append(
+                mediaButton(`Move ${project.full_name || project.name} earlier in ${sectionLabel(project.kind)}`, "↑", () => moveProject(project.slug, -1), position === 0, "order-button project-order-button"),
+                mediaButton(`Move ${project.full_name || project.name} later in ${sectionLabel(project.kind)}`, "↓", () => moveProject(project.slug, 1), position === sectionProjects.length - 1, "order-button project-order-button")
+            );
+            row.append(controls);
+        }
+        projectList.append(row);
     }
 
     if (!projectList.children.length) {
@@ -219,11 +243,47 @@ function renderProjects() {
     }
 }
 
+async function moveProject(slug, direction) {
+    const project = projects.find((item) => item.slug === slug);
+    if (!project) return;
+    const peers = projects.filter((item) => item.kind === project.kind);
+    const peerIndex = peers.indexOf(project);
+    const target = peers[peerIndex + direction];
+    if (!target) return;
+    const index = projects.indexOf(project);
+    const next = projects.indexOf(target);
+    const reordered = [...projects];
+    [reordered[index], reordered[next]] = [reordered[next], reordered[index]];
+    if (!readOnlyDemo) {
+        projectList.querySelectorAll(".project-order-button").forEach((button) => { button.disabled = true; });
+        try {
+            await request("/api/admin/projects/order", {
+                method: "PUT",
+                headers: { "content-type": "application/json" },
+                body: JSON.stringify({ slugs: reordered.map((project) => project.slug) })
+            });
+        } catch (error) {
+            renderProjects();
+            setStatus(error.message, true);
+            return;
+        }
+    }
+    projects = reordered.map((project, position) => ({ ...project, project_index: String(position + 1).padStart(2, "0") }));
+    const selected = projects.find((project) => project.slug === editingSlug);
+    if (selected) {
+        projectForm.elements.index.value = selected.project_index;
+        projectOrderNote.textContent = `Placement: ${selected.project_index} (kept from this project)`;
+    }
+    renderProjects();
+    setStatus(readOnlyDemo ? "Project order changed in this local preview only." : "Project order saved.");
+}
+
 function resetEditor() {
     closeImageDialog();
     clearStagedImage();
     editingSlug = null;
     images = [];
+    categoryOrder = [];
     refreshCategorySuggestions();
     projectForm.reset();
     projectForm.elements.index.value = String(Math.max(0, ...projects.map((project) => Number(project.project_index) || 0)) + 1).padStart(2, "0");
@@ -257,6 +317,12 @@ async function selectProject(slug) {
         images = [];
     }
     editingSlug = slug;
+    try {
+        const savedOrder = JSON.parse(project.gallery_category_order || "[]");
+        categoryOrder = Array.isArray(savedOrder) ? [...new Set(savedOrder)] : [];
+    } catch {
+        categoryOrder = [];
+    }
     projectForm.elements.slug.value = project.slug;
     projectForm.elements.index.value = project.project_index;
     projectForm.elements.name.value = project.name;
@@ -280,7 +346,7 @@ async function selectProject(slug) {
     dangerZone.hidden = false;
     addImageButton.disabled = false;
     uploadForm.hidden = false;
-    mediaContext.textContent = `Managing images for ${project.full_name || project.name}. Select a thumbnail to edit, or choose Add image to pick a category.`;
+    mediaContext.textContent = `Managing images for ${project.full_name || project.name}. Use the category arrows to set gallery order, or select a thumbnail to edit its image.`;
     updateDestination();
     renderProjects();
     mediaList.replaceChildren();
@@ -331,7 +397,8 @@ function renderImages() {
         return;
     }
 
-    const categories = [...Object.keys(labels), ...new Set(images.map((image) => image.category).filter((category) => !Object.hasOwn(labels, category)))];
+    const categories = getOrderedImageCategories();
+    const galleryCategories = categories.filter((category) => category !== "cover");
     for (const category of categories) {
         const label = categoryLabel(category);
         const items = images.filter((image) => image.category === category);
@@ -340,13 +407,27 @@ function renderImages() {
         const heading = document.createElement("div");
         const title = document.createElement("h3");
         const count = document.createElement("span");
+        const headingActions = document.createElement("div");
         const grid = document.createElement("div");
         group.className = "media-group";
         heading.className = "media-group-heading";
         title.textContent = label;
         count.textContent = `${items.length} image${items.length === 1 ? "" : "s"}`;
+        headingActions.className = "media-group-actions";
+        headingActions.append(count);
+        if (category !== "cover" && galleryCategories.length > 1) {
+            const index = galleryCategories.indexOf(category);
+            const controls = document.createElement("div");
+            controls.className = "media-category-order";
+            controls.setAttribute("aria-label", `${label} category order`);
+            controls.append(
+                mediaButton(`Move ${label} category earlier`, "↑", () => moveCategory(index, -1), index === 0, "order-button category-order-button"),
+                mediaButton(`Move ${label} category later`, "↓", () => moveCategory(index, 1), index === galleryCategories.length - 1, "order-button category-order-button")
+            );
+            headingActions.append(controls);
+        }
         grid.className = "media-grid";
-        heading.append(title, count);
+        heading.append(title, headingActions);
 
         items.forEach((image, index) => {
             const card = document.createElement("article");
@@ -390,6 +471,38 @@ async function loadImages(slug) {
     images = records;
     refreshCategorySuggestions();
     renderImages();
+}
+
+async function moveCategory(index, direction) {
+    const slug = editingSlug;
+    const categories = getOrderedImageCategories().filter((category) => category !== "cover");
+    const next = index + direction;
+    if (!slug || next < 0 || next >= categories.length) return;
+    [categories[index], categories[next]] = [categories[next], categories[index]];
+    if (readOnlyDemo) {
+        categoryOrder = categories;
+        renderImages();
+        setStatus("Category order changed in this local preview only.");
+        return;
+    }
+    mediaList.querySelectorAll(".category-order-button").forEach((button) => { button.disabled = true; });
+    try {
+        const result = await request(`/api/admin/projects/${encodeURIComponent(slug)}/categories/order`, {
+            method: "PUT",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ categories })
+        });
+        if (editingSlug !== slug) return;
+        categoryOrder = result.categoryOrder;
+        const project = projects.find((item) => item.slug === slug);
+        if (project) project.gallery_category_order = JSON.stringify(categoryOrder);
+        renderImages();
+        setStatus("Gallery category order saved.");
+    } catch (error) {
+        if (editingSlug !== slug) return;
+        renderImages();
+        setStatus(error.message, true);
+    }
 }
 
 async function moveImage(category, index, direction) {

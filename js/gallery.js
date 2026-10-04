@@ -88,7 +88,12 @@ function getGalleryCategories(manifest, includeEmpty = false) {
         .filter((id) => id !== "cover" && !galleryCategories.some((category) => category.id === id) && Array.isArray(categories[id]) && categories[id].length)
         .sort((first, second) => first.localeCompare(second))
         .map((id) => ({ id, label: id.replace(/-/g, " ").toUpperCase(), size: "CUSTOM", ratio: "—" }));
-    return [...presets, ...custom];
+    const available = [...presets, ...custom];
+    const order = Array.isArray(manifest?.categoryOrder) ? [...new Set(manifest.categoryOrder)] : [];
+    return [
+        ...order.flatMap((id) => available.find((category) => category.id === id) || []),
+        ...available.filter((category) => !order.includes(category.id))
+    ];
 }
 
 
@@ -1209,7 +1214,7 @@ function renderGallery(
 
 
             if (
-                !images.length
+                !images.length && !project.editable
             ) {
 
                 return;
