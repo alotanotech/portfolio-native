@@ -2860,3 +2860,18 @@ and (max-width: 479px) {
         animation: none;
     }
 }
+
+
+/* =========================================================
+   CATEGORY STACK / CONTENT-FIT VIEWPORT
+========================================================= */
+
+.gallery-content {
+    gap: 0.9rem;
+}
+
+.gallery-category:not(.is-collapsed) > .gallery-category-body {
+    height: auto;
+
+    min-height: 0;
+}
