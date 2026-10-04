@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let filters = [...hero.querySelectorAll("[data-work-filter]")];
     const previous = hero.querySelector(".work-hero__previous");
     const next = hero.querySelector(".work-hero__next");
-    let activeFilter = "client";
+    let activeFilter = "personal";
     let activeIndex = 0;
     let projects = [];
     let catalog = fallbackProjects;
@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
     next.addEventListener("click", () => {
         if (activeIndex < projects.length - 1) showProject(activeIndex + 1);
     });
-    selectFilter(activeFilter);
+    selectFilter(activeFilter, "digital-illustration");
     loadPublishedProjects();
 
 });
