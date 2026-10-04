@@ -1085,7 +1085,7 @@
         #111111
         transparent;
 
-    overscroll-behavior-y: auto;
+    overscroll-behavior-y: contain;
 
     scroll-behavior: smooth;
 
@@ -2863,7 +2863,7 @@ and (max-width: 479px) {
 
 
 /* =========================================================
-   CATEGORY STACK / CONTENT-FIT VIEWPORT
+   CATEGORY STACK / INDEPENDENT VIEWPORTS
 ========================================================= */
 
 .gallery-content {
@@ -2871,7 +2871,9 @@ and (max-width: 479px) {
 }
 
 .gallery-category:not(.is-collapsed) > .gallery-category-body {
-    height: auto;
+    height: clamp(14rem, 36dvh, 30rem);
 
     min-height: 0;
+
+    max-height: clamp(14rem, 36dvh, 30rem);
 }
