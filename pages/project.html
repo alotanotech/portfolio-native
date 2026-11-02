@@ -31,91 +31,11 @@
             aria-label="Project gallery"
         >
 
-            <aside
-                class="gallery-sidebar"
-                id="gallery-sidebar"
-                aria-label="Project navigation"
-            >
-
-                <div class="gallery-sidebar-inner">
-
-                    <div class="gallery-sidebar-top">
-                        <span class="gallery-sidebar-label">
-                            PROJECT
-                        </span>
-
-                        <span class="gallery-sidebar-index">
-                            SYS / 01
-                        </span>
-                    </div>
-
-                    <nav
-                        class="gallery-sidebar-nav"
-                        aria-label="Project navigation"
-                    >
-
-                        <a
-                            href="../index.html#hero"
-                            class="gallery-sidebar-link"
-                        >
-                            <span class="gallery-sidebar-link-index">
-                                01
-                            </span>
-
-                            <span class="gallery-sidebar-link-label">
-                                HOME
-                            </span>
-
-                            <span
-                                class="gallery-sidebar-link-arrow"
-                                aria-hidden="true"
-                            >
-                                ↗
-                            </span>
-                        </a>
-
-                        <a
-                            href="../index.html#work"
-                            class="gallery-sidebar-link"
-                        >
-                            <span class="gallery-sidebar-link-index">
-                                02
-                            </span>
-
-                            <span class="gallery-sidebar-link-label">
-                                WORK
-                            </span>
-
-                            <span
-                                class="gallery-sidebar-link-arrow"
-                                aria-hidden="true"
-                            >
-                                ↗
-                            </span>
-                        </a>
-
-                    </nav>
-
-                    <div class="gallery-sidebar-bottom">
-                        <span>LYAN / PORTFOLIO</span>
-                        <span>ARCHIVE / VIEW</span>
-                    </div>
-
-                </div>
-
-            </aside>
-
-            <button
-                type="button"
-                class="gallery-sidebar-toggle"
-                id="gallery-sidebar-toggle"
-                aria-label="Open project navigation"
-                aria-expanded="false"
-            >
-                <span class="gallery-sidebar-toggle-arrow">
-                    →
-                </span>
-            </button>
+            <nav class="gallery-home-dock" aria-label="Gallery navigation">
+                <a class="gallery-home-dock__link" href="../index.html#hero" aria-label="Back to home" title="Back to home">
+                    <img src="/asset/icons/home.svg" alt="" aria-hidden="true" width="22" height="22">
+                </a>
+            </nav>
 
             <header class="project-gallery-header">
 
@@ -123,21 +43,19 @@
 
                     <span class="project-gallery-status-dot"></span>
 
-                    <span>
-                        SYS / GALLERY_DATABASE
-                    </span>
+                    <span>PORTFOLIO / <span id="project-gallery-section">WORK</span></span>
 
                 </div>
 
                 <div class="project-gallery-header-main">
 
-                    <p class="project-gallery-eyebrow">
-                        PROJECT ARCHIVE
-                    </p>
+                    <p class="project-gallery-eyebrow" id="project-gallery-full-title">PROJECT ARCHIVE</p>
 
-                    <h1 class="project-gallery-title">
-                        GALLERY
-                    </h1>
+                    <h1 class="project-gallery-title" id="project-gallery-short-title">GALLERY</h1>
+
+                    <p class="project-gallery-client"><span id="project-gallery-client-label">CLIENT</span> / <span id="project-gallery-client"></span></p>
+
+                    <p class="project-gallery-description" id="project-gallery-description"></p>
 
                 </div>
 
@@ -187,6 +105,7 @@
 
     <script src="../js/project.js"></script>
     <script src="../js/gallery.js"></script>
+    <script src="../js/gallery-reveal.js"></script>
 
 </body>
 </html>

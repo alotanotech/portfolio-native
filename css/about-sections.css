@@ -1,0 +1,141 @@
+/* Separate biography and experience, preserving the homepage's type and grid. */
+.about#about {
+    min-block-size: max(44rem, 85svh);
+}
+.about#about .about-layout {
+    grid-template-rows: 1fr auto;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    border: 1px solid #cbcbc6;
+    background: #f7f7f4;
+}
+.about#about .about-profile-wrap { grid-row: 1 / span 2; }
+.about#about .about-description {
+    min-height: 0;
+    align-self: end;
+    padding-block: 0;
+}
+.about#about .about-bio-panel {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 1.5rem;
+    align-self: start;
+    min-width: 0;
+}
+.about#about .about-toolkit {
+    width: min(100%, 33rem);
+    margin-top: 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid #cbcbc6;
+}
+.toolkit-hint { color: #666; font-size: .62rem; }
+.toolkit-controls {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    width: min(100%, 33rem);
+}
+.toolkit-controls button {
+    flex: 0 0 2.25rem;
+    height: 2.25rem;
+    border: 1px solid #bbb;
+    background: transparent;
+    color: #111;
+    font: inherit;
+    cursor: pointer;
+}
+.toolkit-controls button:disabled { opacity: .3; cursor: default; }
+.toolkit-controls button:hover:not(:disabled) { background: var(--accent); }
+.about#about .toolkit-window {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+    scrollbar-width: none;
+    box-shadow: none;
+    touch-action: pan-x pan-y;
+    overscroll-behavior-x: contain;
+}
+.about#about .toolkit-window::-webkit-scrollbar { display: none; }
+.about#about .toolkit-window.is-dragging { cursor: grabbing; }
+.about#about .toolkit-track { animation: none; transform: none; }
+.about#about .toolkit-item img { pointer-events: none; user-select: none; }
+.toolkit-controls button:focus-visible,
+.about#about .toolkit-window:focus-visible,
+.experience-section a:focus-visible,
+.experience-filters button:focus-visible {
+    outline: 2px solid #111;
+    outline-offset: 4px;
+}
+
+.experience-section {
+    min-block-size: max(42rem, 80svh);
+    padding: clamp(3rem, 6vw, 5rem) 0;
+    background: #fff;
+    color: #111;
+    border-top: 1px solid #cbcbc6;
+}
+.experience-shell { width: min(80vw, 1280px); margin: 0 auto; }
+.experience-section .about-experience-heading {
+    padding: 0 0 1.5rem;
+    border-bottom: 1px solid #111;
+}
+.experience-section h2 {
+    font: 600 clamp(1.6rem, 2.2vw, 2rem)/1.15 var(--font-display);
+    letter-spacing: -.035em;
+}
+.experience-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    padding: 1.5rem 0;
+}
+.experience-filters[hidden],
+.about-experience-item[hidden],
+.toolkit-controls button[hidden] { display: none; }
+.experience-filters button {
+    padding: .7rem 1rem;
+    border: 1px solid #cbcbc6;
+    background: transparent;
+    color: #555;
+    font: 500 .68rem/1.4 var(--font-body);
+    cursor: pointer;
+}
+.experience-filters button[aria-pressed="true"] {
+    background: #111;
+    border-color: #111;
+    color: #fff;
+}
+.experience-filters button:hover:not([aria-pressed="true"]) { border-color: #111; color: #111; }
+.experience-section .about-experience-list {
+    min-block-size: var(--experience-list-height, 0px);
+    max-height: none;
+    overflow: visible;
+}
+.experience-section .about-experience-item { padding-block: 1.4rem; }
+.experience-section .about-experience-item h3 {
+    margin: 0;
+    font: 600 clamp(.95rem, 1.2vw, 1.08rem)/1.35 var(--font-display);
+}
+.experience-status {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .about#about .about-layout { gap: 0 1.5rem; }
+}
+@media (max-width: 640px) {
+    .experience-shell { width: min(90vw, 1280px); }
+    .about#about .about-bio-panel { grid-column: 1; grid-row: 3; margin-top: 1.75rem; }
+    .about#about .about-layout { grid-template-rows: auto auto auto; padding: 1.25rem; }
+    .about#about .about-profile-wrap { grid-row: 1; }
+    .about#about .about-description { padding-top: 1.5rem; }
+    .toolkit-hint { font-size: .58rem; }
+    .experience-filters button { padding: .65rem .75rem; }
+}

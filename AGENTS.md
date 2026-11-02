@@ -33,6 +33,7 @@ Maintain this creative portfolio without changing its visual direction or breaki
 - Keep animations transform/opacity based when possible. Avoid scroll-linked `filter`, large `clip-path` animation, or layout-changing animation.
 - Respect `prefers-reduced-motion` whenever adding motion.
 - Keep content legible at 320px, 768px, 1024px, and 1440px.
+- For every code or feature change, start or reuse a localhost development server for the checkout being edited, keep it running during the task, open the changed page in a browser, and verify the result there. Give the user the local preview URL so they can see updates as files are saved. If the change cannot be previewed in a browser, explain why and run the closest relevant local verification.
 - For authorized live site updates, commit and push the verified change to `origin/main`, then check the deployed page.
 - Other Codex chats may edit this repository at the same time. Recheck the working tree before editing, committing, and pushing; stage only the files for the current task and preserve concurrent changes.
 

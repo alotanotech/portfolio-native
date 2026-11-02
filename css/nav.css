@@ -92,7 +92,7 @@
             )
         );
 
-    background: transparent;
+    background: linear-gradient(180deg, rgba(0, 0, 0, .62), rgba(0, 0, 0, .06));
 
     isolation: isolate;
 
@@ -120,7 +120,12 @@
     z-index: -1;
 
     pointer-events: none;
+
+    transition: opacity .25s ease;
 }
+
+.topbar.is-over-hero::before { opacity: 0; }
+.topbar.menu-open::before { opacity: 1; }
 
 /* =========================================================
    TOPBAR ENTRY

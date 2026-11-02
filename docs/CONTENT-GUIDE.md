@@ -8,6 +8,15 @@ The media panel can also remove an individual image after confirmation. This del
 
 Images must be 10 MB or smaller. Export optimized WebP where possible; GIF is supported. D1 stores metadata and ordering; R2 stores image bytes. New live content does **not** require a Git commit or a new folder.
 
+### Upload and manage images
+
+1. In the project editor, enter the full and short titles, client, year, your own project category label, and description. Type a **Portfolio section** separately—Client, Personal, Photography, or a new name. It controls the public Work selector and appears on the project gallery page; the project category is a more specific label. New projects receive a URL slug and placement automatically; open **URL and placement** only when you need to inspect or change the slug. The older Type and Status metadata are preserved without cluttering the editor.
+2. Save the project first, then choose **Add image** above the image list. **Place in** accepts your own gallery group name (for example, Portrait Studies); the existing groups remain suggestions. Choose **Cover** for the homepage card—it stays separate from the gallery. Images using the same group name appear together, and you can change an image's group later. Choose a file, drag to position it, use the zoom slider, and choose a crop shape if needed. **Use crop** stages an optimized still image; **Upload original** keeps the file unchanged. Click **Upload image** to persist it. Cropping an animated GIF makes a still frame, so use its original if you want animation.
+3. The image list groups existing images by category. Select a thumbnail to open its edit popup, change its **Place in** category, edit alt text, replace its file, or move it earlier/later. Choosing **Cover** for a gallery image creates a separate cover copy and leaves the gallery image in place; you can also upload a new cover. The newest Cover is active on the homepage. The card controls reorder or remove an image. Image deletion permanently removes its R2 file.
+4. For longer editing sessions, the project archive remains visible while the content column scrolls independently. On smaller screens, the archive stays above the independently scrolling editor.
+
+The localhost demo at `http://127.0.0.1:8767/admin/` uses sample data and is **read-only**. It lets you test cropping and layout but cannot save to D1/R2. Use the live `/admin/` to save real content.
+
 The original 11 projects remain in Git as fallback/import material. Run `npm run content:plan` to validate them. After deploying the updated Worker, `npm run content:import` asks for the admin token at a hidden terminal prompt and uploads the 68 gallery files and 9 covers. It is resumable and does not delete the originals.
 
 ## Legacy local workflow (fallback only)

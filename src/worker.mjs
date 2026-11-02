@@ -1,5 +1,11 @@
 const CATEGORIES = ["social-post", "story", "square", "landscape", "other"];
 
+function imageCategory(value) {
+    const raw = String(value || "").trim();
+    if (!raw || raw.length > 80) return "";
+    return cleanSlug(raw.normalize("NFKD").replace(/[\u0300-\u036f]/g, ""));
+}
+
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
     status,
     headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" }
@@ -15,13 +21,25 @@ function cleanSlug(value) {
     return String(value || "").toLowerCase().trim().replace(/[^a-z0-9-]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
+function savedCategoryOrder(value) {
+    try {
+        const order = JSON.parse(value || "[]");
+        return Array.isArray(order) ? order.filter((category) => typeof category === "string") : [];
+    } catch {
+        return [];
+    }
+}
+
 function projectPayload(project, images = []) {
     const categories = Object.fromEntries(CATEGORIES.map((category) => [category, []]));
     const coverImage = images.filter((image) => image.category === "cover").at(-1);
-    const firstImage = images.find((image) => CATEGORIES.includes(image.category));
+    const firstImage = images.find((image) => image.category !== "cover");
     const coverKey = coverImage?.object_key || project.cover_key || firstImage?.object_key;
     images.forEach((image) => {
-        if (categories[image.category]) categories[image.category].push({ src: `/media/${image.object_key}`, alt: image.alt_text || "" });
+        if (image.category !== "cover") {
+            if (!Object.hasOwn(categories, image.category)) categories[image.category] = [];
+            categories[image.category].push({ src: `/media/${image.object_key}`, alt: image.alt_text || "" });
+        }
     });
 
     return {
@@ -37,14 +55,16 @@ function projectPayload(project, images = []) {
         category: project.category,
         description: project.description,
         cover: coverKey ? `/media/${coverKey}` : null,
-        manifest: { cover: coverKey ? `/media/${coverKey}` : null, categories }
+        manifest: { cover: coverKey ? `/media/${coverKey}` : null, categories, categoryOrder: savedCategoryOrder(project.gallery_category_order) }
     };
 }
 
 async function readBody(request) {
     const data = await request.json();
     const slug = cleanSlug(data.slug);
+    const kind = cleanSlug(String(data.kind || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, ""));
     if (!slug || !data.name || !data.year || !data.type) throw new Error("Slug, name, year, and type are required.");
+    if (!kind || kind.length > 80) throw new Error("Portfolio section is required (up to 80 characters).");
 
     return {
         slug,
@@ -55,7 +75,7 @@ async function readBody(request) {
         year: String(data.year).trim(),
         type: String(data.type).trim(),
         status: String(data.status || "ARCHIVE").trim(),
-        kind: data.kind === "client" ? "client" : "personal",
+        kind,
         category: String(data.category || "Personal").trim(),
         description: String(data.description || "").trim(),
         published: data.published ? 1 : 0
@@ -109,6 +129,29 @@ async function adminApi(request, env, pathname) {
         }
     }
 
+    if (pathname === "/api/admin/projects/order" && request.method === "PUT") {
+        let body;
+        try { body = await request.json(); } catch { return error("Invalid JSON body."); }
+        const slugs = body?.slugs;
+        if (!Array.isArray(slugs) || slugs.length > 200 ||
+            !slugs.every((slug) => typeof slug === "string" && cleanSlug(slug) === slug && slug.length > 0) ||
+            new Set(slugs).size !== slugs.length) {
+            return error("Provide the ordered project slugs without duplicates.");
+        }
+        const { results } = await env.DB.prepare("SELECT slug FROM projects ORDER BY project_index, id").all();
+        if (results.length !== slugs.length || results.some((project) => !slugs.includes(project.slug))) {
+            return error("Project list changed. Refresh before reordering.", 409);
+        }
+        if (slugs.length) {
+            const cases = slugs.map(() => "WHEN ? THEN ?").join(" ");
+            const placeholders = slugs.map(() => "?").join(", ");
+            const values = slugs.flatMap((slug, index) => [slug, String(index + 1).padStart(2, "0")]);
+            await env.DB.prepare(`UPDATE projects SET project_index = CASE slug ${cases} END, updated_at = CURRENT_TIMESTAMP WHERE slug IN (${placeholders})`)
+                .bind(...values, ...slugs).run();
+        }
+        return json({ slugs });
+    }
+
     const projectMatch = pathname.match(/^\/api\/admin\/projects\/([^/]+)$/);
     if (projectMatch && request.method === "PUT") {
         try {
@@ -142,6 +185,29 @@ async function adminApi(request, env, pathname) {
         })));
     }
 
+    const categoryOrderMatch = pathname.match(/^\/api\/admin\/projects\/([^/]+)\/categories\/order$/);
+    if (categoryOrderMatch && request.method === "PUT") {
+        const project = await env.DB.prepare("SELECT id FROM projects WHERE slug = ?")
+            .bind(decodeURIComponent(categoryOrderMatch[1])).first();
+        if (!project) return error("Project not found.", 404);
+        let body;
+        try { body = await request.json(); } catch { return error("Invalid JSON body."); }
+        const categories = body?.categories;
+        if (!Array.isArray(categories) || categories.length > 100 ||
+            !categories.every((category) => typeof category === "string" && category !== "cover" && imageCategory(category) === category) ||
+            new Set(categories).size !== categories.length) {
+            return error("Provide the ordered gallery categories without duplicates.");
+        }
+        const { results } = await env.DB.prepare("SELECT DISTINCT category FROM project_images WHERE project_id = ? AND category != 'cover'")
+            .bind(project.id).all();
+        if (results.length !== categories.length || results.some((image) => !categories.includes(image.category))) {
+            return error("Gallery categories changed. Refresh before reordering.", 409);
+        }
+        await env.DB.prepare("UPDATE projects SET gallery_category_order = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?")
+            .bind(JSON.stringify(categories), project.id).run();
+        return json({ categoryOrder: categories });
+    }
+
     const orderMatch = pathname.match(/^\/api\/admin\/projects\/([^/]+)\/images\/order$/);
     if (orderMatch && request.method === "PUT") {
         const slug = decodeURIComponent(orderMatch[1]);
@@ -149,9 +215,9 @@ async function adminApi(request, env, pathname) {
         if (!project) return error("Project not found.", 404);
         let body;
         try { body = await request.json(); } catch { return error("Invalid JSON body."); }
-        const category = String(body.category || "");
+        const category = imageCategory(body.category);
         const ids = body.ids;
-        if (![...CATEGORIES, "cover"].includes(category) || !Array.isArray(ids) ||
+        if (!category || !Array.isArray(ids) ||
             !ids.every((id) => Number.isSafeInteger(id) && id > 0) || new Set(ids).size !== ids.length) {
             return error("Provide one category and its ordered image IDs.");
         }
@@ -172,11 +238,11 @@ async function adminApi(request, env, pathname) {
     if (uploadMatch && request.method === "POST") {
         const form = await request.formData();
         const file = form.get("file");
-        const category = String(form.get("category") || "other");
+        const category = imageCategory(form.get("category") || "other");
         const project = await env.DB.prepare("SELECT id FROM projects WHERE slug = ?").bind(decodeURIComponent(uploadMatch[1])).first();
         if (!project) return error("Project not found.", 404);
         if (!(file instanceof File) || !file.size || !file.type.startsWith("image/")) return error("Upload one image file.");
-        if (![...CATEGORIES, "cover"].includes(category)) return error("Invalid image category.");
+        if (!category) return error("Image group is required (up to 80 characters).");
         if (file.size > 10 * 1024 * 1024) return error("Images must be 10 MB or smaller.");
 
         const extension = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "webp";
@@ -196,6 +262,61 @@ async function adminApi(request, env, pathname) {
     }
 
     const imageMatch = pathname.match(/^\/api\/admin\/images\/(\d+)$/);
+    if (imageMatch && request.method === "PUT") {
+        const image = await env.DB.prepare("SELECT project_id, category, object_key, sort_order FROM project_images WHERE id = ?").bind(imageMatch[1]).first();
+        if (!image) return error("Image not found.", 404);
+        const form = await request.formData();
+        const file = form.get("file");
+        const alt = String(form.get("alt") || "");
+        const category = imageCategory(form.get("category") || image.category);
+        if (!category) return error("Image group is required (up to 80 characters).");
+        if (file && (!(file instanceof File) || !file.size || !file.type.startsWith("image/"))) return error("Upload one image file.");
+        if (file && file.size > 10 * 1024 * 1024) return error("Images must be 10 MB or smaller.");
+        const order = category !== image.category || category === "cover"
+            ? await env.DB.prepare("SELECT COALESCE(MAX(sort_order), 0) + 1 AS next_order FROM project_images WHERE project_id = ? AND category = ?").bind(image.project_id, category).first()
+            : null;
+        const sortOrder = order?.next_order || image.sort_order;
+        const projectFolder = image.object_key.split("/")[0];
+
+        // A gallery image selected as cover remains in its gallery category.
+        if (category === "cover" && image.category !== "cover") {
+            const source = file ? null : await env.MEDIA.get(image.object_key);
+            if (!file && !source) return error("Original image not found in storage.", 404);
+            const extension = file
+                ? file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "webp"
+                : image.object_key.split(".").pop();
+            const objectKey = `${projectFolder}/${crypto.randomUUID()}.${extension}`;
+            await env.MEDIA.put(objectKey, file ? file.stream() : source.body, {
+                httpMetadata: { contentType: file?.type || source?.httpMetadata?.contentType || "image/webp" }
+            });
+            try {
+                const result = await env.DB.prepare("INSERT INTO project_images (project_id, category, object_key, alt_text, sort_order) VALUES (?, 'cover', ?, ?, ?)")
+                    .bind(image.project_id, objectKey, alt, sortOrder).run();
+                return json({ updated: true, coverCreated: true, id: result.meta.last_row_id, url: `/media/${objectKey}` });
+            } catch (cause) {
+                await env.MEDIA.delete(objectKey);
+                throw cause;
+            }
+        }
+
+        if (!file) {
+            await env.DB.prepare("UPDATE project_images SET category = ?, sort_order = ?, alt_text = ? WHERE id = ?")
+                .bind(category, sortOrder, alt, imageMatch[1]).run();
+            return json({ updated: true });
+        }
+        const extension = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "webp";
+        const objectKey = `${projectFolder}/${crypto.randomUUID()}.${extension}`;
+        await env.MEDIA.put(objectKey, file.stream(), { httpMetadata: { contentType: file.type } });
+        try {
+            await env.DB.prepare("UPDATE project_images SET object_key = ?, category = ?, sort_order = ?, alt_text = ? WHERE id = ?")
+                .bind(objectKey, category, sortOrder, alt, imageMatch[1]).run();
+        } catch (cause) {
+            await env.MEDIA.delete(objectKey);
+            throw cause;
+        }
+        await env.MEDIA.delete(image.object_key);
+        return json({ updated: true, url: `/media/${objectKey}` });
+    }
     if (imageMatch && request.method === "DELETE") {
         const image = await env.DB.prepare("SELECT object_key FROM project_images WHERE id = ?").bind(imageMatch[1]).first();
         if (!image) return error("Image not found.", 404);

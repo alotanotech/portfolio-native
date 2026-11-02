@@ -81,6 +81,21 @@ const galleryCategories = [
 
 ];
 
+function getGalleryCategories(manifest, includeEmpty = false) {
+    const categories = getManifestCategories(manifest);
+    const presets = galleryCategories.filter((category) => includeEmpty || getCategoryImages(manifest, category).length);
+    const custom = Object.keys(categories)
+        .filter((id) => id !== "cover" && !galleryCategories.some((category) => category.id === id) && Array.isArray(categories[id]) && categories[id].length)
+        .sort((first, second) => first.localeCompare(second))
+        .map((id) => ({ id, label: id.replace(/-/g, " ").toUpperCase(), size: "CUSTOM", ratio: "—" }));
+    const available = [...presets, ...custom];
+    const order = Array.isArray(manifest?.categoryOrder) ? [...new Set(manifest.categoryOrder)] : [];
+    return [
+        ...order.flatMap((id) => available.find((category) => category.id === id) || []),
+        ...available.filter((category) => !order.includes(category.id))
+    ];
+}
+
 
 function getManifestURL(
     project
@@ -320,7 +335,7 @@ function getCoverPath(
 
     for (
         const category
-        of galleryCategories
+        of getGalleryCategories(manifest)
     ) {
 
         const images =
@@ -479,6 +494,18 @@ function layoutGalleryTrack(track) {
 
     });
 
+    const body = track.closest(".gallery-category-body");
+    const loadedItems = [...track.querySelectorAll(".gallery-item")]
+        .filter((figure) => figure.querySelector(".gallery-image")?.naturalWidth);
+    if (!body || !loadedItems.length) return;
+
+    const rowTops = [...new Set(loadedItems.map((figure) => figure.offsetTop))].sort((a, b) => a - b).slice(0, 2);
+    const secondRowBottom = Math.max(...loadedItems
+        .filter((figure) => rowTops.includes(figure.offsetTop))
+        .map((figure) => figure.offsetTop + figure.offsetHeight));
+    const paddingBottom = parseFloat(window.getComputedStyle(body).paddingBottom) || 0;
+    body.style.setProperty("--gallery-two-row-height", `${Math.ceil(secondRowBottom + paddingBottom)}px`);
+
 }
 
 
@@ -630,7 +657,8 @@ function createGalleryItem(
 function createGalleryCategory(
     category,
     images,
-    project
+    project,
+    categoryIndex
 ) {
 
     const section =
@@ -687,9 +715,7 @@ function createGalleryCategory(
 
     index.textContent =
         String(
-            galleryCategories.indexOf(
-                category
-            ) + 1
+            categoryIndex + 1
         ).padStart(
             2,
             "0"
@@ -1186,9 +1212,10 @@ function renderGallery(
         0;
 
 
-    galleryCategories.forEach(
+    getGalleryCategories(manifest, Boolean(project.editable)).forEach(
         (
-            category
+            category,
+            categoryIndex
         ) => {
 
             const images =
@@ -1199,7 +1226,7 @@ function renderGallery(
 
 
             if (
-                !images.length
+                !images.length && !project.editable
             ) {
 
                 return;
@@ -1215,7 +1242,8 @@ function renderGallery(
                 createGalleryCategory(
                     category,
                     images,
-                    project
+                    project,
+                    categoryIndex
                 )
             );
 
