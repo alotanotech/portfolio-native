@@ -1,0 +1,111 @@
+:root {
+  --modal-open-dur: 250ms;
+  --modal-close-dur: 150ms;
+  --modal-scale: 0.96;
+  --modal-scale-close: 0.96;
+  --modal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.topbar .cv-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text-main);
+  font: 600 .88rem var(--font-display);
+  white-space: nowrap;
+  cursor: pointer;
+}
+.topbar .cv-trigger[hidden] { display: none; }
+.topbar .cv-trigger:hover { background: var(--accent); color: #111; border-color: var(--accent); }
+.cv-trigger:focus-visible, .cv-dialog :focus-visible { outline: 2px solid #8a7400; outline-offset: 4px; }
+.topbar .cv-trigger:focus-visible { outline-color: var(--accent); }
+.cv-modal-open { overflow: hidden; }
+.cv-dialog {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  padding: 20px;
+  border: 0;
+  background: transparent;
+  color: #111;
+  overflow-y: auto;
+}
+.cv-dialog[open] { display: grid; place-items: center; }
+.cv-dialog::backdrop { background: rgb(0 0 0 / 72%); }
+.cv-panel {
+  position: relative;
+  width: min(100%, 460px);
+  padding: clamp(24px, 5vw, 40px);
+  background: #fff;
+  border: 1px solid #111;
+}
+.cv-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  color: #111;
+  font: 28px var(--font-display);
+  cursor: pointer;
+}
+.cv-close:hover { background: #f1f1f1; }
+.cv-eyebrow { margin: 0 44px 18px 0; font: 11px var(--font-body); letter-spacing: .12em; }
+.cv-panel h2 { margin: 0 0 12px; font: 600 clamp(24px, 5vw, 32px)/1.15 var(--font-display); }
+#cv-description { margin: 0 0 28px; font: 14px/1.6 var(--font-body); color: #555; }
+.cv-options { display: grid; gap: 12px; }
+.cv-options a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #111;
+  color: #111;
+  text-decoration: none;
+  font: 600 16px/1.4 var(--font-display);
+}
+.cv-options a:hover { background: var(--accent); }
+.cv-options small { display: block; margin-top: 4px; font: 11px/1.5 var(--font-body); color: #555; }
+
+.t-modal {
+  transform-origin: center;
+  transform: scale(var(--modal-scale));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-open-dur) var(--modal-ease),
+    opacity   var(--modal-open-dur) var(--modal-ease);
+  will-change: transform, opacity;
+}
+.t-modal.is-open {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+.t-modal.is-closing {
+  transform: scale(var(--modal-scale-close));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--modal-close-dur) var(--modal-ease),
+    opacity   var(--modal-close-dur) var(--modal-ease);
+}
+
+@media (max-width: 1023px) {
+  .topbar .cv-trigger { width: 100%; flex-shrink: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .t-modal { transition: none !important; }
+}

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/css/cyberad.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/nav-pill.css">
+    <link rel="stylesheet" href="/css/cv.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -123,6 +124,8 @@
 
             </ul>
 
+        <button class="cv-trigger" type="button" aria-haspopup="dialog" aria-controls="cv-dialog" hidden>Download CV <span aria-hidden="true">↗</span></button>
+
         <a
     href="https://mail.google.com/mail/?view=cm&fs=1&to=alotanostudio@gmail.com&su=Portfolio%20Inquiry"
     class="contact-button"
@@ -151,6 +154,19 @@
         </button>
 
     </nav>
+
+    <dialog class="cv-dialog" id="cv-dialog" aria-labelledby="cv-title" aria-describedby="cv-description">
+        <div class="cv-panel t-modal">
+            <button class="cv-close" type="button" aria-label="Close CV download chooser" autofocus>×</button>
+            <p class="cv-eyebrow">CURRICULUM VITAE</p>
+            <h2 id="cv-title">Download my CV</h2>
+            <p id="cv-description">Choose your preferred language.</p>
+            <div class="cv-options">
+                <a href="/asset/cv/CV_ChristopherAurellyanAlotanoLuna_English.pdf" download lang="en"><span>English<small>PDF · 171 KB</small></span><span aria-hidden="true">↓</span></a>
+                <a href="/asset/cv/CV_ChristopherAurellyanAlotanoLuna_Indonesia.pdf" download lang="id"><span>Bahasa Indonesia<small>PDF · 173 KB</small></span><span aria-hidden="true">↓</span></a>
+            </div>
+        </div>
+    </dialog>
 
     <main>
 
@@ -734,6 +750,7 @@
 
     <script src="/js/work-hero.js"></script>
     <script src="/js/nav.js"></script>
+    <script src="/js/cv.js"></script>
     <script src="/js/nav-pill.js"></script>
     <script src="/js/about.js"></script>
     <script src="/js/about-stream.js"></script>
