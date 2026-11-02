@@ -8,10 +8,10 @@ Maintain this creative portfolio without changing its visual direction or breaki
 
 - `index.html` is the complete homepage.
 - `pages/project.html` is one shared project page. Its `?project=<slug>` query parameter selects content.
-- `js/work-data.js` loads published homepage cards from `/api/projects`; `js/work.js` owns scrolling and the counter.
+- `js/work-data.js` loads published homepage cards from `/api/projects`; `js/work.js` switches the mutually exclusive Work tab panels, keeps their shared internal scrollbar at the top on change, and updates the counter for the visible panel. Each category keeps its own panel markup so Photography can later use a different layout.
 - `js/project.js` loads published project data from the API, with local legacy fallback. `js/gallery.js` renders R2 image URLs or legacy manifests.
 - `src/worker.mjs` provides the deployed Cloudflare CRUD API, D1 data access, and R2 image delivery.
-- `admin/` is the protected project editor and category-specific image ordering UI. It authenticates with the `ADMIN_TOKEN` Cloudflare secret.
+- `admin/` is the protected project editor. It offers project and gallery filters, a browser-only live card preview, optional cover upload when creating a project, and category-specific image ordering. It authenticates with the `ADMIN_TOKEN` Cloudflare secret.
 - D1/R2 are the live content source. `asset/` contains shared site media; `assets/projects/` and the metadata in `js/project.js` are retained legacy import/fallback inputs.
 - The public site is [lyanluna.com](https://lyanluna.com), connected to this repository's GitHub `main` branch. Pushing an authorized site update to `origin/main` triggers deployment.
 
